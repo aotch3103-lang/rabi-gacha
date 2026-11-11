@@ -272,13 +272,18 @@ async function useTicket(no){
 }
 
 /* ---------- ママの設定 ---------- */
-function openAdmin(){
+async function openAdmin(){
   document.body.classList.remove("gold");
   $("htitle").textContent = "⚙️ ママの設定";
-  if (pin && adminData) { renderAdmin(); return; }
+  if (pin) {
+    $("app").innerHTML = '<div class="loading"><div class="logo"></div><p>ひらいています…🐰</p></div>';
+    var res = await safe(function(){ return api("admin", { pin: pin }); });
+    if (res) { adminData = res; renderAdmin(); return; }
+    pin = "";
+  }
   $("app").innerHTML = '<div id="msgbox"></div><div class="card center"><p>暗証番号を入れてね🔒</p>' +
     '<input class="pin" id="pinIn" type="password" inputmode="numeric" maxlength="8" autocomplete="off">' +
-    '<button class="btn sm" onclick="loginAdmin()">入る</button><button class="btn sm ghost" onclick="backMain()">もどる</button></div>';
+    '<button class="btn sm" id="pinBtn" onclick="loginAdmin()">入る</button><button class="btn sm ghost" onclick="backMain()">もどる</button></div>';
   setTimeout(function(){ var p = $("pinIn"); if (p) p.focus(); }, 100);
 }
 function backMain(){ if (st) render(); else location.reload(); }
@@ -286,8 +291,10 @@ function backMain(){ if (st) render(); else location.reload(); }
 async function loginAdmin(){
   var p = $("pinIn").value.trim();
   if (!p) { alertBox("暗証番号を入れてね"); return; }
+  var b = $("pinBtn"); if (b) { b.disabled = true; b.textContent = "たしかめています…🐰"; }
   var res = await safe(function(){ return api("admin", { pin: p }); });
   if (res) { pin = p; adminData = res; renderAdmin(); }
+  else if (b) { b.disabled = false; b.textContent = "入る"; }
 }
 
 function rowsHtml(list, key){
@@ -314,7 +321,7 @@ function renderAdmin(){
        '<p class="ttl" style="margin:12px 0 4px">🎰 ふだんのガチャ</p>' + rowsHtml(s.normal, "n") +
        '<p class="ttl" style="margin:12px 0 4px">🌟 金のうさぎガチャ（スタンプ7こ目）</p>' + rowsHtml(s.gold, "g") +
        '<p class="note" style="margin:8px 0 0">ラビは20の単位で入れてね。予算が足りないときは、1つ下の当たりになるよ</p>' +
-       '<button class="btn sm" onclick="saveAdmin()">💾 保存する</button></div>';
+       '<button class="btn sm" id="saveBtn" onclick="saveAdmin()">💾 保存する</button></div>';
   h += '<div class="card"><div class="ttl"><span>🎫 発行したドリンク券</span></div>';
   if (!d.tickets.length) h += '<p class="note">まだありません</p>';
   d.tickets.forEach(function(t){
@@ -322,8 +329,8 @@ function renderAdmin(){
   });
   h += '</div>';
   h += '<div class="card"><div class="ttl"><span>🧪 テスト用</span></div><p class="note">このスマホのLINEの「今日はもう引いた」をもどして<br>もう一回引けるようにします<br>（がま口・スタンプはそのまま）</p>' +
-       '<button class="btn sm ghost" onclick="retryMe()">わたしの今日の1回をもどす</button></div>';
-  h += '<button class="btn sm ghost" onclick="pin=\'\';adminData=null;backMain()">ガチャにもどる</button>';
+       '<button class="btn sm ghost" id="retryBtn" onclick="retryMe()">わたしの今日の1回をもどす</button></div>';
+  h += '<button class="btn sm ghost" onclick="adminData=null;backMain()">ガチャにもどる</button>';
   $("app").innerHTML = h;
   calcLeft();
 }
@@ -340,17 +347,18 @@ function calcLeft(){
   });
 }
 async function saveAdmin(){
+  var b = $("saveBtn"); if (b) { b.disabled = true; b.textContent = "保存しています…🐸"; }
   var s = adminData.settings;
   var settings = { budget: $("budget").value, normal: readRows("n", s.normal), gold: readRows("g", s.gold), drink: s.drink };
   var res = await safe(function(){ return api("save", { pin: pin, settings: settings }); });
   if (res) { adminData = res; renderAdmin(); alertBox("保存したよ🐸✨", true); }
+  else if (b) { b.disabled = false; b.textContent = "💾 保存する"; }
 }
 async function retryMe(){
+  var b = $("retryBtn"); if (b) { b.disabled = true; b.textContent = "もどしています…🐰"; }
   var res = await safe(function(){ return api("retry", { pin: pin }); });
-  if (res) {
-    var s2 = await safe(function(){ return api("state"); });
-    if (s2) { st = s2; pin = ""; adminData = null; render(); alertBox("もどしたよ🐰 もう一回引けるよ", true); }
-  }
+  if (res) { st = res; adminData = null; render(); window.scrollTo({ top: 0 }); alertBox("もどしたよ🐰 もう一回引けるよ", true); }
+  else if (b) { b.disabled = false; b.textContent = "わたしの今日の1回をもどす"; }
 }
 </script>
 </body>
