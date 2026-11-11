@@ -13,7 +13,7 @@
   --gold:#F2C230;--goldbg:#FFF8DC;--goldline:#E8B51A;--frog:#7CC36B}
 *{box-sizing:border-box}
 body{margin:0;background:var(--pinkbg);color:var(--ink);font-family:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN",sans-serif;font-weight:500;
-  -webkit-tap-highlight-color:transparent}
+  -webkit-tap-highlight-color:transparent;word-break:auto-phrase;line-break:strict}
 body.gold{background:var(--goldbg)}
 .wrap{max-width:440px;margin:0 auto;padding:0 14px 40px}
 header{background:linear-gradient(135deg,#EE1E7B,#FF5FA0);color:#fff;text-align:center;padding:14px 10px 12px;border-radius:0 0 22px 22px;margin:0 -14px 14px}
@@ -163,11 +163,11 @@ function render(){
   h += '<div class="card main center">';
   if (st.played && st.result) {
     h += resultHtml(st.result, st.justPlayed);
-    h += '<p class="note">今日はおしまい🐰 朝5時に また引けるよ</p>';
+    h += '<p class="note">今日はおしまい🐰<br>朝5時に また引けるよ</p>';
   } else {
     h += st.gold ? '<div class="goldring"><div class="logo" id="logo"></div></div>' : '<div class="logo" id="logo"></div>';
     h += '<div class="who">' + esc(st.nickname) + ' さん</div>';
-    if (st.gold) h += '<p class="note" style="margin:6px 0 0">✨ スタンプ7こ目！今日は<b>ハズレなし</b>の金のうさぎガチャ ✨</p>';
+    if (st.gold) h += '<p class="note" style="margin:6px 0 0">✨ スタンプ7こ目！ ✨<br>今日は<b>ハズレなし</b>の金のうさぎガチャ</p>';
     h += '<button class="btn" id="playBtn" onclick="play()">' + (st.gold ? "🌟 金のうさぎガチャを回す" : "🎰 ガチャを回す") + '</button>';
     h += '<p class="note">1日1回（朝5時に切りかわるよ）</p>';
   }
@@ -175,7 +175,7 @@ function render(){
 
   h += '<div class="gama"><svg viewBox="0 0 48 40" width="46" height="38" aria-hidden="true"><path d="M5 17 Q24 7 43 17 L40 35 Q24 40 8 35 Z" fill="#F6C94A" stroke="#E0A800" stroke-width="2"/><circle cx="17" cy="12" r="5.5" fill="#7CC36B"/><circle cx="31" cy="12" r="5.5" fill="#7CC36B"/><circle cx="17" cy="12" r="2.2" fill="#173404"/><circle cx="31" cy="12" r="2.2" fill="#173404"/><path d="M18 24 Q24 28 30 24" stroke="#C98A00" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="24" cy="31" r="2.5" fill="#E0A800"/></svg>' +
        '<div style="flex:1"><div class="l">🐸👛 ラビのがま口</div><div class="v">' + fmt(st.gama) + ' <small style="font-size:14px">ラビ</small></div>' +
-       '<div class="l">お店に来たら、預かりラビに入れられるよ（ラビがカエル🐸）</div></div></div>';
+       '<div class="l">お店に来たら、預かりラビに<br>入れられるよ（ラビがカエル🐸）</div></div></div>';
 
   h += '<div class="card"><div class="ttl"><span>🐰 スタンプカード</span><span>' + st.stamps + ' / ' + st.stampGoal + '</span></div><div class="stamps">';
   for (var i = 0; i < st.stampGoal; i++) {
@@ -189,7 +189,7 @@ function render(){
   h += '<p class="note center" style="margin:8px 0 0">' + (left > 0 ? 'あと' + left + 'こで 金のうさぎガチャ🌟' : (st.played ? '次は金のうさぎガチャ🌟' : '今日は金のうさぎガチャ🌟')) + '</p>';
   h += '<div class="badges">';
   for (var b = 0; b < st.badgeGoal; b++) h += '<div class="badge' + (b < st.badges ? ' on' : '') + '">🏅</div>';
-  h += '</div><p class="note center" style="margin:6px 0 0">カードを1枚うめるとバッジ1こ。バッジ' + st.badgeGoal + 'こで🥤' + esc(st.drink) + ' 無料！</p></div>';
+  h += '</div><p class="note center" style="margin:6px 0 0">カードを1枚うめるとバッジ1こ<br>バッジ' + st.badgeGoal + 'こで🥤' + esc(st.drink) + ' 無料！</p></div>';
 
   if (st.tickets && st.tickets.length) {
     h += '<div class="card"><div class="ttl"><span>🎫 わたしの券</span></div>';
@@ -222,9 +222,9 @@ function resultHtml(r, anim){
   } else if (r.empty && r.gold) {
     h += '<div class="logo" style="filter:grayscale(.6)"></div><div class="lose" style="font-size:20px">今月のガチャのラビは おしまい🐸</div><p class="note">また来月、金のうさぎに会いにきてね</p>';
   } else {
-    h += '<div class="logo" style="filter:grayscale(.6)"></div><div class="lose">ハズレ…</div><p class="note" style="margin:4px 0">また明日ケロ🐸 スタンプは1こ押したよ</p>';
+    h += '<div class="logo" style="filter:grayscale(.6)"></div><div class="lose">ハズレ…</div><p class="note" style="margin:4px 0">また明日ケロ🐸<br>スタンプは1こ押したよ</p>';
   }
-  if (r.cardDone) h += '<p class="note" style="margin:8px 0 0;font-size:14px">🎉 スタンプカードが1枚うまったよ！バッジ1こゲット🏅</p>';
+  if (r.cardDone) h += '<p class="note" style="margin:8px 0 0;font-size:14px">🎉 スタンプカードが1枚うまったよ！<br>バッジ1こゲット🏅</p>';
   if (r.ticket) h += '<p style="margin:8px 0 0;font-size:16px;color:#EE1E7B;font-weight:800">🥤 ドリンク1杯無料券をもらったよ！<br><span class="note">下の「わたしの券」を見てね</span></p>';
   return h + '</div>';
 }
@@ -233,13 +233,13 @@ function renderGuest(){
   var h = '<div class="card center"><div class="logo"></div>';
   if (st.reason === "noreg") {
     h += '<p style="font-size:16px;font-weight:800;color:#EE1E7B">ラビガチャは<br>ラビ会員さんのガチャだよ🐰</p>' +
-         '<p class="note" style="font-size:14px;text-align:left;line-height:1.8">① ドラパンのLINEのトークで<b>「登録」</b>と送ってね<br>② お店で登録したニックネームを送ってね<br>③ 登録できたら、もう一回このガチャを開いてね🎰</p>' +
+         '<p class="note" style="font-size:14px;text-align:left;line-height:1.8;display:inline-block">① ドラパンのLINEのトークで<b>「登録」</b>と送ってね<br>② お店で登録したニックネームを送ってね<br>③ 登録できたら、もう一回このガチャを開いてね🎰</p>' +
          '<button class="btn sm" onclick="liff.closeWindow()">LINEのトークにもどる</button>';
   } else if (st.reason === "nosheet") {
-    h += '<p style="font-size:15px">いまお店のじゅんび中みたい🐸<br>少し時間をおいて、もう一回ひらいてね</p>';
+    h += '<p style="font-size:15px">いまお店のじゅんび中みたい🐸<br>少し時間をおいて<br>もう一回ひらいてね</p>';
   } else {
-    h += '<p style="font-size:15px">' + (st.nickname ? esc(st.nickname) + ' さん、ありがとう🐰<br>' : '') + 'ラビガチャは、<b>ラビを預けている</b>お客さまが引けるガチャだよ</p>' +
-         '<p class="note">お店でラビを預けると、引けるようになるよ🎰</p>';
+    h += '<p style="font-size:15px;line-height:1.8">' + (st.nickname ? esc(st.nickname) + ' さん、ありがとう🐰<br>' : '') + 'ラビガチャは<br><b>ラビを預けている</b>お客さまが<br>引けるガチャだよ</p>' +
+         '<p class="note">お店でラビを預けると<br>引けるようになるよ🎰</p>';
   }
   h += '</div><div class="foot"><button onclick="openAdmin()">⚙️ ママの設定</button></div>';
   $("app").innerHTML = h;
@@ -321,7 +321,7 @@ function renderAdmin(){
     h += '<div class="row"><span>No.' + t.no + ' ' + esc(t.nickname) + '<br><span class="note">' + esc(t.issued) + '</span></span><b style="color:' + (t.used ? '#999' : '#EE1E7B') + '">' + (t.used ? '使用済み ' + esc(t.used.slice(5, 10)) : 'まだ') + '</b></div>';
   });
   h += '</div>';
-  h += '<div class="card"><div class="ttl"><span>🧪 テスト用</span></div><p class="note">このスマホのLINEの「今日はもう引いた」をもどして、もう一回引けるようにします（がま口・スタンプはそのまま）</p>' +
+  h += '<div class="card"><div class="ttl"><span>🧪 テスト用</span></div><p class="note">このスマホのLINEの「今日はもう引いた」をもどして<br>もう一回引けるようにします<br>（がま口・スタンプはそのまま）</p>' +
        '<button class="btn sm ghost" onclick="retryMe()">わたしの今日の1回をもどす</button></div>';
   h += '<button class="btn sm ghost" onclick="pin=\'\';adminData=null;backMain()">ガチャにもどる</button>';
   $("app").innerHTML = h;
