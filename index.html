@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ドラパン 1日1回ラビガチャ</title>
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800&display=swap" rel="stylesheet">
+<script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<style>
+:root{--pink:#EE1E7B;--pink2:#FF5FA0;--pinkbg:#FFF2F8;--pinkline:#F7B6D2;--ink:#3a2030;--sub:#99184F;
+  --gold:#F2C230;--goldbg:#FFF8DC;--goldline:#E8B51A;--frog:#7CC36B}
+*{box-sizing:border-box}
+body{margin:0;background:var(--pinkbg);color:var(--ink);font-family:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN",sans-serif;font-weight:500;
+  -webkit-tap-highlight-color:transparent}
+body.gold{background:var(--goldbg)}
+.wrap{max-width:440px;margin:0 auto;padding:0 14px 40px}
+header{background:linear-gradient(135deg,#EE1E7B,#FF5FA0);color:#fff;text-align:center;padding:14px 10px 12px;border-radius:0 0 22px 22px;margin:0 -14px 14px}
+body.gold header{background:linear-gradient(135deg,#E8B51A,#FFD95A)}
+header .s{font-size:12px;letter-spacing:.1em}
+header h1{margin:2px 0 0;font-size:22px;font-weight:800}
+.card{background:#fff;border:2px solid var(--pinkline);border-radius:18px;padding:14px;margin-bottom:12px}
+body.gold .card.main{border-color:var(--goldline)}
+.center{text-align:center}
+.logo{width:150px;height:170px;margin:4px auto 0;background:url(logo.png) center/contain no-repeat}
+.logo.spin{animation:spin 1.6s cubic-bezier(.3,.1,.3,1)}
+@keyframes spin{0%{transform:rotate(0) scale(1)}15%{transform:rotate(-12deg) scale(1.05)}30%{transform:rotate(12deg) scale(1.08)}100%{transform:rotate(1080deg) scale(1)}}
+.goldring{display:inline-block;background:radial-gradient(circle,#FFF3B0,#F2C230);border:4px solid var(--goldline);border-radius:50%;padding:14px 18px}
+.goldring .logo{width:120px;height:136px;margin:0}
+.who{font-size:14px;color:var(--sub);margin-top:6px}
+.btn{display:block;width:100%;border:0;border-radius:999px;padding:15px;font:inherit;font-size:18px;font-weight:800;color:#fff;
+  background:linear-gradient(135deg,#EE1E7B,#FF5FA0);box-shadow:0 4px 0 #B8125C;margin:14px 0 6px;cursor:pointer}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #B8125C}
+.btn:disabled{opacity:.6}
+body.gold .btn{background:linear-gradient(135deg,#E8B51A,#FFD95A);color:#7A1040;box-shadow:0 4px 0 #C9960E}
+.btn.sm{font-size:14px;padding:10px;margin:8px 0 0;box-shadow:0 3px 0 #B8125C}
+.btn.ghost{background:#fff;color:var(--pink);border:2px solid var(--pink);box-shadow:none}
+.note{font-size:12px;color:var(--sub)}
+.result{animation:pop .5s ease}
+@keyframes pop{0%{transform:scale(.3);opacity:0}70%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+.rname{font-size:42px;font-weight:800;color:var(--pink);line-height:1.2}
+body.gold .rname{color:#C98A00}
+.rrabi{font-size:30px;font-weight:800;color:var(--pink)}
+.lose{font-size:30px;font-weight:800;color:#8a7f88}
+.stars{font-size:18px;color:var(--gold);letter-spacing:4px}
+.ttl{font-size:13px;color:var(--sub);margin-bottom:8px;display:flex;justify-content:space-between;align-items:baseline}
+.stamps{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.stamp{aspect-ratio:1/1.13;border:2px dashed var(--pinkline);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--pinkline)}
+.stamp.on{border:2px solid var(--pink2);background:#FFE4F0 url(logo.png) center/72% no-repeat}
+.stamp.g{border:2px solid var(--goldline);background:var(--goldbg);color:#C98A00;font-size:16px}
+.stamp.g.next{animation:shine 1.2s infinite alternate}
+@keyframes shine{to{background:#FFE68A}}
+.badges{display:flex;gap:6px;justify-content:center;margin-top:10px}
+.badge{width:34px;height:34px;border-radius:50%;border:2px dashed var(--goldline);display:flex;align-items:center;justify-content:center;font-size:16px;opacity:.45}
+.badge.on{opacity:1;border-style:solid;background:var(--goldbg)}
+.gama{display:flex;align-items:center;gap:10px;background:#FFFBEA;border:2px solid var(--gold);border-radius:16px;padding:10px 12px;margin-bottom:12px}
+.gama .v{font-size:24px;font-weight:800;color:#C98A00}
+.gama .l{font-size:12px;color:#B07A00}
+.tk{border:2px dashed var(--pink);border-radius:14px;padding:12px;text-align:center;margin-top:8px;background:#fff;position:relative}
+.tk.used{border-color:#ccc;color:#999;background:#fafafa}
+.tk .big{font-size:18px;font-weight:800;color:var(--pink)}
+.tk.used .big{color:#aaa}
+.hanko{display:inline-block;border:3px solid #E24B4A;color:#E24B4A;border-radius:50%;padding:8px 10px;font-size:12px;font-weight:800;transform:rotate(-12deg);margin-top:6px}
+.arm{background:#E24B4A!important;color:#fff!important;border-color:#E24B4A!important}
+.foot{text-align:center;margin-top:18px}
+.foot button{background:none;border:0;color:#c48aa6;font:inherit;font-size:12px;text-decoration:underline;cursor:pointer}
+.err{background:#FFECEC;border:2px solid #F3A6A6;color:#A32D2D;border-radius:14px;padding:12px;font-size:14px;margin-bottom:12px}
+.loading{text-align:center;padding:60px 0;color:var(--sub)}
+.loading .logo{animation:bob 1s infinite alternate}
+@keyframes bob{to{transform:translateY(-8px)}}
+table.set{width:100%;border-collapse:collapse;font-size:14px}
+table.set td{padding:4px 2px}
+table.set input{width:70px;font:inherit;font-size:15px;padding:6px;border:1.5px solid var(--pinkline);border-radius:8px;text-align:right}
+.bar{height:10px;background:#F6DCE7;border-radius:5px;overflow:hidden;margin:6px 0}
+.bar i{display:block;height:10px;background:var(--pink)}
+.row{display:flex;justify-content:space-between;font-size:14px;padding:3px 0}
+input.pin{font:inherit;font-size:24px;letter-spacing:.4em;text-align:center;width:100%;padding:10px;border:2px solid var(--pinkline);border-radius:12px}
+.fade{animation:pop .3s ease}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><div class="s">ドラパン ★★</div><h1 id="htitle">1日1回 ラビガチャ</h1></header>
+  <div id="app"><div class="loading"><div class="logo"></div><p>うさぎを呼んでいます…🐰</p></div></div>
+</div>
+
+<script>
+var LIFF_ID = "2012536500-bI5c4W5M";
+var GAS_URL = "https://script.google.com/macros/s/AKfycbwfvI23G-Dzk0Y0nCzRotjiNzbCngmww7LGvR9TtQOerbmE-ZX4qOY1nwmA83n8SBef/exec";
+var idToken = "", st = null, pin = "", adminData = null, armNo = null, armTimer = null;
+
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]; }); }
+function fmt(n){ return Number(n || 0).toLocaleString("ja-JP"); }
+function sleep(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+
+function showErr(msg){
+  $("app").innerHTML = '<div class="err">' + esc(msg) + '</div><button class="btn sm ghost" onclick="location.reload()">もう一回ひらく</button>';
+}
+
+window.addEventListener("load", boot);
+
+async function boot(){
+  try { await liff.init({ liffId: LIFF_ID }); }
+  catch(e){ showErr("LINEの準備がうまくいきませんでした🙏 LINEのアプリから開きなおしてね"); return; }
+  if (!liff.isLoggedIn()) { liff.login({ redirectUri: location.href }); return; }
+  if (!takeToken()) return;
+  try { sessionStorage.removeItem("rg-relogin"); } catch(e){}
+  var res = await api("state");
+  if (res) { st = res; render(); }
+}
+
+function takeToken(){
+  var d = null;
+  try { d = liff.getDecodedIDToken(); } catch(e){}
+  if (!d || d.exp * 1000 < Date.now() + 60000) { relogin(); return false; }
+  idToken = liff.getIDToken();
+  return true;
+}
+
+function relogin(){
+  var tried = false;
+  try { tried = !!sessionStorage.getItem("rg-relogin"); sessionStorage.setItem("rg-relogin", "1"); } catch(e){}
+  if (liff.isInClient() || tried) {
+    showErr("ログインの期限が切れたみたい🐰 いったん画面を閉じて、もう一回ひらいてね");
+    return;
+  }
+  liff.logout();
+  liff.login({ redirectUri: location.href });
+}
+
+async function api(a, extra){
+  var body = Object.assign({ a: a, t: idToken }, extra || {});
+  try {
+    var r = await fetch(GAS_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(body) });
+    var j = await r.json();
+    if (j.login) { relogin(); return null; }
+    if (!j.ok) { throw new Error(j.error || "うまくいきませんでした"); }
+    return j;
+  } catch(e) {
+    throw e;
+  }
+}
+
+async function safe(fn){
+  try { return await fn(); }
+  catch(e){ alertBox(e.message || String(e)); return null; }
+}
+function alertBox(msg, good){
+  var b = $("msgbox");
+  if (b) { b.innerHTML = good ? '<div class="card center fade" style="border-color:#97C459">' + esc(msg) + '</div>' : '<div class="err fade">' + esc(msg) + '</div>'; b.scrollIntoView({ behavior: "smooth", block: "center" }); }
+  else showErr(msg);
+}
+
+/* ---------- 画面 ---------- */
+function render(){
+  document.body.classList.toggle("gold", !!(st.member && st.gold && !st.played));
+  $("htitle").textContent = (st.member && st.gold && !st.played) ? "金のうさぎガチャ" : "1日1回 ラビガチャ";
+  if (!st.member) { renderGuest(); return; }
+
+  var h = '<div id="msgbox"></div>';
+  h += '<div class="card main center">';
+  if (st.played && st.result) {
+    h += resultHtml(st.result, st.justPlayed);
+    h += '<p class="note">今日はおしまい🐰 朝5時に また引けるよ</p>';
+  } else {
+    h += st.gold ? '<div class="goldring"><div class="logo" id="logo"></div></div>' : '<div class="logo" id="logo"></div>';
+    h += '<div class="who">' + esc(st.nickname) + ' さん</div>';
+    if (st.gold) h += '<p class="note" style="margin:6px 0 0">✨ スタンプ7こ目！今日は<b>ハズレなし</b>の金のうさぎガチャ ✨</p>';
+    h += '<button class="btn" id="playBtn" onclick="play()">' + (st.gold ? "🌟 金のうさぎガチャを回す" : "🎰 ガチャを回す") + '</button>';
+    h += '<p class="note">1日1回（朝5時に切りかわるよ）</p>';
+  }
+  h += '</div>';
+
+  h += '<div class="gama"><svg viewBox="0 0 48 40" width="46" height="38" aria-hidden="true"><path d="M5 17 Q24 7 43 17 L40 35 Q24 40 8 35 Z" fill="#F6C94A" stroke="#E0A800" stroke-width="2"/><circle cx="17" cy="12" r="5.5" fill="#7CC36B"/><circle cx="31" cy="12" r="5.5" fill="#7CC36B"/><circle cx="17" cy="12" r="2.2" fill="#173404"/><circle cx="31" cy="12" r="2.2" fill="#173404"/><path d="M18 24 Q24 28 30 24" stroke="#C98A00" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="24" cy="31" r="2.5" fill="#E0A800"/></svg>' +
+       '<div style="flex:1"><div class="l">🐸👛 ラビのがま口</div><div class="v">' + fmt(st.gama) + ' <small style="font-size:14px">ラビ</small></div>' +
+       '<div class="l">お店に来たら、預かりラビに入れられるよ（ラビがカエル🐸）</div></div></div>';
+
+  h += '<div class="card"><div class="ttl"><span>🐰 スタンプカード</span><span>' + st.stamps + ' / ' + st.stampGoal + '</span></div><div class="stamps">';
+  for (var i = 0; i < st.stampGoal; i++) {
+    var last = i === st.stampGoal - 1;
+    var on = i < st.stamps;
+    if (last) h += '<div class="stamp g' + (st.gold && !st.played ? ' next' : '') + '">🌟</div>';
+    else h += '<div class="stamp' + (on ? ' on' : '') + '">' + (on ? '' : (i + 1)) + '</div>';
+  }
+  h += '</div>';
+  var left = st.stampGoal - 1 - st.stamps;
+  h += '<p class="note center" style="margin:8px 0 0">' + (left > 0 ? 'あと' + left + 'こで 金のうさぎガチャ🌟' : (st.played ? '次は金のうさぎガチャ🌟' : '今日は金のうさぎガチャ🌟')) + '</p>';
+  h += '<div class="badges">';
+  for (var b = 0; b < st.badgeGoal; b++) h += '<div class="badge' + (b < st.badges ? ' on' : '') + '">🏅</div>';
+  h += '</div><p class="note center" style="margin:6px 0 0">カードを1枚うめるとバッジ1こ。バッジ' + st.badgeGoal + 'こで🥤' + esc(st.drink) + ' 無料！</p></div>';
+
+  if (st.tickets && st.tickets.length) {
+    h += '<div class="card"><div class="ttl"><span>🎫 わたしの券</span></div>';
+    st.tickets.forEach(function(t){
+      if (t.used) {
+        h += '<div class="tk used"><div class="big">🥤 ドリンク1杯 無料券</div><div class="note" style="color:#999">No.' + t.no + '・' + esc(t.issued.slice(0, 10)) + ' にもらったよ</div>' +
+             '<div class="hanko">使用済み ' + esc(t.used.slice(5, 10)) + '</div></div>';
+      } else {
+        h += '<div class="tk"><div class="note">ドラパン ラビガチャ</div><div class="big">🥤 ドリンク1杯 無料券</div><div class="note">' + esc(t.what) + '</div>' +
+             '<div class="note" style="color:#666;margin-top:4px">' + esc(st.nickname) + ' さん・No.' + t.no + '・' + esc(t.issued.slice(0, 10)) + '</div>' +
+             '<p class="note" style="margin:8px 0 0">お店でスタッフに見せてね🐰</p>' +
+             '<button class="btn sm ghost' + (armNo === t.no ? ' arm' : '') + '" onclick="useTicket(' + t.no + ')">' + (armNo === t.no ? 'もう一回押すと使用済みになります' : '使用済みにする') + '</button></div>';
+      }
+    });
+    h += '</div>';
+  }
+
+  h += '<div class="foot"><button onclick="openAdmin()">⚙️ ママの設定</button></div>';
+  $("app").innerHTML = h;
+}
+
+function resultHtml(r, anim){
+  var h = '<div class="' + (anim ? 'result' : '') + '">';
+  if (r.rabi > 0) {
+    h += '<div class="stars">★ ★ ★ ★ ★</div>';
+    h += '<div class="rname">' + esc(r.name) + '</div>';
+    h += r.gold ? '<div class="goldring" style="margin:6px 0"><div class="logo"></div></div>' : '<div class="logo"></div>';
+    h += '<div class="rrabi">+' + fmt(r.rabi) + ' ラビ</div>';
+    h += '<p class="note" style="margin:4px 0">がま口に入れたよ🐸👛</p>';
+  } else if (r.empty && r.gold) {
+    h += '<div class="logo" style="filter:grayscale(.6)"></div><div class="lose" style="font-size:20px">今月のガチャのラビは おしまい🐸</div><p class="note">また来月、金のうさぎに会いにきてね</p>';
+  } else {
+    h += '<div class="logo" style="filter:grayscale(.6)"></div><div class="lose">ハズレ…</div><p class="note" style="margin:4px 0">また明日ケロ🐸 スタンプは1こ押したよ</p>';
+  }
+  if (r.cardDone) h += '<p class="note" style="margin:8px 0 0;font-size:14px">🎉 スタンプカードが1枚うまったよ！バッジ1こゲット🏅</p>';
+  if (r.ticket) h += '<p style="margin:8px 0 0;font-size:16px;color:#EE1E7B;font-weight:800">🥤 ドリンク1杯無料券をもらったよ！<br><span class="note">下の「わたしの券」を見てね</span></p>';
+  return h + '</div>';
+}
+
+function renderGuest(){
+  var h = '<div class="card center"><div class="logo"></div>';
+  if (st.reason === "noreg") {
+    h += '<p style="font-size:16px;font-weight:800;color:#EE1E7B">ラビガチャは<br>ラビ会員さんのガチャだよ🐰</p>' +
+         '<p class="note" style="font-size:14px;text-align:left;line-height:1.8">① ドラパンのLINEのトークで<b>「登録」</b>と送ってね<br>② お店で登録したニックネームを送ってね<br>③ 登録できたら、もう一回このガチャを開いてね🎰</p>' +
+         '<button class="btn sm" onclick="liff.closeWindow()">LINEのトークにもどる</button>';
+  } else if (st.reason === "nosheet") {
+    h += '<p style="font-size:15px">いまお店のじゅんび中みたい🐸<br>少し時間をおいて、もう一回ひらいてね</p>';
+  } else {
+    h += '<p style="font-size:15px">' + (st.nickname ? esc(st.nickname) + ' さん、ありがとう🐰<br>' : '') + 'ラビガチャは、<b>ラビを預けている</b>お客さまが引けるガチャだよ</p>' +
+         '<p class="note">お店でラビを預けると、引けるようになるよ🎰</p>';
+  }
+  h += '</div><div class="foot"><button onclick="openAdmin()">⚙️ ママの設定</button></div>';
+  $("app").innerHTML = h;
+}
+
+/* ---------- ガチャ ---------- */
+async function play(){
+  var btn = $("playBtn"); if (!btn || btn.disabled) return;
+  btn.disabled = true; btn.textContent = "くるくる…🐰";
+  var lg = $("logo"); if (lg) lg.classList.add("spin");
+  try {
+    var both = await Promise.all([api("play"), sleep(1700)]);
+    if (both[0]) { st = both[0]; render(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+  } catch(e) {
+    btn.disabled = false; btn.textContent = "🎰 もう一回ためす";
+    if (lg) lg.classList.remove("spin");
+    alertBox(e.message || String(e));
+  }
+}
+
+async function useTicket(no){
+  if (armNo !== no) {
+    armNo = no; clearTimeout(armTimer);
+    armTimer = setTimeout(function(){ armNo = null; render(); }, 4000);
+    render(); return;
+  }
+  clearTimeout(armTimer); armNo = null;
+  var res = await safe(function(){ return api("use", { no: no }); });
+  if (res) { st = res; render(); }
+}
+
+/* ---------- ママの設定 ---------- */
+function openAdmin(){
+  document.body.classList.remove("gold");
+  $("htitle").textContent = "⚙️ ママの設定";
+  if (pin && adminData) { renderAdmin(); return; }
+  $("app").innerHTML = '<div id="msgbox"></div><div class="card center"><p>暗証番号を入れてね🔒</p>' +
+    '<input class="pin" id="pinIn" type="password" inputmode="numeric" maxlength="8" autocomplete="off">' +
+    '<button class="btn sm" onclick="loginAdmin()">入る</button><button class="btn sm ghost" onclick="backMain()">もどる</button></div>';
+  setTimeout(function(){ var p = $("pinIn"); if (p) p.focus(); }, 100);
+}
+function backMain(){ if (st) render(); else location.reload(); }
+
+async function loginAdmin(){
+  var p = $("pinIn").value.trim();
+  if (!p) { alertBox("暗証番号を入れてね"); return; }
+  var res = await safe(function(){ return api("admin", { pin: p }); });
+  if (res) { pin = p; adminData = res; renderAdmin(); }
+}
+
+function rowsHtml(list, key){
+  var h = '<table class="set"><tr><td class="note"></td><td class="note">ラビ</td><td class="note">確率(%)</td></tr>';
+  list.forEach(function(x, i){
+    h += '<tr><td>' + esc(x.name) + '</td><td><input type="number" step="20" min="20" id="' + key + 'r' + i + '" value="' + x.rabi + '" oninput="calcLeft()"></td>' +
+         '<td><input type="number" step="0.5" min="0" id="' + key + 'p' + i + '" value="' + x.p + '" oninput="calcLeft()"></td></tr>';
+  });
+  return h + '<tr><td>ハズレ</td><td></td><td id="' + key + 'left" style="text-align:right;padding-right:8px"></td></tr></table>';
+}
+
+function renderAdmin(){
+  var d = adminData, s = d.settings;
+  var pct = d.budget ? Math.min(100, Math.round(d.spent / d.budget * 100)) : 0;
+  var h = '<div id="msgbox"></div>';
+  h += '<div class="card"><div class="ttl"><span>💰 ' + d.month + '月のガチャ予算</span></div>' +
+       '<div style="font-size:20px;font-weight:800">出したラビ ' + fmt(d.spent) + ' ／ ' + fmt(d.budget) + '</div>' +
+       '<div class="bar"><i style="width:' + pct + '%"></i></div>' +
+       '<div class="row"><span>今日までに使っていい分</span><b>' + fmt(d.allowed) + '</b></div>' +
+       '<div class="row"><span>今月引いた回数</span><b>' + d.plays + '回（' + d.people + '人）</b></div>' +
+       '<div class="row"><span>当たった回数</span><b>' + d.wins + '回</b></div></div>';
+  h += '<div class="card"><div class="ttl"><span>⚙️ 当たりと確率</span></div>' +
+       '<div class="row"><span>1か月の予算</span><span><input type="number" step="20" min="0" id="budget" value="' + s.budget + '" style="width:90px;font:inherit;font-size:15px;padding:6px;border:1.5px solid #F7B6D2;border-radius:8px;text-align:right"> ラビ</span></div>' +
+       '<p class="ttl" style="margin:12px 0 4px">🎰 ふだんのガチャ</p>' + rowsHtml(s.normal, "n") +
+       '<p class="ttl" style="margin:12px 0 4px">🌟 金のうさぎガチャ（スタンプ7こ目）</p>' + rowsHtml(s.gold, "g") +
+       '<p class="note" style="margin:8px 0 0">ラビは20の単位で入れてね。予算が足りないときは、1つ下の当たりになるよ</p>' +
+       '<button class="btn sm" onclick="saveAdmin()">💾 保存する</button></div>';
+  h += '<div class="card"><div class="ttl"><span>🎫 発行したドリンク券</span></div>';
+  if (!d.tickets.length) h += '<p class="note">まだありません</p>';
+  d.tickets.forEach(function(t){
+    h += '<div class="row"><span>No.' + t.no + ' ' + esc(t.nickname) + '<br><span class="note">' + esc(t.issued) + '</span></span><b style="color:' + (t.used ? '#999' : '#EE1E7B') + '">' + (t.used ? '使用済み ' + esc(t.used.slice(5, 10)) : 'まだ') + '</b></div>';
+  });
+  h += '</div>';
+  h += '<div class="card"><div class="ttl"><span>🧪 テスト用</span></div><p class="note">このスマホのLINEの「今日はもう引いた」をもどして、もう一回引けるようにします（がま口・スタンプはそのまま）</p>' +
+       '<button class="btn sm ghost" onclick="retryMe()">わたしの今日の1回をもどす</button></div>';
+  h += '<button class="btn sm ghost" onclick="pin=\'\';adminData=null;backMain()">ガチャにもどる</button>';
+  $("app").innerHTML = h;
+  calcLeft();
+}
+
+function readRows(key, list){
+  return list.map(function(x, i){ return { name: x.name, rabi: $(key + "r" + i).value, p: $(key + "p" + i).value }; });
+}
+function calcLeft(){
+  ["n", "g"].forEach(function(k){
+    var list = adminData.settings[k === "n" ? "normal" : "gold"], sum = 0;
+    list.forEach(function(x, i){ sum += Number($(k + "p" + i).value) || 0; });
+    var el = $(k + "left");
+    if (el) { var left = Math.round((100 - sum) * 10) / 10; el.textContent = left + " %"; el.style.color = left < 0 ? "#E24B4A" : ""; }
+  });
+}
+async function saveAdmin(){
+  var s = adminData.settings;
+  var settings = { budget: $("budget").value, normal: readRows("n", s.normal), gold: readRows("g", s.gold), drink: s.drink };
+  var res = await safe(function(){ return api("save", { pin: pin, settings: settings }); });
+  if (res) { adminData = res; renderAdmin(); alertBox("保存したよ🐸✨", true); }
+}
+async function retryMe(){
+  var res = await safe(function(){ return api("retry", { pin: pin }); });
+  if (res) {
+    var s2 = await safe(function(){ return api("state"); });
+    if (s2) { st = s2; pin = ""; adminData = null; render(); alertBox("もどしたよ🐰 もう一回引けるよ", true); }
+  }
+}
+</script>
+</body>
+</html>
