@@ -108,7 +108,17 @@ async function boot(){
   if (!takeToken()) return;
   try { sessionStorage.removeItem("rg-relogin"); } catch(e){}
   var res = await api("state");
-  if (res) { st = res; render(); }
+  if (res) { st = res; render(); if (wantAdmin()) openAdmin(); }
+}
+
+// ママ専用の入口：URLのうしろに ?admin=1 があれば、ガチャをとばして暗証番号の画面へ
+function wantAdmin(){
+  try {
+    var q = new URLSearchParams(location.search);
+    if (q.get("admin") === "1") return true;
+    var ls = q.get("liff.state") || "";
+    return /[?&]admin=1/.test(ls);
+  } catch(e){ return false; }
 }
 
 function takeToken(){
