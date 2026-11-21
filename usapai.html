@@ -127,8 +127,46 @@
   body.busy .busymark{display:block;}
   .ticket .tg{font-size:11.5px;font-weight:800;color:#888;white-space:nowrap;}
   .ticket .tg.ok{color:#1F8A47;}
-  .ticket .n small + small{margin-top:1px;}
   .tnote{font-size:11.5px;color:var(--soft);text-align:center;margin-top:4px;}
+  .chip.gamachip{display:none;background:#FFF6DC;color:#7A5A00;}
+  /* ツモの場所（6枚セットの途中はタップでツモれる／ツモ中は裏向きの牌） */
+  .t.slot{aspect-ratio:96/125;border:2.5px dashed var(--pink);border-radius:8px;display:flex;align-items:center;justify-content:center;background:#FFF0F7;}
+  .t.slot span{font-family:'M PLUS Rounded 1c';font-weight:800;color:var(--pink);font-size:clamp(11px,3vw,16px);}
+  .t.slot.pend{background:var(--pink);border:2px solid #fff;outline:1.5px solid #C9C9C9;animation:pend 0.8s ease-in-out infinite alternate;}
+  .t.slot.pend span{color:#fff;}
+  .t.slot::before{display:none;}
+  @keyframes pend{from{transform:translateY(0)}to{transform:translateY(-6px)}}
+  /* スマホの横画面：ロゴとがま口の帯をかくして、ボタンを画面の下にいつも出す */
+  @media (orientation: landscape) and (max-height: 560px){
+    .head, .gama{display:none;}
+    .app{padding:4px 8px 84px;max-width:980px;}
+    .card{padding:6px 8px;margin-bottom:6px;border-radius:14px;}
+    .status{margin-bottom:0;min-height:0;gap:4px;}
+    .chip{font-size:11px;padding:2px 8px;}
+    .chip.gamachip{display:inline-block;}
+    .chip.dora img{width:16px;}
+    .hand{padding:14px 0 0;}
+    .hint{font-size:11px;margin-top:2px;min-height:0;}
+    .waits{font-size:11px;margin-top:2px;}
+    .riverbox{margin-top:4px;padding-top:4px;}
+    .riverbox .rl{font-size:10.5px;margin-bottom:2px;}
+    .river{flex-direction:row;flex-wrap:wrap;gap:3px 10px;width:auto;justify-content:center;}
+    .river .t{width:26px;}
+    .river .t.rc{width:34px;height:34px;}
+    .river .t.rc img{width:26px;}
+    .river .t.rc::after{font-size:8px;top:-6px;}
+    .btncard{position:fixed;left:0;right:0;bottom:0;margin:0;border-radius:14px 14px 0 0;z-index:40;padding:6px 10px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -4px 16px rgba(230,24,126,.12);}
+    .btncard .btns{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);max-width:980px;margin:0 auto;}
+    .btncard .btn{padding:7px 4px;font-size:13px;}
+    .btncard .btn small{font-size:10px;}
+    .btncard .btn.wide{grid-column:auto;}
+    .btncard .ryu{grid-column:auto;font-size:12px;align-self:center;margin:0;}
+    .overlay{align-items:flex-start;overflow:auto;padding:8px;}
+    .win{max-width:620px;}
+    .win .top{padding:6px 10px;}
+    .win .top .big{font-size:24px;}
+    .win .body{padding:8px 12px;}
+  }
 </style>
 <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 </head>
@@ -147,7 +185,7 @@
     <div class="hint" id="hint"></div>
     <div class="riverbox" id="riverbox"></div>
   </div>
-  <div class="card"><div class="btns" id="btns"></div></div>
+  <div class="card btncard"><div class="btns" id="btns"></div></div>
   <div class="card" id="ticketsCard"><h3>🎫 もらった券</h3><div id="tickets"></div><div class="tnote">券は、お店でスタッフに見せて使ってね。</div></div>
   <div class="card" id="statsCard" style="display:none"><h3>🧪 ためしの記録</h3><div id="stats"></div></div>
   <div class="card rules"><h3>🐰 あそびかた</h3>
@@ -396,6 +434,9 @@ var token = '';
 var sel = null;          // 1回目にタップした牌（'h3' や 'tsumo'）
 var riichiMode = false;  // リーチする牌をえらんでいるところ
 var busy = false;
+var drawing = false;     // ツモのお願いの答えを待っているところ（ツモの場所に裏向きの牌を出す）
+var Q = Promise.resolve(), pending = 0;   // お願いは1つずつ順番に送る
+var DRAW_OPS = {one: 1, special: 1, set6: 1, setnext: 1, free: 1};
 
 // ----- ドラパンゲームの係とのやりとり -----
 function rid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
@@ -413,19 +454,33 @@ function api(op, extra){
     });
 }
 function apply(j){
+  var old = V;
   V = j; S = j.S;
+  if (old){   // 速くするため、係がいつも返さないもの（がま口・券）は、前の数をそのまま使う
+    if (j.gama === undefined || j.gama === null) V.gama = old.gama;
+    if (!j.tickets) V.tickets = old.tickets;
+  }
   if (j.price) PRICE = j.price;
   if (j.maxDraws) MAX_DRAWS = j.maxDraws;
 }
 function setBusy(b){ busy = b; document.body.classList.toggle('busy', b); }
-function doOp(op, extra, after){
-  if (busy) return;
-  setBusy(true);
-  api(op, extra).then(function(j){
-    apply(j); setBusy(false); render();
+// bg = true：捨てるときなど、画面はもう動かしてあるので、答えを待たずに次の操作ができる
+function doOp(op, extra, after, bg){
+  if (busy && !bg) return;
+  if (!bg) setBusy(true);
+  if (DRAW_OPS[op]){ drawing = true; render(); }
+  pending++;
+  Q = Q.then(function(){ return api(op, extra); }).then(function(j){
+    pending--;
+    if (DRAW_OPS[op]) drawing = false;
+    apply(j);
+    if (!bg) setBusy(false);
+    if (!bg || pending === 0) render();
     if (after) after(j);
-  }).catch(function(e){
-    setBusy(false);
+  }, function(e){
+    pending--;
+    if (DRAW_OPS[op]) drawing = false;
+    if (!bg) setBusy(false);
     if (e.message === 'login') return;
     toast(e.message);
     reload();
@@ -517,6 +572,7 @@ function render(){
   document.getElementById('tVisit').textContent = V.visited ? '✅ 今日はお店に来た日（押すともどる）' : 'お店に来た日にする';
 
   var st = [];
+  st.push('<span class="chip gamachip">' + (V.trial ? '🧪 ' : '👛 ') + (V.gama || 0).toLocaleString() + 'ラビ</span>');
   if (S.hand.length) st.push('<span class="chip wind">あなたの風：' + NAMES[S.ba] + '場・' + NAMES[S.ji] + '家</span>');
   if (S.hand.length && (S.doraInd||[]).length) st.push('<span class="chip wind dora">ドラ表示 ' + S.doraInd.map(function(t){ return '<img src="' + TILE_IMG[t] + '" alt="' + NAMES[t] + '">'; }).join('') + ' → ドラ ' + doras().map(function(t){ return NAMES[t]; }).join('・') + '</span>');
   if (S.riichi) st.push('<span class="chip riichi">リーチ中<span class="stick"></span></span>');
@@ -542,6 +598,10 @@ function render(){
     if (S.tsumo !== null){
       var cls = (S.tenho ? 'new h14' : 'new drop') + (sel === 'tsumo' ? ' up' : '') + (riichiMode ? (td[S.hand.length] ? ' ok' : ' dim') : '');
       h += tileHtml(S.tsumo, cls, canDis ? 'data-i="tsumo"' : '');
+    }
+    if (S.tsumo === null && !S.ryukyoku){
+      if (drawing) h += '<div class="t new slot pend"><span>…</span></div>';
+      else if (S.setLeft > 0) h += '<div class="t new slot" data-a="setnext"><span>ツモ</span></div>';
     }
     kans().forEach(function(t){ h += '<div class="kan">' + '<div class="t back"></div>' + tileHtml(t, '', '') + tileHtml(t, '', '') + '<div class="t back"></div></div>'; });
   }
@@ -667,11 +727,14 @@ function riichiAfterDraw(win, wasJoker){
   setBusy(true);
   setTimeout(function(){
     setBusy(false);
-    doOp('tsumogiri', null, function(){
-      if (wasIppatsu) toast('一発ならず…');
-      if (S.ryukyoku) setTimeout(function(){ flash('流局'); }, 200);
-    });
-  }, 900);
+    // 画面はすぐツモ切りして、係にはあとから伝える
+    S.river.push(S.tsumo); S.tsumo = null; S.ippatsu = false; S.rinshan = false; V.win = null;
+    if (S.draws >= MAX_DRAWS){ S.ryukyoku = true; S.setLeft = 0; }
+    render();
+    if (wasIppatsu) toast('一発ならず…');
+    if (S.ryukyoku) setTimeout(function(){ flash('流局'); }, 200);
+    doOp('tsumogiri', null, null, true);
+  }, 700);
 }
 
 function tapTile(id){
@@ -687,10 +750,9 @@ function tapTile(id){
   S.river.push(out); S.tenho = false;
   if (doRiichi){ S.riichi = true; S.ippatsu = true; S.riichiAt = S.river.length - 1; V.gama -= PRICE.riichi; flash('リーチ！'); }
   V.win = null;
+  if (S.draws >= MAX_DRAWS){ S.ryukyoku = true; S.setLeft = 0; setTimeout(function(){ flash('流局'); }, 200); }
   render();
-  doOp('discard', {i: idx, riichi: doRiichi}, function(){
-    if (S.ryukyoku) setTimeout(function(){ flash('流局'); }, 200);
-  });
+  doOp('discard', {i: idx, riichi: doRiichi}, null, true);
 }
 
 function showWin(r, forced){
