@@ -553,7 +553,8 @@ function start(){
       document.getElementById('gate').style.display = 'none';
       document.getElementById('game').style.display = '';
       render();
-      if (S.riichi && V.win) setTimeout(function(){ showWin(V.win, true); }, 400);
+      // リーチ中にツモった牌が残っていたら（とちゅうで閉じたときなど）、続きを自動でする
+      if (S.riichi && S.tsumo !== null) setTimeout(function(){ riichiAfterDraw(V.win, false); }, 400);
     });
   }).catch(function(e){
     if (e.message === 'login') return;
@@ -758,7 +759,7 @@ function act(a){
 
 function doKan(t, auto){
   sel = null;
-  doOp('kan', {t: t}, function(j){
+  doOp('kan', {kt: t}, function(j){
     flash(auto ? 'カン（自動）' : 'カン！');
     if (S.riichi){ riichiAfterDraw(j.win, false); return; }
     if (j.win) setTimeout(function(){ showWin(j.win, false); }, 600);
