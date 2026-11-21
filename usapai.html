@@ -437,6 +437,11 @@ var busy = false;
 var drawing = false;     // ツモのお願いの答えを待っているところ（ツモの場所に裏向きの牌を出す）
 var Q = Promise.resolve(), pending = 0;   // お願いは1つずつ順番に送る
 var DRAW_OPS = {one: 1, special: 1, set6: 1, setnext: 1, free: 1};
+// ★はやくする工夫
+var held = null;        // ① 6枚セットの途中：係が先に引いておいた牌（タップするまで見せない）
+var holdPending = 0;    //    その答えを待っている数
+var wantReveal = false; //    答えが来る前に「ツモ」をタップした
+var pre = null, preTimer = null;   // ② まだ送っていない「捨てる」（次のツモといっしょに送る）
 
 // ----- ドラパンゲームの係とのやりとり -----
 function rid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
@@ -455,7 +460,8 @@ function api(op, extra){
 }
 function apply(j){
   var old = V;
-  V = j; S = j.S;
+  V = j; S = j.S; held = null;
+  if (j.warn) toast(j.warn);
   if (old){   // 速くするため、係がいつも返さないもの（がま口・券）は、前の数をそのまま使う
     if (j.gama === undefined || j.gama === null) V.gama = old.gama;
     if (!j.tickets) V.tickets = old.tickets;
@@ -465,20 +471,27 @@ function apply(j){
 }
 function setBusy(b){ busy = b; document.body.classList.toggle('busy', b); }
 // bg = true：捨てるときなど、画面はもう動かしてあるので、答えを待たずに次の操作ができる
-function doOp(op, extra, after, bg){
+function doOp(op, extra, after, bg, hold){
   if (busy && !bg) return;
   if (!bg) setBusy(true);
+  if (pre && !bg){   // ② 待っている「捨てる」があれば、このお願いといっしょに送る
+    extra = extra || {}; extra.pre = pre; pre = null; clearTimeout(preTimer);
+  }
+  if (hold) holdPending++;
   if (DRAW_OPS[op]){ drawing = true; render(); }
   pending++;
   Q = Q.then(function(){ return api(op, extra); }).then(function(j){
     pending--;
     if (DRAW_OPS[op]) drawing = false;
     apply(j);
+    if (hold){ holdPending--; holdTile(); }
     if (!bg) setBusy(false);
     if (!bg || pending === 0) render();
     if (after) after(j);
+    if (hold && wantReveal) reveal();
   }, function(e){
     pending--;
+    if (hold){ holdPending--; wantReveal = false; }
     if (DRAW_OPS[op]) drawing = false;
     if (!bg) setBusy(false);
     if (e.message === 'login') return;
@@ -486,7 +499,38 @@ function doOp(op, extra, after, bg){
     reload();
   });
 }
+// ① 係が先に引いておいた牌を、タップされるまでかくしておく
+function holdTile(){
+  if (S.tsumo === null) return;
+  held = {t: S.tsumo, win: V.win};
+  S.tsumo = null; V.win = null;
+}
+function reveal(){
+  if (!held){ return; }
+  S.tsumo = held.t; V.win = held.win; held = null; wantReveal = false;
+  render();
+  afterDraw({win: V.win});
+}
+// ② 「捨てる」をすぐには送らず、次のツモといっしょに送る（6秒なにもしなかったら、それだけ送る）
+function queuePre(p){
+  pre = p; clearTimeout(preTimer);
+  preTimer = setTimeout(flushPre, 6000);
+}
+function flushPre(){
+  clearTimeout(preTimer);
+  if (!pre) return;
+  var p = pre; pre = null;
+  doOp(p.op, p, null, true);
+}
+document.addEventListener('visibilitychange', function(){ if (document.hidden) flushPre(); });
+// 捨てたあと、どう送るか
+function sendDiscard(p){
+  if (S.ryukyoku) doOp(p.op, p, null, true);
+  else if (S.setLeft > 0) doOp(p.op, p, null, true, true);   // ① 6枚セットの途中：係が次の牌も引いてくれる
+  else queuePre(p);                                           // ② 次のお金を払うツモといっしょに送る
+}
 function reload(){
+  pre = null; clearTimeout(preTimer);
   api('state').then(function(j){ apply(j); render(); }).catch(function(){});
 }
 function relogin(){ try{ liff.logout(); }catch(e){} liff.login({redirectUri: location.href}); }
@@ -577,8 +621,9 @@ function render(){
   if (S.hand.length && (S.doraInd||[]).length) st.push('<span class="chip wind dora">ドラ表示 ' + S.doraInd.map(function(t){ return '<img src="' + TILE_IMG[t] + '" alt="' + NAMES[t] + '">'; }).join('') + ' → ドラ ' + doras().map(function(t){ return NAMES[t]; }).join('・') + '</span>');
   if (S.riichi) st.push('<span class="chip riichi">リーチ中<span class="stick"></span></span>');
   if (S.riichi && S.ippatsu) st.push('<span class="chip ippatsu">一発チャンス</span>');
-  if (S.hand.length) st.push('<span class="chip set">ツモ ' + (S.draws||0) + ' / ' + MAX_DRAWS + '</span>');
-  if (S.setLeft > 0) st.push('<span class="chip set">6枚セット のこり' + S.setLeft + '回</span>');
+  var shownDraws = (S.draws||0) - (held ? 1 : 0), shownLeft = S.setLeft + (held ? 1 : 0);
+  if (S.hand.length) st.push('<span class="chip set">ツモ ' + shownDraws + ' / ' + MAX_DRAWS + '</span>');
+  if (shownLeft > 0) st.push('<span class="chip set">6枚セット のこり' + shownLeft + '回</span>');
   var waits = [];
   if (S.hand.length && S.hand.length === 13 - 3 * kans().length && S.tsumo === null){
     waits = waitsOf(S.hand, kans());
@@ -600,15 +645,15 @@ function render(){
       h += tileHtml(S.tsumo, cls, canDis ? 'data-i="tsumo"' : '');
     }
     if (S.tsumo === null && !S.ryukyoku){
-      if (drawing) h += '<div class="t new slot pend"><span>…</span></div>';
-      else if (S.setLeft > 0) h += '<div class="t new slot" data-a="setnext"><span>ツモ</span></div>';
+      if (drawing || wantReveal) h += '<div class="t new slot pend"><span>…</span></div>';
+      else if (held || S.setLeft > 0) h += '<div class="t new slot" data-a="setnext"><span>ツモ</span></div>';
     }
     kans().forEach(function(t){ h += '<div class="kan">' + '<div class="t back"></div>' + tileHtml(t, '', '') + tileHtml(t, '', '') + '<div class="t back"></div></div>'; });
   }
   document.getElementById('hand').innerHTML = h;
   document.getElementById('hand').style.setProperty('--n', 14 + kans().length);
   var rv = S.river || [];
-  document.getElementById('riverbox').innerHTML = S.hand.length ? '<div class="rl"><span>河（捨てた牌）</span><span>のこりツモ ' + Math.max(0, MAX_DRAWS - (S.draws||0)) + '枚</span></div><div class="river">' + riverRows(rv) + '</div>' : '';
+  document.getElementById('riverbox').innerHTML = S.hand.length ? '<div class="rl"><span>河（捨てた牌）</span><span>のこりツモ ' + Math.max(0, MAX_DRAWS - shownDraws) + '枚</span></div><div class="river">' + riverRows(rv) + '</div>' : '';
   var hint = '';
   if (riichiMode) hint = 'リーチ！ 下に線がある牌から、捨てる牌を選んでね（2回タップ）';
   else if (S.tenho) hint = '配牌は14枚。まず1枚えらんで捨ててスタート（2回タップ）';
@@ -625,12 +670,12 @@ function render(){
     b += '<button class="btn main" data-a="next">次の局へ<small>' + PRICE.next + 'ラビ・手札そのまま</small></button>';
     b += '<button class="btn sub" data-a="haipai">新しく配牌<small>' + PRICE.haipai + 'ラビ・手札入れかえ</small></button>';
   } else if (S.tsumo === null){
-    if (S.setLeft > 0){
-      b += '<button class="btn main wide" data-a="setnext">ツモる！<small>6枚セット のこり' + S.setLeft + '回</small></button>';
+    if (shownLeft > 0){
+      b += '<button class="btn main wide" data-a="setnext">ツモる！<small>6枚セット のこり' + shownLeft + '回</small></button>';
     } else {
       if (V.freeOK) b += '<button class="btn free wide" data-a="free">🏪 来店ボーナス：無料で1枚ツモ</button>';
       b += '<button class="btn sub" data-a="one">1枚ツモ<small>' + PRICE.one + 'ラビ</small></button>';
-      b += '<button class="btn main" data-a="set6" ' + (MAX_DRAWS - S.draws < 6 ? 'disabled' : '') + '>6枚ツモセット<small>' + (MAX_DRAWS - S.draws < 6 ? 'のこりが6枚より少ないよ' : PRICE.set6 + 'ラビ') + '</small></button>';
+      b += '<button class="btn main" data-a="set6" ' + (MAX_DRAWS - shownDraws < 6 ? 'disabled' : '') + '>6枚ツモセット<small>' + (MAX_DRAWS - shownDraws < 6 ? 'のこりが6枚より少ないよ' : PRICE.set6 + 'ラビ') + '</small></button>';
       b += hasJoker() ? '<button class="btn sp wide" disabled>✨ スペシャルツモ ✨<small>オールマイティー牌を持っているときは使えないよ</small></button>'
         : '<button class="btn sp wide" data-a="special">✨ スペシャルツモ ✨<small>' + PRICE.special + 'ラビ・3回に1回くらいオールマイティー牌！</small></button>';
     }
@@ -697,7 +742,12 @@ function act(a){
     return;
   }
   if (a === 'next'){ doOp('next', null, function(){ flash('次の局：' + NAMES[S.ba] + '場・' + NAMES[S.ji] + '家'); }); return; }
-  if (a === 'one' || a === 'special' || a === 'set6' || a === 'setnext' || a === 'free'){ doOp(a, null, afterDraw); return; }
+  if (a === 'setnext'){
+    if (held){ reveal(); return; }                              // ① もう引いてあるので、すぐ出す
+    if (holdPending > 0){ wantReveal = true; render(); return; } // 答えが来たらすぐ出す
+    doOp('setnext', null, afterDraw); return;
+  }
+  if (a === 'one' || a === 'special' || a === 'set6' || a === 'free'){ doOp(a, null, afterDraw); return; }
   if (a === 'riichi'){
     if (V.gama < PRICE.riichi){ toast('リーチ代のラビが足りないよ🐸'); return; }
     riichiMode = true; sel = null; render(); return;
@@ -733,7 +783,7 @@ function riichiAfterDraw(win, wasJoker){
     render();
     if (wasIppatsu) toast('一発ならず…');
     if (S.ryukyoku) setTimeout(function(){ flash('流局'); }, 200);
-    doOp('tsumogiri', null, null, true);
+    sendDiscard({op: 'tsumogiri'});
   }, 700);
 }
 
@@ -752,7 +802,7 @@ function tapTile(id){
   V.win = null;
   if (S.draws >= MAX_DRAWS){ S.ryukyoku = true; S.setLeft = 0; setTimeout(function(){ flash('流局'); }, 200); }
   render();
-  doOp('discard', {i: idx, riichi: doRiichi}, null, true);
+  sendDiscard({op: 'discard', i: idx, riichi: doRiichi});
 }
 
 function showWin(r, forced){
