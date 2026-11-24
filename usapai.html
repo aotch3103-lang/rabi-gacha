@@ -141,6 +141,7 @@
   .t{position:relative;}
   .t .drm{position:absolute;top:-2px;left:-2px;font-size:clamp(9px,2.4vw,13px);line-height:1;color:#E8A200;text-shadow:0 0 2px #fff,0 0 2px #fff;pointer-events:none;}
   .chip.flw{background:#FFF0F7;color:#C2185B;}
+  .freehead{grid-column:1/-1;text-align:center;font-size:12.5px;font-weight:800;color:#1F8A47;margin-bottom:-2px;}
   .chip.flw img{width:18px;vertical-align:-5px;margin:0 1px;}
   .chip.dora small{font-size:10px;font-weight:600;opacity:.75;}
   .chip.dora img{width:18px;vertical-align:-5px;margin:0 2px;}
@@ -198,6 +199,7 @@
     .btncard .btn small{font-size:10px;}
     .btncard .btn.wide{grid-column:auto;}
     .btncard .ryu{grid-column:auto;font-size:12px;align-self:center;margin:0;}
+    .btncard .freehead{display:none;}
     .overlay{align-items:flex-start;overflow:auto;padding:8px;}
     .win{max-width:620px;}
     .win .top{padding:6px 10px;}
@@ -238,7 +240,7 @@
   <div class="card" id="ticketsCard"><h3>🎉 アガりの記録</h3><div id="tickets"></div><div class="tnote">アガったラビは、がま口に自動で入るよ。</div></div>
   <div class="card" id="statsCard" style="display:none"><h3>🧪 ためしの記録</h3><div id="stats"></div></div>
   <div class="card rules"><h3>🐰 あそびかた</h3>
-    <div>① <b>配牌セット（14枚・100ラビ）</b>を買って、まず1枚捨ててスタート。配牌の14枚でアガっていたら<b>天和</b>、最初のツモでアガったら<b>地和</b>（どちらも役満）！<br>② ツモって、いらない牌を1枚すてる（同じ牌を2回タップ）。手札はいつも13枚。捨てた牌は河にならぶよ。<br>③ <b>1局でツモれるのは18枚まで</b>（6枚セット×3）。アガれなかったら流局。<b>次の局へ（60ラビ・手札そのまま）</b>か、<b>新しく配牌（100ラビ）</b>を選べるよ。役満のイーシャンテンみたいな、いい手のときは「次の局へ」で続けられるよ！<br>④ アガりの形になったら、<b>ツモ（門前清自摸和）で必ず1翻</b>つくよ。「アガる」か「もっと高くねらう」を選べるよ。<br>⑤ テンパイしたら<b>リーチ（無料）</b>できる。リーチは＋1翻、すぐ次のツモでアガると<b>一発</b>で＋1翻！ リーチしてアガったら<b>裏ドラ</b>もめくれるよ（カンした分のカン裏も）。<br>⑥ <b>スペシャルツモ（100ラビ）</b>は、3回に1回くらい<b>オールマイティー牌</b>が出るよ。なんにでも化けて、アガりを助けてくれる（手札に1枚まで）。<br>⑦ <b>カン</b>：同じ牌が4枚そろったら「カン」ボタン。嶺上牌を無料で1枚ツモれるよ（嶺上開花1翻・三槓子2翻・四槓子は役満）。リーチ中は、待ちが変わらないカンなら自動でカンするよ。<br>⑧ <b>ドラ</b>：局ごとにドラ表示牌がランダムで決まるよ。ドラ1枚で＋1翻。カンするとカンドラも増えるよ。手札のドラには★がつくよ。<br>⑨ <b>赤ドラ</b>：五筒と五索は、4枚のうち2枚が<b>赤い五</b>。持っているだけで1枚＋1翻！<br>⑩ <b>花牌（春・夏・秋・冬）</b>：引いたら横に抜いて、<b>無料でもう1枚ツモれる</b>よ（18枚には数えない）。1枚で＋1翻。抜いた花牌は「次の局へ」でも残るよ。<br>⑪ お店に来た日は、<b>1枚無料</b>でツモれる。</div>
+    <div>① <b>配牌セット（14枚・100ラビ）</b>を買って、まず1枚捨ててスタート。配牌の14枚でアガっていたら<b>天和</b>（役満）！<br>② ツモって、いらない牌を1枚すてる（同じ牌を2回タップ）。手札はいつも13枚。捨てた牌は河にならぶよ。<br>③ <b>1局でツモれるのは18枚まで</b>（6枚セット×3）。アガれなかったら流局。<b>次の局へ（60ラビ・手札そのまま）</b>か、<b>新しく配牌（100ラビ）</b>を選べるよ。役満のイーシャンテンみたいな、いい手のときは「次の局へ」で続けられるよ！<br>④ アガりの形になったら、<b>ツモ（門前清自摸和）で必ず1翻</b>つくよ。「アガる」か「もっと高くねらう」を選べるよ。<br>⑤ テンパイしたら<b>リーチ（無料）</b>できる。リーチは＋1翻、すぐ次のツモでアガると<b>一発</b>で＋1翻！ リーチしてアガったら<b>裏ドラ</b>もめくれるよ（カンした分のカン裏も）。<br>⑥ <b>スペシャルツモ（100ラビ）</b>は、3回に1回くらい<b>オールマイティー牌</b>が出るよ。なんにでも化けて、アガりを助けてくれる（手札に1枚まで）。<br>⑦ <b>カン</b>：同じ牌が4枚そろったら「カン」ボタン。嶺上牌を無料で1枚ツモれるよ（嶺上開花1翻・三槓子2翻・四槓子は役満）。リーチ中は、待ちが変わらないカンなら自動でカンするよ。<br>⑧ <b>ドラ</b>：局ごとにドラ表示牌がランダムで決まるよ。ドラ1枚で＋1翻。カンするとカンドラも増えるよ。手札のドラには★がつくよ。<br>⑨ <b>赤ドラ</b>：五筒と五索は、4枚のうち2枚が<b>赤い五</b>。持っているだけで1枚＋1翻！<br>⑩ <b>花牌（春・夏・秋・冬）</b>：引いたら横に抜いて、<b>無料でもう1枚ツモれる</b>よ（18枚には数えない）。1枚で＋1翻。抜いた花牌は「次の局へ」でも残るよ。<br>⑪ <b>来店ボーナス</b>：お店に来た日は、<b>6枚ツモセット</b>か<b>スペシャルツモ</b>のどちらか1つが<b>無料</b>（1日1回・その日の朝5時まで）。6枚セットは、のこりが6枚以上の局で使えるよ。</div>
     <div style="margin-top:6px"><b>🀄 ドラパンルール</b><br>・配牌や次の局のたびに、あなたの風（<b>東場か南場</b>、<b>東家・南家・西家</b>）がランダムで決まるよ。場風・自風の刻子はそれぞれ1翻（ダブ東・ダブ南は2翻）。<br>・<b>北は全員の共通牌</b>：北の刻子はいつでも1翻。<br>・三元牌（白・發・中）の刻子も1翻。<br>・<b>ツモ平和はなし</b>：このゲームはいつもツモなので、平和はつかないよ。<br>・4枚使いの七対子、流し満貫はなし。</div>
     <div style="margin-top:6px"><b>🎉 アガったら、ラビががま口に入るよ</b></div>
     <table>
@@ -755,7 +757,13 @@ function render(){
     if (shownLeft > 0){
       b += '<button class="btn main wide" data-a="setnext">ツモる！<small>6枚セット のこり' + shownLeft + '回</small></button>';
     } else {
-      if (V.freeOK) b += '<button class="btn free wide" data-a="free">🏪 来店ボーナス：無料で1枚ツモ</button>';
+      if (V.freeOK){   // ★来店ボーナス：どちらか1つをえらんで無料
+        b += '<div class="freehead">🏪 来店ボーナス：どちらか1つが無料！</div>';
+        b += MAX_DRAWS - shownDraws >= 6 ? '<button class="btn free" data-a="free6">6枚ツモセット<small>無料（ふだん' + PRICE.set6 + 'ラビ）</small></button>'
+          : '<button class="btn free" disabled>6枚ツモセット<small>のこりが少ないので次の局で</small></button>';
+        b += !hasJoker() ? '<button class="btn free" data-a="freesp">✨スペシャルツモ✨<small>無料（ふだん' + PRICE.special + 'ラビ）</small></button>'
+          : '<button class="btn free" disabled>✨スペシャルツモ✨<small>オールマイティー牌があるときは使えないよ</small></button>';
+      }
       b += '<button class="btn sub" data-a="one">1枚ツモ<small>' + PRICE.one + 'ラビ</small></button>';
       b += '<button class="btn main" data-a="set6" ' + (MAX_DRAWS - shownDraws < 6 ? 'disabled' : '') + '>6枚ツモセット<small>' + (MAX_DRAWS - shownDraws < 6 ? 'のこりが6枚より少ないよ' : PRICE.set6 + 'ラビ') + '</small></button>';
       b += hasJoker() ? '<button class="btn sp wide" disabled>✨ スペシャルツモ ✨<small>オールマイティー牌を持っているときは使えないよ</small></button>'
@@ -830,7 +838,8 @@ function act(a){
     if (holdPending > 0){ wantReveal = true; render(); return; } // 答えが来たらすぐ出す
     doOp('setnext', null, afterDraw); return;
   }
-  if (a === 'one' || a === 'special' || a === 'set6' || a === 'free'){ doOp(a, null, afterDraw); return; }
+  if (a === 'one' || a === 'special' || a === 'set6'){ doOp(a, null, afterDraw); return; }
+  if (a === 'free6' || a === 'freesp'){ doOp('free', {kind: a === 'freesp' ? 'special' : 'set6'}, afterDraw); return; }
   if (a === 'riichi'){
     if (V.gama < PRICE.riichi){ toast('リーチ代のラビが足りないよ🐸'); return; }
     riichiMode = true; sel = null; render(); return;
