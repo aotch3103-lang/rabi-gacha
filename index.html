@@ -8,6 +8,19 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800&display=swap" rel="stylesheet">
 <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<script>
+// ★11/24 うさパイまぁじゃんなど、ほかのページへ行くときは、ガチャの画面を見せない
+//   （LINEはいったんこのページを開いてから、liff.init で行き先のページへ移るため）
+(function () {
+  try {
+    var to = new URLSearchParams(location.search).get('liff.state');
+    if (to && /\.html/.test(to) && !/index\.html/.test(to)) {
+      document.documentElement.style.visibility = 'hidden';
+      setTimeout(function () { document.documentElement.style.visibility = ''; }, 6000); // 6秒たっても移らなかったら、ふつうに見せる
+    }
+  } catch (e) {}
+})();
+</script>
 <style>
 :root{--pink:#EE1E7B;--pink2:#FF5FA0;--pinkbg:#FFF2F8;--pinkline:#F7B6D2;--ink:#3a2030;--sub:#99184F;
   --gold:#F2C230;--goldbg:#FFF8DC;--goldline:#E8B51A;--frog:#7CC36B}
