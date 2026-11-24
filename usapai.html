@@ -788,21 +788,22 @@ function render(){
 
   // ためしの記録（お試しモードだけ）
   if (V.trial && V.stats){
-    var s = V.stats, n = (s.log || []).length;
+    var s = V.stats, n = (s.log || []).filter(function(x){ return x.win !== false; }).length, games = (s.log || []).length;
     document.getElementById('stats').innerHTML =
       '<div class="sgrid"><div><small>使ったラビの合計</small><b>' + s.spent.toLocaleString() + '</b></div><div><small>アガった回数</small><b>' + n + '回</b></div>' +
-      '<div><small>1回のアガりの平均</small><b>' + (n ? Math.round(s.log.reduce(function(a, x){ return a + x.spent; }, 0) / n).toLocaleString() + 'ラビ' : '—') + '</b></div>' +
+      '<div><small>1回アガるのに使ったラビ（平均）</small><b>' + (n ? Math.round((s.spent - (s.since || 0)) / n).toLocaleString() + 'ラビ' : '—') + '</b></div>' +
       '<div><small>今のアガりまでに使った分</small><b>' + s.since.toLocaleString() + 'ラビ</b></div>' +
       '<div><small>もどったラビの合計</small><b>' + (s.back || 0).toLocaleString() + 'ラビ</b></div>' +
       '<div><small>お店の取り分</small><b>' + (s.spent ? Math.round((1 - (s.back || 0) / s.spent) * 100) + '%' : '—') + '</b></div></div>' +
       (s.skipped ? '<div style="font-size:11.5px;color:#888;text-align:center;margin-top:4px">ためしボタンを使ったアガり' + s.skipped + '回は、記録に入れていないよ</div>' : '') +
-      (n ? '<table class="slog"><tr><th>回</th><th>使ったラビ</th><th>翻</th><th>もどったラビ</th></tr>' + s.log.map(function(x, i){ return '<tr><td>' + (i+1) + '</td><td>' + x.spent.toLocaleString() + '</td><td>' + esc(x.han) + '</td><td>' + esc(x.prize) + '</td></tr>'; }).join('') + '</table>' : '') +
+      (games ? '<table class="slog"><tr><th>ゲーム</th><th>使ったラビ</th><th>翻</th><th>もどったラビ</th></tr>' + s.log.map(function(x, i){ return '<tr><td>' + (i+1) + '</td><td>' + x.spent.toLocaleString() + '</td><td>' + esc(x.han) + '</td><td>' + esc(x.prize) + '</td></tr>'; }).join('') + '</table>' : '') +
       '<button class="btn" data-t="tclear" style="margin-top:8px;width:100%;background:#fff;color:#555;border:1px solid #ccc;font-size:12.5px;padding:8px">記録だけ消す</button>';
   }
   // 券
   var tk = V.tickets || [];
   document.getElementById('tickets').innerHTML = tk.length ? tk.map(function(x){
-    return '<div class="ticket"><span class="i">🎉</span><div class="n">' + esc(x.prize) + '<small>' + esc(x.date) + '</small><small>' + esc(x.what) + '</small></div><span class="tg ok">' + (V.trial ? 'お試し' : 'がま口へ') + '</span></div>';
+    var nowin = x.prize === '0ラビ';
+    return '<div class="ticket' + (nowin ? ' used' : '') + '"><span class="i">' + (nowin ? '💨' : '🎉') + '</span><div class="n">' + esc(x.prize) + '<small>' + esc(x.date) + '</small><small>' + esc(x.what) + '</small></div><span class="tg' + (nowin ? '' : ' ok') + '">' + (nowin ? 'アガりなし' : (V.trial ? 'お試し' : 'がま口へ')) + '</span></div>';
   }).join('') : '<div style="text-align:center;color:#9B9B9B;font-size:13px">まだアガりはないよ。アガってラビをゲットしよう！</div>';
   bind();
 }
