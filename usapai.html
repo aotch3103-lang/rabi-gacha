@@ -141,6 +141,7 @@
   .t{position:relative;}
   .t .drm{position:absolute;top:-2px;left:-2px;font-size:clamp(9px,2.4vw,13px);line-height:1;color:#E8A200;text-shadow:0 0 2px #fff,0 0 2px #fff;pointer-events:none;}
   .chip.flw{background:#FFF0F7;color:#C2185B;}
+  .chip.tst{background:#EEF1FF;color:#4B55B8;}
   .rl{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;}
   .tools{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;}
   .tools button{font-family:inherit;font-size:11px;font-weight:700;color:#C2185B;background:#FFF0F7;border:1px solid #F7C6DC;border-radius:999px;padding:2px 8px;cursor:pointer;}
@@ -243,7 +244,7 @@
   <div class="card" id="ticketsCard"><h3>🎉 アガりの記録</h3><div id="tickets"></div><div class="tnote">アガったラビは、がま口に自動で入るよ。</div></div>
   <div class="card" id="statsCard" style="display:none"><h3>🧪 ためしの記録</h3><div id="stats"></div></div>
   <div class="card rules"><h3>🐰 あそびかた</h3>
-    <div>① <b>配牌セット（14枚・100ラビ）</b>を買って、まず1枚捨ててスタート。配牌の14枚でアガっていたら<b>天和</b>（役満）！<br>② ツモって、いらない牌を1枚すてる（同じ牌を2回タップ）。手札はいつも13枚。捨てた牌は河にならぶよ。<br>③ <b>1局でツモれるのは18枚まで</b>（6枚セット×3）。アガれなかったら流局。<b>次の局へ（60ラビ・手札そのまま）</b>か、<b>新しく配牌（60ラビ）</b>を選べるよ。役満のイーシャンテンみたいな、いい手のときは「次の局へ」で続けられるよ！<br>④ アガりの形になったら、<b>ツモ（門前清自摸和）で必ず1翻</b>つくよ。「アガる」か「もっと高くねらう」を選べるよ。<br>⑤ テンパイしたら<b>リーチ（無料）</b>できる。リーチは＋1翻、すぐ次のツモでアガると<b>一発</b>で＋1翻！ リーチしてアガったら<b>裏ドラ</b>もめくれるよ（カンした分のカン裏も）。<br>⑥ <b>スペシャルツモ（100ラビ）</b>は、3回に1回くらい<b>オールマイティー牌</b>が出るよ。なんにでも化けて、アガりを助けてくれる（手札に1枚まで）。<br>⑦ <b>カン</b>：同じ牌が4枚そろったら「カン」ボタン。嶺上牌を無料で1枚ツモれるよ（嶺上開花1翻・三槓子2翻・四槓子は役満）。リーチ中は、待ちが変わらないカンなら自動でカンするよ。<br>⑧ <b>ドラ</b>：局ごとにドラ表示牌がランダムで決まるよ。ドラ1枚で＋1翻。カンするとカンドラも増えるよ。手札のドラには★がつくよ。<br>⑨ <b>赤ドラ</b>：五筒と五索は、4枚のうち2枚が<b>赤い五</b>。持っているだけで1枚＋1翻！<br>⑩ <b>花牌（春・夏・秋・冬）</b>：引いたら横に抜いて、<b>無料でもう1枚ツモれる</b>よ（18枚には数えない）。1枚で＋1翻。抜いた花牌は「次の局へ」でも残るよ。<br>⑪ <b>来店ボーナス</b>：お店に来た日は、<b>6枚ツモセット</b>か<b>スペシャルツモ</b>のどちらか1つが<b>無料</b>（1日1回・その日の朝5時まで）。6枚セットは、のこりが6枚以上の局で使えるよ。<br>⑫ <b>いつでも使えるボタン</b>（河の上にあるよ）：<b>🔄 配牌し直す（60ラビ）</b>は手札をぜんぶ入れかえ。<b>⏭ 次の局へ（60ラビ）</b>は手札そのままで、河とツモの数をリセットして風とドラを決め直すよ。どちらも6枚セットの残りはそのまま使えるよ。<b>🗑 この手を捨てる（無料）</b>は手札をぜんぶ捨てて終わり（6枚セットの残りもなくなるよ）。<br>⑬ <b>途中で閉じても大丈夫</b>：途中でアプリを閉じても、手札も6枚セットの残りもそのまま残るよ。続きは、また開いたときに遊べるよ。</div>
+    <div>① <b>配牌セット（14枚・100ラビ）</b>を買って、まず1枚捨ててスタート。配牌の14枚でアガっていたら<b>天和</b>（役満）！<br>② ツモって、いらない牌を1枚すてる（同じ牌を2回タップ）。手札はいつも13枚。捨てた牌は河にならぶよ。<br>③ <b>1局でツモれるのは18枚まで</b>（6枚セット×3）。アガれなかったら流局。<b>次の局へ（60ラビ・手札そのまま）</b>か、<b>新しく配牌（100ラビ）</b>を選べるよ。役満のイーシャンテンみたいな、いい手のときは「次の局へ」で続けられるよ！<br>④ アガりの形になったら、<b>ツモ（門前清自摸和）で必ず1翻</b>つくよ。「アガる」か「もっと高くねらう」を選べるよ。<br>⑤ テンパイしたら<b>リーチ（無料）</b>できる。リーチは＋1翻、すぐ次のツモでアガると<b>一発</b>で＋1翻！ リーチしてアガったら<b>裏ドラ</b>もめくれるよ（カンした分のカン裏も）。<br>⑥ <b>スペシャルツモ（100ラビ）</b>は、3回に1回くらい<b>オールマイティー牌</b>が出るよ。なんにでも化けて、アガりを助けてくれる（手札に1枚まで）。<br>⑦ <b>カン</b>：同じ牌が4枚そろったら「カン」ボタン。嶺上牌を無料で1枚ツモれるよ（嶺上開花1翻・三槓子2翻・四槓子は役満）。リーチ中は、待ちが変わらないカンなら自動でカンするよ。<br>⑧ <b>ドラ</b>：局ごとにドラ表示牌がランダムで決まるよ。ドラ1枚で＋1翻。カンするとカンドラも増えるよ。手札のドラには★がつくよ。<br>⑨ <b>赤ドラ</b>：五筒と五索は、4枚のうち2枚が<b>赤い五</b>。持っているだけで1枚＋1翻！<br>⑩ <b>花牌（春・夏・秋・冬）</b>：引いたら横に抜いて、<b>無料でもう1枚ツモれる</b>よ（18枚には数えない）。1枚で＋1翻。抜いた花牌は「次の局へ」でも残るよ。<br>⑪ <b>来店ボーナス</b>：お店に来た日は、<b>6枚ツモセット</b>か<b>スペシャルツモ</b>のどちらか1つが<b>無料</b>（1日1回・その日の朝5時まで）。6枚セットは、のこりが6枚以上の局で使えるよ。<br>⑫ <b>いつでも使えるボタン</b>（河の上にあるよ）：<b>🔄 配牌し直す（60ラビ）</b>は、流局する前なら手札をぜんぶ入れかえられるおまけ。<b>⏭ 次の局へ（60ラビ）</b>は手札そのままで、河とツモの数をリセットして風とドラを決め直すよ。どちらも6枚セットの残りはそのまま使えるよ。<b>🗑 この手を捨てる（無料）</b>は手札をぜんぶ捨てて終わり（6枚セットの残りもなくなるよ）。<br>⑬ <b>途中で閉じても大丈夫</b>：途中でアプリを閉じても、手札も6枚セットの残りもそのまま残るよ。続きは、また開いたときに遊べるよ。</div>
     <div style="margin-top:6px"><b>🀄 ドラパンルール</b><br>・配牌や次の局のたびに、あなたの風（<b>東場か南場</b>、<b>東家・南家・西家</b>）がランダムで決まるよ。場風・自風の刻子はそれぞれ1翻（ダブ東・ダブ南は2翻）。<br>・<b>北は全員の共通牌</b>：北の刻子はいつでも1翻。<br>・三元牌（白・發・中）の刻子も1翻。<br>・<b>ツモ平和はなし</b>：このゲームはいつもツモなので、平和はつかないよ。<br>・4枚使いの七対子、流し満貫はなし。</div>
     <div style="margin-top:6px"><b>🎉 アガったら、ラビががま口に入るよ</b></div>
     <table>
@@ -261,9 +262,9 @@
     <div class="btns">
       <button class="btn" data-t="gama">お試しラビに＋1,000</button>
       <button class="btn" data-t="visit" id="tVisit"></button>
-      <button class="btn" data-t="joker">次のツモをオールマイティー牌に</button>
-      <button class="btn" data-t="flower">次のツモで花牌を出す</button>
-      <button class="btn" data-t="red">次のツモを赤五に</button>
+      <button class="btn adm" data-t="joker">次のツモをオールマイティー牌に</button>
+      <button class="btn adm" data-t="flower">次のツモで花牌を出す</button>
+      <button class="btn adm" data-t="red">次のツモを赤五に</button>
       <button class="btn" data-t="reset">手札・券・記録をぜんぶ消す</button>
     </div>
   </div>
@@ -696,6 +697,7 @@ function render(){
   document.getElementById('gamaL').textContent = V.trial ? '🧪 お試しラビ' : '🐸👛 がま口';
   document.getElementById('sub').textContent = V.trial ? '🧪 お試しモード：本物のラビは使わないよ' : 'ドラパンの一人うさ牌麻雀';
   document.getElementById('testbox').style.display = V.trial ? '' : 'none';
+  document.querySelectorAll('#testbox .adm').forEach(function(el){ el.style.display = V.admin ? '' : 'none'; });   // オールマイティー牌・花牌・赤五のボタンはママだけ
   document.getElementById('statsCard').style.display = V.trial ? '' : 'none';
   document.getElementById('tVisit').textContent = V.visited ? '✅ 今日はお店に来た日（押すともどる）' : 'お店に来た日にする';
 
@@ -704,6 +706,7 @@ function render(){
   if (S.hand.length) st.push('<span class="chip wind">あなたの風：' + NAMES[S.ba] + '場・' + NAMES[S.ji] + '家</span>');
   if (S.hand.length && (S.doraInd||[]).length) st.push('<span class="chip wind dora">ドラ★ ' + doras().map(function(t){ return '<img src="' + TILE_IMG[t] + '" alt="' + NAMES[t] + '">' + NAMES[t]; }).join('・') + ' <small>（表示 ' + S.doraInd.map(function(t){ return NAMES[t]; }).join('・') + '）</small></span>');
   if (S.hand.length && (S.fl || []).length) st.push('<span class="chip flw">🌸 花 ' + flowersImg(S.fl) + '</span>');
+  if (V.trial && S.tested) st.push('<span class="chip tst">🧪 ためしボタン使用中（この手は記録に入らないよ）</span>');
   if (S.riichi) st.push('<span class="chip riichi">リーチ中<span class="stick"></span></span>');
   if (S.riichi && S.ippatsu) st.push('<span class="chip ippatsu">一発チャンス</span>');
   var shownDraws = (S.draws||0) - (held ? 1 : 0), shownLeft = S.setLeft + (held ? 1 : 0);
@@ -756,7 +759,7 @@ function render(){
   } else if (S.ryukyoku){
     b += '<div class="ryu">流局…' + (waitsOf(nrmL(S.hand), kans()).length ? '<small>テンパイ！ 次の局でアガろう</small>' : '<small>ノーテン。配牌し直すのもありだよ</small>') + '</div>';
     b += '<button class="btn main" data-a="next">次の局へ<small>' + PRICE.next + 'ラビ・手札そのまま</small></button>';
-    b += '<button class="btn sub" data-a="haipai">新しく配牌<small>' + PRICE.redeal + 'ラビ・手札入れかえ</small></button>';
+    b += '<button class="btn sub" data-a="haipai">新しく配牌<small>' + PRICE.haipai + 'ラビ・手札入れかえ</small></button>';
   } else if (S.tsumo === null){
     if (shownLeft > 0){
       b += '<button class="btn main wide" data-a="setnext">ツモる！<small>6枚セット のこり' + shownLeft + '回</small></button>';
@@ -792,6 +795,7 @@ function render(){
       '<div><small>今のアガりまでに使った分</small><b>' + s.since.toLocaleString() + 'ラビ</b></div>' +
       '<div><small>もどったラビの合計</small><b>' + (s.back || 0).toLocaleString() + 'ラビ</b></div>' +
       '<div><small>お店の取り分</small><b>' + (s.spent ? Math.round((1 - (s.back || 0) / s.spent) * 100) + '%' : '—') + '</b></div></div>' +
+      (s.skipped ? '<div style="font-size:11.5px;color:#888;text-align:center;margin-top:4px">ためしボタンを使ったアガり' + s.skipped + '回は、記録に入れていないよ</div>' : '') +
       (n ? '<table class="slog"><tr><th>回</th><th>使ったラビ</th><th>翻</th><th>もどったラビ</th></tr>' + s.log.map(function(x, i){ return '<tr><td>' + (i+1) + '</td><td>' + x.spent.toLocaleString() + '</td><td>' + esc(x.han) + '</td><td>' + esc(x.prize) + '</td></tr>'; }).join('') + '</table>' : '') +
       '<button class="btn" data-t="tclear" style="margin-top:8px;width:100%;background:#fff;color:#555;border:1px solid #ccc;font-size:12.5px;padding:8px">記録だけ消す</button>';
   }
@@ -1080,9 +1084,9 @@ function showResult(w){
 document.querySelectorAll('#testbox [data-t]').forEach(function(el){ el.onclick = function(){
   var t = el.getAttribute('data-t');
   if (t === 'reset'){ ask('手札・お試しの券・ためしの記録をぜんぶ消して、お試しラビを1,000にもどす？', function(){ riichiMode = false; sel = null; doOp('treset'); }); return; }
-  if (t === 'joker'){ doOp('tjoker', null, function(){ toast('次のツモでオールマイティー牌が出るよ'); }); return; }
-  if (t === 'flower'){ doOp('tflower', null, function(){ toast('次のツモで花牌が出るよ'); }); return; }
-  if (t === 'red'){ doOp('tred', null, function(){ toast('次のツモで赤五が出るよ（出せるときだけ）'); }); return; }
+  if (t === 'joker'){ doOp('tjoker', null, function(){ toast('次のツモでオールマイティー牌が出るよ（この手は記録に入らないよ）'); }); return; }
+  if (t === 'flower'){ doOp('tflower', null, function(){ toast('次のツモで花牌が出るよ（この手は記録に入らないよ）'); }); return; }
+  if (t === 'red'){ doOp('tred', null, function(){ toast('次のツモで赤五が出るよ（この手は記録に入らないよ）'); }); return; }
   doOp(t === 'gama' ? 'tgama' : 'tvisit');
 }; });
 
