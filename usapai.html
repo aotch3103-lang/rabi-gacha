@@ -28,7 +28,7 @@
   .chip.riichi{background:var(--pink);color:#fff;}
   .chip.ippatsu{background:var(--gold);color:#fff;}
   .chip.wind{background:#F3EEF1;color:#595757;}
-  .chip.set{background:#E3F1FB;color:#1E7FC8;}
+  .chip.set{background:#E3F1FB;color:#1E7FC8;} .chip.spent{background:#FFF4D6;color:#8A6A00;} .spentnote{display:block;font-size:12px;font-weight:700;color:#8A6A00;margin-top:4px;}
   .hand{display:flex;flex-wrap:nowrap;justify-content:center;gap:2px;padding:18px 0 2px;}
   .t{position:relative;width:calc((100% - 13*2px - 8px - var(--kg, 0px))/var(--n, 14));max-width:66px;cursor:pointer;transition:transform .12s;flex:0 0 auto;}
   .hand .t.new{margin-left:8px;}
@@ -711,6 +711,7 @@ function render(){
   if (S.riichi && S.ippatsu) st.push('<span class="chip ippatsu">一発チャンス</span>');
   var shownDraws = (S.draws||0) - (held ? 1 : 0), shownLeft = S.setLeft + (held ? 1 : 0);
   if (S.hand.length) st.push('<span class="chip set">ツモ ' + shownDraws + ' / ' + MAX_DRAWS + '</span>');
+  if (S.hand.length && V.spentHand !== undefined) st.push('<span class="chip spent">💰 この手で使ったラビ ' + (V.spentHand || 0).toLocaleString() + '</span>');   // ★11/25
   if (shownLeft > 0) st.push('<span class="chip set">6枚セット のこり' + shownLeft + '回</span>');
   var waits = [];
   if (S.hand.length && S.hand.length === 13 - 3 * kans().length && S.tsumo === null){
@@ -1022,7 +1023,7 @@ function showWin(r, forced){
     dz: '<div class="dzs">' + doraBox('ドラ★', S.doraInd || []) + (S.riichi && !r.yakuman ? '<div class="dz"><div class="a">裏ドラ</div><div class="b"><span class="uback"></span></div><div class="a">アガるとめくれるよ</div></div>' : '') + flowerBox(S.fl) + '</div>' +
       (r.as !== undefined && r.as !== null ? '<div class="asnote">✨オールマイティー牌が「' + NAMES[r.as] + '」に化けたよ</div>' : ''),
     list: yakuListHtml(r.yaku, r.yakuman),
-    prize: '<div class="prize">今アガると<b>' + rabiOf(r) + 'ラビ</b>' + (S.riichi && !r.yakuman ? '<small class="urahint">リーチしてるから、裏ドラがのればもっと上がるかも！</small>' : '') + '</div>',
+    prize: '<div class="prize">今アガると<b>' + rabiOf(r) + 'ラビ</b>' + (V.spentHand !== undefined ? '<small class="spentnote">この手で使ったのは ' + (V.spentHand || 0).toLocaleString() + 'ラビ</small>' : '') + (S.riichi && !r.yakuman ? '<small class="urahint">リーチしてるから、裏ドラがのればもっと上がるかも！</small>' : '') + '</div>',
     btns: '<button class="btn main ' + (forced ? 'wide' : '') + '" id="wA">アガる！</button>' + (forced ? '' : '<button class="btn sub" id="wB">もっと高くねらう</button>')
   });
   document.body.appendChild(ov);
@@ -1051,7 +1052,7 @@ function showResult(w){
     dz: '<div class="dzs">' + doraBox('ドラ★', w.doraInd || []) + flowerBox(w.fl) +
       (waitUra ? '<div class="dz" id="uraBox"><div class="a">裏ドラ</div><div class="b">' + ura.map(function(){ return '<span class="uback"></span>'; }).join('') + '</div><div class="a">めくるよ…</div></div>' : '') + '</div>',
     list: yakuListHtml(w.yaku || [], w.yakuman),
-    prize: '<div class="prize">🎉 <b>' + (w.rabi || 0).toLocaleString() + 'ラビ</b><small class="urahint" style="color:#8A6A00">' + (V.trial ? 'お試しラビ' : 'がま口') + 'に入ったよ！</small></div>',
+    prize: '<div class="prize">🎉 <b>' + (w.rabi || 0).toLocaleString() + 'ラビ</b><small class="urahint" style="color:#8A6A00">' + (V.trial ? 'お試しラビ' : 'がま口') + 'に入ったよ！</small>' + (w.spent !== undefined ? '<small class="spentnote">この手で使ったのは ' + (w.spent || 0).toLocaleString() + 'ラビ</small>' : '') + '</div>',
     btns: '<button class="btn main wide" id="rOK">OK！ また配牌から</button>',
     hideAfter: waitUra
   });
