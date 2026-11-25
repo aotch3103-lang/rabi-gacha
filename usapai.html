@@ -75,7 +75,7 @@
   .btn.main{background:var(--pink);color:#fff;box-shadow:0 5px 14px rgba(230,24,126,.25);}
   .btn.sub{background:var(--pink-s);color:var(--pink-d);}
   .btn.sp{background:linear-gradient(120deg,#FF8AC0,#F6C94A,#7FD69A,#7CC6F2,#C49BFF);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.25);}
-  .btn.free{background:#1F8A47;color:#fff;} .btn.sp.glow{animation:spglow 1.2s ease-in-out infinite;} @keyframes spglow{0%,100%{box-shadow:0 0 0 0 rgba(246,201,74,.0),0 4px 0 rgba(0,0,0,.08)}50%{box-shadow:0 0 18px 6px rgba(246,201,74,.95),0 4px 0 rgba(0,0,0,.08);transform:scale(1.02)}}
+  .btn.free{background:#1F8A47;color:#fff;} .btn.redealbig{background:#fff;color:#E91E7A;border:2px solid #E91E7A;} .redealnote{grid-column:1/-1;font-size:11px;color:#999;text-align:center;margin:-2px 0 2px;} .btn.sp.glow{animation:spglow 1.2s ease-in-out infinite;} @keyframes spglow{0%,100%{box-shadow:0 0 0 0 rgba(246,201,74,.0),0 4px 0 rgba(0,0,0,.08)}50%{box-shadow:0 0 18px 6px rgba(246,201,74,.95),0 4px 0 rgba(0,0,0,.08);transform:scale(1.02)}}
   .btn.riichi{background:#fff;color:var(--pink);border:2.5px solid var(--pink);}
   .btn.wide{grid-column:1/-1;}
   .btn:disabled{opacity:.4;cursor:default;box-shadow:none;}
@@ -755,6 +755,8 @@ function render(){
 
   // ボタン
   var b = '';
+  // ★11/25 配牌した直後（まだツモを買っていないあいだ）だけ、「配牌し直す」を大きく出す
+  var redealBig = (S.hand.length && !S.ryukyoku && !S.riichi && !riichiMode && (S.draws || 0) === 0 && !(S.setLeft > 0)) ? '<button class="btn redealbig wide" data-tool="redeal">🔄 配牌し直す<small>' + PRICE.redeal + 'ラビ・この配牌が気に入らなかったら、入れかえられるよ</small></button>' : '';
   var bonusBtn = V.freeOK ? '<button class="btn free wide" data-a="bonus">🎁 来店ボーナス配牌<small>無料・満貫のタネ入り！（1日1回）</small></button>' : '';   // ★11/25 来店ボーナス：満貫のタネ入り配牌（無料）
   if (!S.hand.length){
     b += bonusBtn;
@@ -774,12 +776,14 @@ function render(){
         : (waitsOf(nrmL(S.hand), kans()).length   // ★11/25 テンパイしたら光る
           ? '<button class="btn sp wide glow" data-a="special">✨ スペシャルツモ ✨<small>' + PRICE.special + 'ラビ・オールマイティー牌が出たら即アガり！</small></button>'
           : '<button class="btn sp wide" data-a="special">✨ スペシャルツモ ✨<small>' + PRICE.special + 'ラビ・3回に1回くらいオールマイティー牌！</small></button>');
+      if (redealBig) b += redealBig + '<div class="redealnote">ツモを買うと、この大きいボタンは消えるよ（河の右上の小さいボタンからは、いつでも配牌し直せるよ）</div>';
     }
   } else if (!S.riichi){
     // アガれる形のときは、いつでも「ツモ！」でアガれるボタンを出す（ねらうを選んだあとでも）
     var rw = V.win;
     if (rw && rw.han >= 1 && !riichiMode) b += '<button class="btn main wide" data-a="agari">ツモ！ アガる<small>' + (rw.yakuman ? '役満' : rw.han + '翻') + '・' + rabiOf(rw) + 'ラビ</small></button>';
     if (!riichiMode) kanCands().forEach(function(t){ b += '<button class="btn riichi wide" data-kan="' + t + '">カン（' + NAMES[t] + '）<small>4枚を横に置いて、嶺上牌を1枚ツモ（無料）</small></button>'; });
+    if (!riichiMode && !(rw && rw.han >= 1)) b += redealBig;   // 配牌の14枚を見たところでも入れかえられる
     if (riichiMode) b += '<button class="btn sub wide" data-a="cancelRiichi">リーチをやめる</button>';
     else if (Object.keys(tenpaiDiscards()).length) b += '<button class="btn riichi wide" data-a="riichi">リーチする<small>' + (PRICE.riichi ? PRICE.riichi + 'ラビ・' : '無料・') + 'アガったら＋1翻＆裏ドラ！</small></button>';
   }
@@ -876,7 +880,7 @@ function tool(k){
       doOp('haipai', null, function(j){ flash(NAMES[S.ba] + '場・' + NAMES[S.ji] + '家'); if (j.win) setTimeout(function(){ showWin(j.win, false); }, 900); });
     });
   } else if (k === 'drop'){
-    ask('この手をぜんぶ捨てて終わるよ（無料）。\n手札・リーチ・抜いた花牌・6枚セットの残りはなくなるよ。\n次は配牌セット（' + PRICE.haipai + 'ラビ）から始めてね。', function(){
+    ask('本当にこの手をやめる？\nこの手で使った' + (V.spentHand || 0).toLocaleString() + 'ラビは、もどらないよ。\n手札・リーチ・抜いた花牌・6枚セットの残りもなくなるよ。\n続けて遊ぶなら「🔄 配牌し直す（' + PRICE.redeal + 'ラビ）」のほうがお得だよ。', function(){
       sel = null; riichiMode = false; held = null; wantReveal = false;
       doOp('drop', null, function(){ toast('この手を捨てたよ。また配牌セットから遊んでね🐰'); });
     });
