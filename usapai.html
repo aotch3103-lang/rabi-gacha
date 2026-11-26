@@ -28,7 +28,7 @@
   .chip.riichi{background:var(--pink);color:#fff;}
   .chip.ippatsu{background:var(--gold);color:#fff;}
   .chip.wind{background:#F3EEF1;color:#595757;}
-  .chip.set{background:#E3F1FB;color:#1E7FC8;} .chip.spent{background:#FFF4D6;color:#8A6A00;} .spentnote{display:block;font-size:12px;font-weight:700;color:#8A6A00;margin-top:4px;}
+  .chip.set{background:#E3F1FB;color:#1E7FC8;} .chip.spent{background:#FFF4D6;color:#8A6A00;} .chip.today{background:#F1F1F1;color:#555;font-weight:700;} .spentnote{display:block;font-size:12px;font-weight:700;color:#8A6A00;margin-top:4px;}
   .hand{display:flex;flex-wrap:nowrap;justify-content:center;gap:2px;padding:18px 0 2px;}
   .t{position:relative;width:calc((100% - 13*2px - 8px - var(--kg, 0px))/var(--n, 14));max-width:66px;cursor:pointer;transition:transform .12s;flex:0 0 auto;}
   .hand .t.new{margin-left:8px;}
@@ -75,7 +75,7 @@
   .btn.main{background:var(--pink);color:#fff;box-shadow:0 5px 14px rgba(230,24,126,.25);}
   .btn.sub{background:var(--pink-s);color:var(--pink-d);}
   .btn.sp{background:linear-gradient(120deg,#FF8AC0,#F6C94A,#7FD69A,#7CC6F2,#C49BFF);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.25);}
-  .btn.free{background:#1F8A47;color:#fff;} .btn.redealbig{background:#fff;color:#E91E7A;border:2px solid #E91E7A;} .redealnote{grid-column:1/-1;font-size:11px;color:#999;text-align:center;margin:-2px 0 2px;} .btn.sp.glow{animation:spglow 1.2s ease-in-out infinite;} @keyframes spglow{0%,100%{box-shadow:0 0 0 0 rgba(246,201,74,.0),0 4px 0 rgba(0,0,0,.08)}50%{box-shadow:0 0 18px 6px rgba(246,201,74,.95),0 4px 0 rgba(0,0,0,.08);transform:scale(1.02)}}
+  .btn.free{background:#1F8A47;color:#fff;} .btn.redealbig{background:#fff;color:#E91E7A;border:2px solid #E91E7A;} .t.xs{transform:translateY(-10px);outline:3px solid #E91E7A;outline-offset:-1px;border-radius:6px;} .t.xs::after{content:'交換';position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:900;color:#E91E7A;white-space:nowrap;} .redealnote{grid-column:1/-1;font-size:11px;color:#999;text-align:center;margin:-2px 0 2px;} .btn.sp.glow{animation:spglow 1.2s ease-in-out infinite;} @keyframes spglow{0%,100%{box-shadow:0 0 0 0 rgba(246,201,74,.0),0 4px 0 rgba(0,0,0,.08)}50%{box-shadow:0 0 18px 6px rgba(246,201,74,.95),0 4px 0 rgba(0,0,0,.08);transform:scale(1.02)}}
   .btn.riichi{background:#fff;color:var(--pink);border:2.5px solid var(--pink);}
   .btn.wide{grid-column:1/-1;}
   .btn:disabled{opacity:.4;cursor:default;box-shadow:none;}
@@ -244,16 +244,16 @@
   <div class="card" id="ticketsCard"><h3>🎉 アガりの記録</h3><div id="tickets"></div><div class="tnote">アガったラビは、がま口に自動で入るよ。</div></div>
   <div class="card" id="statsCard" style="display:none"><h3>🧪 ためしの記録</h3><div id="stats"></div></div>
   <div class="card rules"><h3>🐰 あそびかた</h3>
-    <div>① <b>配牌セット（14枚・60ラビ）</b>を買って、まず1枚捨ててスタート。配牌の14枚でアガっていたら<b>天和</b>（役満）！<br>② ツモって、いらない牌を1枚すてる（同じ牌を2回タップ）。手札はいつも13枚。捨てた牌は河にならぶよ。<br>③ <b>1局でツモれるのは18枚まで</b>（6枚セット×3）。アガれなかったら流局。また<b>配牌セット（60ラビ）</b>から始めてね。<br>④ アガりの形になったら、<b>ツモ（門前清自摸和）で必ず1翻</b>つくよ。「アガる」か「もっと高くねらう」を選べるよ。<br>⑤ テンパイしたら<b>リーチ（無料）</b>できる。リーチは＋1翻、すぐ次のツモでアガると<b>一発</b>で＋1翻！ リーチしてアガったら<b>裏ドラ</b>もめくれるよ（カンした分のカン裏も）。<br>⑥ <b>スペシャルツモ（100ラビ）</b>は、3回に1回くらい<b>オールマイティー牌</b>が出るよ。なんにでも化けて、アガりを助けてくれる（手札に1枚まで）。<br>⑦ <b>カン</b>：同じ牌が4枚そろったら「カン」ボタン。嶺上牌を無料で1枚ツモれるよ（嶺上開花1翻・三槓子2翻・四槓子は役満）。リーチ中は、待ちが変わらないカンなら自動でカンするよ。<br>⑧ <b>ドラ</b>：局ごとにドラ表示牌がランダムで決まるよ。ドラ1枚で＋1翻。カンするとカンドラも増えるよ。手札のドラには★がつくよ。<br>⑨ <b>赤ドラ</b>：五筒と五索は、4枚のうち2枚が<b>赤い五</b>。持っているだけで1枚＋1翻！<br>⑩ <b>花牌（春・夏・秋・冬）</b>：引いたら横に抜いて、<b>無料でもう1枚ツモれる</b>よ（18枚には数えない）。1枚で＋1翻。<br>⑪ <b>🎁 来店ボーナス</b>：お店に来た日は、<b>満貫のタネ入り配牌</b>が1回<b>無料</b>（その日の朝5時まで）。リーチしてツモれば満貫以上になる形が、もうすぐそこまでできているよ。なんの役をねらう配牌かは、ないしょ😁 配牌し直すと、ふつうの配牌になるよ。<br>⑫ <b>いつでも使えるボタン</b>（河の上にあるよ）：<b>🔄 配牌し直す（40ラビ）</b>は、流局する前なら手札をぜんぶ入れかえられるおまけ。6枚セットの残りはそのまま使えるよ。<b>🗑 この手を捨てる（無料）</b>は手札をぜんぶ捨てて終わり（6枚セットの残りもなくなるよ）。<br>⑬ <b>途中で閉じても大丈夫</b>：途中でアプリを閉じても、手札も6枚セットの残りもそのまま残るよ。続きは、また開いたときに遊べるよ。</div>
+    <div>① <b>配牌（14枚・100ラビ）</b>を買ってスタート。<b>ツモは18枚まで全部無料</b>だよ！ 配牌の14枚でアガっていたら<b>天和</b>（役満）！<br>② <b>🔄 3枚交換（無料）</b>：配牌を見たら、いらない牌を<b>3枚まで</b>えらんで山にもどして、同じ枚数もらえるよ（1手に1回・最初に捨てる前だけ）。交換したあとの14枚でアガっていたら<b>交換天和</b>（倍満）！<br>③ ツモって、いらない牌を1枚すてる（同じ牌を2回タップ）。手札はいつも13枚。捨てた牌は河にならぶよ。<br>④ <b>1局でツモれるのは18枚まで</b>。アガれなかったら流局。また<b>配牌（100ラビ）</b>から始めてね。<br>⑤ アガりの形になったら、<b>ツモ（門前清自摸和）で必ず1翻</b>つくよ。「アガる」か「もっと高くねらう」を選べるよ。<br>⑥ テンパイしたら<b>リーチ（無料）</b>できる。リーチは＋1翻、すぐ次のツモでアガると<b>一発</b>で＋1翻！ リーチしてアガったら<b>裏ドラ</b>もめくれるよ（カンした分のカン裏も）。<br>⑦ <b>スペシャルツモ（60ラビ）</b>は、3回に1回くらい<b>オールマイティー牌</b>が出るよ。なんにでも化けて、アガりを助けてくれる（手札に1枚まで）。テンパイしているときはボタンが光るよ✨ スペシャルツモも18枚に数えるよ。<br>⑧ <b>カン</b>：同じ牌が4枚そろったら「カン」ボタン。嶺上牌を無料で1枚ツモれるよ（嶺上開花1翻・三槓子2翻・四槓子は役満）。リーチ中は、待ちが変わらないカンなら自動でカンするよ。<br>⑨ <b>ドラ</b>：局ごとにドラ表示牌がランダムで決まるよ。ドラ1枚で＋1翻。カンするとカンドラも増えるよ。手札のドラには★がつくよ。<br>⑩ <b>赤ドラ</b>：五筒と五索は、4枚のうち2枚が<b>赤い五</b>。持っているだけで1枚＋1翻！<br>⑪ <b>花牌（春・夏・秋・冬）</b>：引いたら横に抜いて、<b>無料でもう1枚ツモれる</b>よ（18枚には数えない）。1枚で＋1翻。<br>⑫ <b>🎁 来店ボーナス</b>：お店に来た日は、<b>満貫のタネ入り配牌</b>が1回<b>無料</b>（その日の朝5時まで）。リーチしてツモれば満貫以上になる形が、もうすぐそこまでできているよ。なんの役をねらう配牌かは、ないしょ😁 この配牌は3枚交換なしだよ。<br>⑬ <b>🗑 この手を捨てる（無料）</b>（河の上にあるよ）：途中でやめたいときに。それまでに使ったラビはもどらないよ。次は配牌から。<br>⑭ <b>途中で閉じても大丈夫</b>：途中でアプリを閉じても、手札はそのまま残るよ。続きは、また開いたときに遊べるよ。</div>
     <div style="margin-top:6px"><b>🀄 ドラパンルール</b><br>・配牌のたびに、あなたの風（<b>東場か南場</b>、<b>東家・南家・西家</b>）がランダムで決まるよ。場風・自風の刻子はそれぞれ1翻（ダブ東・ダブ南は2翻）。<br>・<b>北は全員の共通牌</b>：北の刻子はいつでも1翻。<br>・三元牌（白・發・中）の刻子も1翻。<br>・<b>ツモ平和はなし</b>：このゲームはいつもツモなので、平和はつかないよ。<br>・4枚使いの七対子、流し満貫はなし。<br>・牌は<b>本物の山と同じ</b>：見えている牌（手札・河・ドラ表示牌）が多い牌ほど、出にくくなるよ。</div>
     <div style="margin-top:6px"><b>🎉 アガったら、ラビががま口に入るよ</b></div>
     <table>
-      <tr><td>1〜3翻</td><td>160ラビ</td></tr>
-      <tr><td>満貫（4・5翻）</td><td>280ラビ</td></tr>
-      <tr><td>跳満（6・7翻）</td><td>400ラビ</td></tr>
-      <tr><td>倍満（8〜10翻）</td><td>600ラビ</td></tr>
-      <tr><td>三倍満（11・12翻）</td><td>1,000ラビ</td></tr>
-      <tr><td>役満（13翻以上も）</td><td>2,000ラビ</td></tr>
+      <tr><td>1〜3翻</td><td>90ラビ</td></tr>
+      <tr><td>満貫（4・5翻）</td><td>140ラビ</td></tr>
+      <tr><td>跳満（6・7翻）</td><td>190ラビ</td></tr>
+      <tr><td>倍満（8〜10翻）</td><td>240ラビ</td></tr>
+      <tr><td>三倍満（11・12翻）</td><td>300ラビ</td></tr>
+      <tr><td>役満（13翻以上も）</td><td>500ラビ</td></tr>
     </table>
     <div>手札は月が変わってもそのまま。</div>
   </div>
@@ -486,7 +486,8 @@ document.getElementById('logo').src = "data:image/png;base64,iVBORw0KGgoAAAANSUh
 var LIFF_ID = "2012536500-bI5c4W5M";
 var GAS_URL = "https://script.google.com/macros/s/AKfycbwfvI23G-Dzk0Y0nCzRotjiNzbCngmww7LGvR9TtQOerbmE-ZX4qOY1nwmA83n8SBef/exec";
 
-var PRICE = {haipai: 60, one: 10, set6: 60, special: 100, riichi: 0, redeal: 40};   // ★11/25 G案（スペシャルだけ100）（ほんとうの値段は係から来る）
+var PRICE = {haipai: 100, one: 0, special: 60, riichi: 0};   // ★11/26 1126b：ツモは無料（ほんとうの値段は係から来る）
+var exMode = false, exSel = [];   // ★11/26 3枚交換：えらんでいるところ
 var MAX_DRAWS = 18;
 var V = null;   // ドラパンゲームの係からの、いちばん新しい答え
 var S = null;   // 手札など（V.S）
@@ -496,7 +497,7 @@ var riichiMode = false;  // リーチする牌をえらんでいるところ
 var busy = false;
 var drawing = false;     // ツモのお願いの答えを待っているところ（ツモの場所に裏向きの牌を出す）
 var Q = Promise.resolve(), pending = 0;   // お願いは1つずつ順番に送る
-var DRAW_OPS = {one: 1, special: 1, set6: 1, setnext: 1};
+var DRAW_OPS = {one: 1, special: 1, setnext: 1};
 // ★はやくする工夫
 var held = null;        // ① 6枚セットの途中：係が先に引いておいた牌（タップするまで見せない）
 var holdPending = 0;    //    その答えを待っている数
@@ -703,6 +704,7 @@ function render(){
 
   var st = [];
   st.push('<span class="chip gamachip">' + (V.trial ? '🧪 ' : '👛 ') + (V.gama || 0).toLocaleString() + 'ラビ</span>');
+  if (V.today) st.push('<span class="chip today">📅 今日 使った ' + (V.today.spent || 0).toLocaleString() + '／もどった ' + (V.today.back || 0).toLocaleString() + '</span>');   // ★11/26
   if (S.hand.length) st.push('<span class="chip wind">あなたの風：' + NAMES[S.ba] + '場・' + NAMES[S.ji] + '家</span>');
   if (S.hand.length && (S.doraInd||[]).length) st.push('<span class="chip wind dora">ドラ★ ' + doras().map(function(t){ return '<img src="' + TILE_IMG[t] + '" alt="' + NAMES[t] + '">' + NAMES[t]; }).join('・') + ' <small>（表示 ' + S.doraInd.map(function(t){ return NAMES[t]; }).join('・') + '）</small></span>');
   if (S.hand.length && (S.fl || []).length) st.push('<span class="chip flw">🌸 花 ' + flowersImg(S.fl) + '</span>');
@@ -721,16 +723,18 @@ function render(){
   document.getElementById('status').innerHTML = st.join('');
   document.getElementById('waits').textContent = waits.length ? '待ち：' + (waits.length >= 10 ? 'いろいろ（オールマイティー牌があるよ）' : waits.map(function(t){ return NAMES[t]; }).join('・')) : '';
 
+  var canEx = !!(S.hand.length && S.tenho && S.tsumo !== null && !S.exchanged && !S.bonusHand && !S.riichi && !(S.draws || 0));
+  if (!canEx){ exMode = false; exSel = []; }
   var h = '', canDis = (S.tsumo !== null && !S.riichi), td = riichiMode ? tenpaiDiscards() : null;
   if (!S.hand.length){
     h = '<div style="padding:20px 0;color:#9B9B9B;font-size:13px;text-align:center;width:100%">配牌セットを買ってスタートしよう🐰</div>';
   } else {
     S.hand.forEach(function(t, i){
-      var cls = (sel === 'h' + i ? 'up' : '') + (riichiMode ? (td[i] ? ' ok' : ' dim') : '') + (isDora(t) ? ' dr' : '');
+      var cls = (exMode ? (exSel.indexOf('h' + i) >= 0 ? 'xs' : '') : (sel === 'h' + i ? 'up' : '')) + (riichiMode ? (td[i] ? ' ok' : ' dim') : '') + (isDora(t) ? ' dr' : '');
       h += tileHtml(t, cls, canDis ? 'data-i="h' + i + '"' : '');
     });
     if (S.tsumo !== null){
-      var cls = (S.tenho ? 'new h14' : 'new drop') + (sel === 'tsumo' ? ' up' : '') + (riichiMode ? (td[S.hand.length] ? ' ok' : ' dim') : '') + (isDora(S.tsumo) ? ' dr' : '');
+      var cls = (S.tenho ? 'new h14' : 'new drop') + (exMode ? (exSel.indexOf('tsumo') >= 0 ? ' xs' : '') : (sel === 'tsumo' ? ' up' : '')) + (riichiMode ? (td[S.hand.length] ? ' ok' : ' dim') : '') + (isDora(S.tsumo) ? ' dr' : '');
       h += tileHtml(S.tsumo, cls, canDis ? 'data-i="tsumo"' : '');
     }
     if (S.tsumo === null && !S.ryukyoku){
@@ -743,11 +747,12 @@ function render(){
   document.getElementById('hand').innerHTML = h;
   document.getElementById('hand').style.setProperty('--n', 14 + kans().length);
   var rv = S.river || [];
-  var tools = (S.hand.length && !S.ryukyoku) ? '<span class="tools"><button data-tool="redeal">🔄 配牌し直す ' + PRICE.redeal + '</button>' +
-    '<button data-tool="drop">🗑 この手を捨てる</button></span>' : '';
+  var tools = (S.hand.length && !S.ryukyoku) ? '<span class="tools"><button data-tool="drop">🗑 この手を捨てる</button></span>' : '';
   document.getElementById('riverbox').innerHTML = S.hand.length ? '<div class="rl"><span>河（捨てた牌）</span>' + tools + '<span>のこりツモ ' + Math.max(0, MAX_DRAWS - shownDraws) + '枚</span></div><div class="river">' + riverRows(rv) + '</div>' : '';
   var hint = '';
   if (riichiMode) hint = 'リーチ！ 下に線がある牌から、捨てる牌を選んでね（2回タップ）';
+  else if (exMode) hint = '交換する牌をタップしてえらんでね（3枚まで。もう1回タップでやめる）';
+  else if (canEx) hint = '配牌は14枚。3枚交換をするか、1枚えらんで捨ててスタート（2回タップ）';
   else if (S.tenho) hint = '配牌は14枚。まず1枚えらんで捨ててスタート（2回タップ）';
   else if (S.tsumo !== null && !S.riichi) hint = 'いらない牌を2回タップして捨ててね';
   else if (S.riichi && S.tsumo === null) hint = 'リーチ中は、アガり牌が来るまで自動で捨てるよ';
@@ -755,35 +760,38 @@ function render(){
 
   // ボタン
   var b = '';
-  // ★11/25 配牌した直後（まだツモを買っていないあいだ）だけ、「配牌し直す」を大きく出す
-  var redealBig = (S.hand.length && !S.ryukyoku && !S.riichi && !riichiMode && (S.draws || 0) === 0 && !(S.setLeft > 0)) ? '<button class="btn redealbig wide" data-tool="redeal">🔄 配牌し直す<small>' + PRICE.redeal + 'ラビ・この配牌が気に入らなかったら、入れかえられるよ</small></button>' : '';
+  // ★11/26 3枚交換（配牌したすぐあとに1回だけ・無料）
+  var exBtns = '';
+  if (canEx && !riichiMode){
+    exBtns = exMode
+      ? '<button class="btn redealbig" data-a="xgo"' + (exSel.length ? '' : ' disabled') + '>🔄 ' + exSel.length + '枚を交換する<small>山にもどして、同じ枚数もらうよ</small></button><button class="btn sub" data-a="xcancel">交換をやめる<small>このまま始める</small></button>'
+      : '<button class="btn redealbig wide" data-a="xstart">🔄 3枚交換（無料）<small>いらない牌を3枚まで、山にもどして入れかえられるよ（1回だけ）</small></button>';
+  }
   var bonusBtn = V.freeOK ? '<button class="btn free wide" data-a="bonus">🎁 来店ボーナス配牌<small>無料・満貫のタネ入り！（1日1回）</small></button>' : '';   // ★11/25 来店ボーナス：満貫のタネ入り配牌（無料）
   if (!S.hand.length){
     b += bonusBtn;
-    b += '<button class="btn main wide" data-a="haipai">🀄 配牌セット（14枚）<small>' + PRICE.haipai + 'ラビ</small></button>';
+    b += '<button class="btn main wide" data-a="haipai">🀄 配牌（14枚）<small>' + PRICE.haipai + 'ラビ・ツモは18枚まで無料！</small></button>';
   } else if (S.ryukyoku){
     b += '<div class="ryu">流局…' + (waitsOf(nrmL(S.hand), kans()).length ? '<small>テンパイだったのに、おしい！</small>' : '<small>また配牌からがんばろう🐰</small>') + '</div>';
     b += bonusBtn;
-    b += '<button class="btn main wide" data-a="haipai">🀄 新しく配牌<small>' + PRICE.haipai + 'ラビ</small></button>';
+    b += '<button class="btn main wide" data-a="haipai">🀄 新しく配牌<small>' + PRICE.haipai + 'ラビ・ツモは18枚まで無料！</small></button>';
   } else if (S.tsumo === null){
     if (shownLeft > 0){
       b += '<button class="btn main wide" data-a="setnext">ツモる！<small>6枚セット のこり' + shownLeft + '回</small></button>';
     } else {
       b += bonusBtn;
-      b += '<button class="btn sub" data-a="one">1枚ツモ<small>' + PRICE.one + 'ラビ</small></button>';
-      b += '<button class="btn main" data-a="set6" ' + (MAX_DRAWS - shownDraws < 6 ? 'disabled' : '') + '>6枚ツモセット<small>' + (MAX_DRAWS - shownDraws < 6 ? 'のこりが6枚より少ないよ' : PRICE.set6 + 'ラビ') + '</small></button>';
+      b += '<button class="btn main wide" data-a="one">🀄 ツモる<small>' + (PRICE.one ? PRICE.one + 'ラビ' : '無料') + '・のこり' + Math.max(0, MAX_DRAWS - shownDraws) + '枚</small></button>';   // ★11/26 ツモは無料
       b += hasJoker() ? '<button class="btn sp wide" disabled>✨ スペシャルツモ ✨<small>オールマイティー牌を持っているときは使えないよ</small></button>'
         : (waitsOf(nrmL(S.hand), kans()).length   // ★11/25 テンパイしたら光る
           ? '<button class="btn sp wide glow" data-a="special">✨ スペシャルツモ ✨<small>' + PRICE.special + 'ラビ・オールマイティー牌が出たら即アガり！</small></button>'
           : '<button class="btn sp wide" data-a="special">✨ スペシャルツモ ✨<small>' + PRICE.special + 'ラビ・3回に1回くらいオールマイティー牌！</small></button>');
-      if (redealBig) b += redealBig + '<div class="redealnote">ツモを買うと、この大きいボタンは消えるよ（河の右上の小さいボタンからは、いつでも配牌し直せるよ）</div>';
     }
   } else if (!S.riichi){
     // アガれる形のときは、いつでも「ツモ！」でアガれるボタンを出す（ねらうを選んだあとでも）
     var rw = V.win;
     if (rw && rw.han >= 1 && !riichiMode) b += '<button class="btn main wide" data-a="agari">ツモ！ アガる<small>' + (rw.yakuman ? '役満' : rw.han + '翻') + '・' + rabiOf(rw) + 'ラビ</small></button>';
     if (!riichiMode) kanCands().forEach(function(t){ b += '<button class="btn riichi wide" data-kan="' + t + '">カン（' + NAMES[t] + '）<small>4枚を横に置いて、嶺上牌を1枚ツモ（無料）</small></button>'; });
-    if (!riichiMode && !(rw && rw.han >= 1)) b += redealBig;   // 配牌の14枚を見たところでも入れかえられる
+    b += exBtns;   // ★11/26 3枚交換
     if (riichiMode) b += '<button class="btn sub wide" data-a="cancelRiichi">リーチをやめる</button>';
     else if (Object.keys(tenpaiDiscards()).length) b += '<button class="btn riichi wide" data-a="riichi">リーチする<small>' + (PRICE.riichi ? PRICE.riichi + 'ラビ・' : '無料・') + 'アガったら＋1翻＆裏ドラ！</small></button>';
   }
@@ -858,7 +866,16 @@ function act(a){
     if (holdPending > 0){ wantReveal = true; render(); return; } // 答えが来たらすぐ出す
     doOp('setnext', null, afterDraw); return;
   }
-  if (a === 'one' || a === 'special' || a === 'set6'){ doOp(a, null, afterDraw); return; }
+  if (a === 'one' || a === 'special'){ doOp(a, null, afterDraw); return; }
+  if (a === 'xstart'){ exMode = true; exSel = []; sel = null; render(); return; }
+  if (a === 'xcancel'){ exMode = false; exSel = []; render(); return; }
+  if (a === 'xgo'){
+    if (!exSel.length) return;
+    var ids = exSel.map(function(id){ return id === 'tsumo' ? S.hand.length : +id.slice(1); });
+    var n = ids.length; exMode = false; exSel = []; sel = null;
+    doOp('exchange', {idx: ids.join(',')}, function(){ flash('🔄 ' + n + '枚交換したよ！'); });
+    return;
+  }
   if (a === 'riichi'){
     if (V.gama < PRICE.riichi){ toast('リーチ代のラビが足りないよ🐸'); return; }
     riichiMode = true; sel = null; render(); return;
@@ -880,9 +897,9 @@ function tool(k){
       doOp('haipai', null, function(j){ flash(NAMES[S.ba] + '場・' + NAMES[S.ji] + '家'); if (j.win) setTimeout(function(){ showWin(j.win, false); }, 900); });
     });
   } else if (k === 'drop'){
-    ask('本当にこの手をやめる？\nこの手で使った' + (V.spentHand || 0).toLocaleString() + 'ラビは、もどらないよ。\n手札・リーチ・抜いた花牌・6枚セットの残りもなくなるよ。\n続けて遊ぶなら「🔄 配牌し直す（' + PRICE.redeal + 'ラビ）」のほうがお得だよ。', function(){
+    ask('本当にこの手をやめる？\nこの手で使った' + (V.spentHand || 0).toLocaleString() + 'ラビは、もどらないよ。\n手札・リーチ・抜いた花牌もなくなるよ。\n次に遊ぶときは、配牌（' + PRICE.haipai + 'ラビ）からだよ。', function(){
       sel = null; riichiMode = false; held = null; wantReveal = false;
-      doOp('drop', null, function(){ toast('この手を捨てたよ。また配牌セットから遊んでね🐰'); });
+      doOp('drop', null, function(){ toast('この手を捨てたよ。また配牌から遊んでね🐰'); });
     });
   }
 }
@@ -920,6 +937,13 @@ function riichiAfterDraw(win, wasJoker){
 
 function tapTile(id){
   if (busy) return;
+  if (exMode){   // ★11/26 3枚交換：タップでえらぶ／もう1回でやめる
+    var k = exSel.indexOf(id);
+    if (k >= 0) exSel.splice(k, 1);
+    else if (exSel.length < 3) exSel.push(id);
+    else toast('交換できるのは3枚までだよ');
+    render(); return;
+  }
   if (sel !== id){ sel = id; render(); return; }
   // 2回目のタップ：捨てる（画面はすぐ動かして、あとから係に確かめてもらう）
   var idx = id === 'tsumo' ? S.hand.length : +id.slice(1);
