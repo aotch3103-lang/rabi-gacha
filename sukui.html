@@ -34,19 +34,23 @@ header .s{font-size:12px}
 .hud b{font-size:19px;color:var(--pink);font-weight:800}
 .tbar{height:7px;background:#CDEBE6;border-radius:4px;overflow:hidden;margin-top:2px}.tbar i{display:block;height:7px;background:var(--pink)}
 .pois{font-size:15px;letter-spacing:1px;line-height:27px}
-.pond{position:relative;border-radius:26px;overflow:hidden;border:4px solid #fff;box-shadow:0 0 0 3px #6CC4A8,0 0 0 7px rgba(108,196,168,.25),0 8px 20px rgba(20,110,120,.25);aspect-ratio:4/5;background:#7FD0F2;touch-action:none}
+.pond{width:min(100%, calc((100vh - 170px) * .8));width:min(100%, calc((100dvh - 170px) * .8));margin:0 auto;position:relative;border-radius:26px;overflow:hidden;border:4px solid #fff;box-shadow:0 0 0 3px #6CC4A8,0 0 0 7px rgba(108,196,168,.25),0 8px 20px rgba(20,110,120,.25);aspect-ratio:4/5;background:#7FD0F2;touch-action:none}
 .pond canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.bowl{background:#fff;border:2px solid #9FD8D0;border-radius:14px;padding:6px 8px;margin-top:8px}
-.bowl .row{display:flex;align-items:center;gap:6px;min-height:40px}
-.bowl .l{font-size:11.5px;color:var(--soft);white-space:nowrap;width:3.6em}
+.bowl{background:#fff;border:2px solid #9FD8D0;border-radius:12px;padding:3px 6px;margin-bottom:6px;display:flex;align-items:center;gap:4px 10px;flex-wrap:wrap;min-height:34px}
+.bowl .row{display:flex;align-items:center;gap:4px}
+.bowl .l{font-size:11px;color:var(--soft);white-space:nowrap;font-weight:800}
 .bowl .tl{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-.bowl img{width:22px;display:block}
+.bowl img{width:19px;display:block}
 .bowl .m{display:flex;gap:1px;background:#E9F7F4;border-radius:6px;padding:2px}
 .bowl .m.pon{background:#FFF1B8}.bowl .m.chi{background:#E3F4FF}
 .bowl .h{display:flex;gap:2px}
 .bowl .emp{font-size:12px;color:#8FB8B2}
 .cover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:safe center;text-align:center;padding:14px;background:rgba(233,247,244,.95);z-index:3;overflow:auto}
 .cover[hidden]{display:none}
+.cd{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:4;font-size:40px;font-weight:800;color:#fff;text-shadow:0 3px 0 #11697C,0 0 12px rgba(0,60,80,.5);pointer-events:none;background:rgba(10,60,80,.18)}
+.cd[hidden]{display:none}
+html,body{overscroll-behavior:none}
+body.lock{overflow:hidden;touch-action:none}
 .howd{width:100%;max-width:360px;margin:4px 0}.howd summary{cursor:pointer;font-weight:800;color:var(--pink);font-size:14px;padding:6px;list-style:none}.howd summary::-webkit-details-marker{display:none}
 .cover .big{font-size:26px;font-weight:800;color:var(--pink);line-height:1.2}
 .cover p{margin:6px 0;font-size:14px;line-height:1.6}
@@ -101,8 +105,13 @@ body.busy .busymark{display:block}
     <div><small>ポイ</small><div class="pois" id="pois"></div></div>
     <div><small>すくった</small><b id="got">0</b><small id="quota"></small></div>
   </div>
+  <div class="bowl">
+    <div class="row"><span class="l">面子</span><div class="tl" id="melds"></div></div>
+    <div class="row"><span class="l">手</span><div class="tl" id="hand"></div></div>
+  </div>
   <div class="pond" id="pond">
     <canvas id="cv"></canvas>
+    <div class="cd" id="cd" hidden></div>
     <div class="cover" id="intro">
       <div class="big" style="font-size:22px">コースとステージをえらんでね</div>
       <details class="howd"><summary>❓ 遊びかた（タップでひらく）</summary><div class="how">
@@ -124,10 +133,6 @@ body.busy .busymark{display:block}
       <button class="btn" id="go">はじめる！</button>
     </div>
     <div class="cover" id="result" hidden></div>
-  </div>
-  <div class="bowl">
-    <div class="row"><span class="l">面子</span><div class="tl" id="melds"></div></div>
-    <div class="row"><span class="l">手</span><div class="tl" id="hand"></div></div>
   </div>
   <div class="note">
     <b>コース</b>：初級（すくうだけ・そのまま）／中級（牌と役・小さい子・1.5倍）／上級（いつもカエル・もぐる子・2倍）<br>
@@ -168,10 +173,10 @@ var level = 0, P = LV[0];
 var STG = [
   { name: "ふつうの池",   icon: "🌿", desc: "まずはここから。そーっとすくおう" },
   { name: "カエルおじゃま", icon: "🐸", desc: "カエルがたくさん！ポイに乗られないように" },
-  { name: "金魚まぎれ",   icon: "🐟", desc: "金魚をすくうと、おたまじゃくしが1ぴき へっちゃう" },
+  { name: "金魚まぎれ",   icon: "🐟", desc: "おたまじゃくしにそっくりな金魚がいるよ。しっぽが2つに分かれていたら金魚！すくうと1ぴき へっちゃう" },
   { name: "ながれる池",   icon: "🌊", desc: "水がながれて、ポイも流される（中級：流れが逆になる／上級：うずまきも）" },
-  { name: "夜の池",       icon: "🌙", desc: "まっくら！ポイのまわりだけ明るいよ" },
-  { name: "にょっきり棒", icon: "🪵", desc: "ぷくぷく泡が出たら注意！木の棒がにょっきり出てポイを破るよ" }
+  { name: "夜の池",       icon: "🌙", desc: "まっくら！ポイのまわりだけ明るいよ（上級ほど暗い）" },
+  { name: "にょっきり棒", icon: "🪵", desc: "ぷくぷく泡が出たら注意！木の棒がにょっきり出てポイを破るよ（中級：太い棒・にせの泡・動く棒／上級：いきなり・2本いっぺん）" }
 ];
 var stg = 0, G = {};   // G：いまのステージの仕掛け
 var bowls = [null, { hand: [], melds: [] }, { hand: [], melds: [] }];   // おわんは、コースごとに次の回へ持ちこす
@@ -208,7 +213,17 @@ var ro = new ResizeObserver(size); ro.observe(cv);
 
 var POI_N = 3, TIME = 30;
 var tads = [], frogs = [], fx = [], pads = [], bag = [], sticks = [];
-var STICK_GAP = [[4, 6], [3, 4.5], [2, 3.4]], STICK_AIM = [.35, .5, .7];   // 出てくる間かく（秒）・ポイをねらう確率（初級・中級・上級）
+var STICK_GAP = [[4, 6], [3, 4.5], [2, 3.4]], STICK_AIM = [.35, .5, .7];
+// ★1126g にょっきり棒の仕掛け（初級・中級・上級）：太い棒・にせの泡・泡なしでいきなり・動く棒・2本いっぺん
+var STICK_K = [ { big: .2, fake: 0,   surprise: 0,  move: 0,   pair: 0 },
+                { big: .5, fake: .25, surprise: 0,  move: .25, pair: 0 },
+                { big: .8, fake: .3,  surprise: .2, move: .5,  pair: .4 } ];
+function newStick(x, y){
+  var K = STICK_K[level], BUB = [1.1, .9, .7][level], big = Math.random() < K.big, surprise = Math.random() < K.surprise;
+  return { x: Math.max(20, Math.min(W - 20, x)), y: Math.max(50, Math.min(H - 20, y)), t: 0, hit: false, broke: false,
+    bub: surprise ? .15 : BUB, surprise: surprise, fake: !surprise && Math.random() < K.fake,
+    w: big ? 21 : 13, L: big ? 96 : 64, hr: big ? 1.3 : .95, move: Math.random() < K.move, stay: 1.3 };
+}   // 出てくる間かく（秒）・ポイをねらう確率（初級・中級・上級）
 var poi = { x: 0, y: 0, fx: 0, fy: 0, off: 0, down: false, hp: 100, spd: 0, lx: 0, ly: 0, lt: 0, tearAt: 0 };
 var poiLeft, got, bonus, timeLeft, playing = false, lastT = 0, hand, melds, agari, agariLog = [], want = {};
 
@@ -239,14 +254,15 @@ function newTad(edge){
   return t;
 }
 function newFish(edge){
-  var t = newTad(edge); t.fish = true; t.tile = -1; t.big = false; t.small = false; t.dive = false; t.sp = rnd(26, 36) * P.sp; return t;
+  var t = newTad(edge); t.fish = true; t.tile = -1; t.big = false; t.small = false; t.sp = rnd(24, 34) * P.sp; return t;   // ★1126g 上級は金魚ももぐる
 }
 function newFrog(){ return { x: rnd(.2, .8) * W, y: rnd(.2, .8) * H, tx: 0, ty: 0, sx: 0, sy: 0, hop: 0, wait: rnd(P.wait[0], P.wait[1]), face: 1 }; }
 function reset(){
   P = LV[level]; bag = [];
-  G = { frogs: P.frogs + (stg === 1 ? [2, 2, 2][level] : 0), fish: stg === 2 ? [4, 5, 7][level] : 0, flow: stg === 3 ? [28, 40, 55][level] : 0, night: stg === 4, stick: stg === 5, t: 0,
+  G = { frogs: P.frogs + (stg === 1 ? [2, 2, 2][level] : 0), fish: stg === 2 ? [4, 5, 7][level] : 0, flow: stg === 3 ? [52, 60, 72][level] : 0, night: stg === 4, stick: stg === 5, t: 0,
     fd: 1, dir: 1, nextRev: rnd(6, 9), rev: stg === 3 && level >= 1, whirl: stg === 3 && level >= 2 ? { x: W / 2, y: H * .5, r: Math.min(W, H) * .24, a: 0 } : null,
-    poiPull: [.35, .5, .6][level] };
+    poiPull: [.6, .65, .75][level], leaves: [] };
+  if (G.flow) for (var lv0 = 0; lv0 < 7; lv0++) G.leaves.push({ x: rnd(0, 1) * W, y: rnd(.05, .95) * H, a: rnd(0, 6.28), r: rnd(.7, 1.2) });
   sticks = []; G.nextStick = stg === 5 ? 2 : 999;
   tads = []; for (var i = 0; i < P.pop; i++) tads.push(newTad(false));
   for (var q = 0; q < G.fish; q++) tads.push(newFish(false));
@@ -472,36 +488,56 @@ function step(dt){
       var sx, sy;
       if (poi.down && Math.random() < STICK_AIM[level]){ sx = poi.x + rnd(-25, 25); sy = poi.y + rnd(-25, 25); }
       else { sx = rnd(.12, .88) * W; sy = rnd(.18, .9) * H; }
-      sticks.push({ x: Math.max(20, Math.min(W - 20, sx)), y: Math.max(40, Math.min(H - 20, sy)), t: 0, hit: false });
+      var nk = newStick(sx, sy); if (nk.move) nk.stay = 3.2; sticks.push(nk);
+      if (Math.random() < STICK_K[level].pair){ var a2 = rnd(0, 6.28), k2 = newStick(sx + Math.cos(a2) * 90, sy + Math.sin(a2) * 90); k2.fake = false; k2.surprise = nk.surprise; k2.bub = nk.bub; sticks.push(k2); }
     }
   }
-  var BUB = [1.1, .9, .7][level];   // 泡が出てから、にょっきりまで
   sticks.forEach(function(k){
     k.t += dt;
-    if (k.t >= BUB && !k.hit){
-      k.hit = true; ripple(k.x, k.y); tone(150, .2, "square", .07);
-      tads.forEach(function(t){ if (!t.caught && Math.hypot(t.x - k.x, t.y - k.y) < 80){ t.a = Math.atan2(t.y - k.y, t.x - k.x); t.flee = .8; } });
-      if (poi.down && Math.hypot(poi.x - k.x, poi.y - k.y) < poiR() * .95){ pop(k.x, k.y - 40, "にょっきり！ ポイが破れた", "#8B5A2B"); tear(); }
+    if (k.fake) return;   // にせの泡：棒は出てこない
+    var up = k.t - k.bub;
+    if (up >= 0 && !k.hit){
+      k.hit = true; ripple(k.x, k.y); tone(k.w > 15 ? 110 : 150, .2, "square", .07);
+      if (k.surprise) pop(k.x, k.y - 60, "いきなり！", "#8B5A2B");
+      tads.forEach(function(t){ if (!t.caught && Math.hypot(t.x - k.x, t.y - k.y) < 80 + k.w * 2){ t.a = Math.atan2(t.y - k.y, t.x - k.x); t.flee = .8; } });
+    }
+    // 動く棒：にょっきりしたまま、ポイのほうへゆっくりすべる
+    if (k.hit && k.move && up < k.stay){
+      var tx = poi.down ? poi.x : k.x + Math.cos(G.t + k.x) * 30, ty = poi.down ? poi.y : k.y + Math.sin(G.t + k.y) * 30, dd = Math.hypot(tx - k.x, ty - k.y) || 1;
+      k.x += (tx - k.x) / dd * 38 * dt; k.y += (ty - k.y) / dd * 38 * dt;
+      tads.forEach(function(t){ if (!t.caught && Math.hypot(t.x - k.x, t.y - k.y) < 50){ t.a = Math.atan2(t.y - k.y, t.x - k.x); t.flee = .5; } });
+    }
+    // 棒が出ているあいだに、ポイが棒の上に来たら破れる
+    if (k.hit && !k.broke && up < k.stay + .1 && poi.down && playing && Math.hypot(poi.x - k.x, poi.y - k.y) < poiR() * k.hr * (up < .18 ? 1 : .8)){
+      k.broke = true; pop(k.x, k.y - 40, k.w > 15 ? "ぶっといにょっきり！ ポイが破れた" : "にょっきり！ ポイが破れた", "#8B5A2B"); tear();
     }
   });
-  sticks = sticks.filter(function(k){ return k.t < BUB + 1.6; });
+  sticks = sticks.filter(function(k){ return k.fake ? k.t < k.bub + .15 : k.t < k.bub + k.stay + .3; });
   fx.forEach(function(f){ f.t += dt; });
   fx = fx.filter(function(f){ return f.t < (f.k === "r" ? .8 : 1.2); });
 }
 
 // ----- 描く -----
 function drawFish(t){
+  // ★1126g おたまじゃくしにそっくりな金魚。ちがいは「しっぽが2つに分かれている」「横にひれ」「ほっぺがない」。初級だけ少し赤い
   var x = t.x, y = t.y, k = t.caught ? Math.max(0, 1 - t.caught * 2.2) : 1;
   if (k <= 0) return;
   if (t.caught) y -= t.caught * 120;
-  cx.save(); cx.translate(x, y); cx.rotate(t.a + Math.PI); cx.scale(k, k); cx.globalAlpha = k;
-  var w = Math.sin(t.ph) * 5;
-  cx.beginPath(); cx.moveTo(8, 0); cx.quadraticCurveTo(22, -14 + w, 30, -10 + w); cx.quadraticCurveTo(24, 0 + w, 30, 10 + w); cx.quadraticCurveTo(22, 14 + w, 8, 0);
-  cx.fillStyle = "rgba(255,120,80,.85)"; cx.fill();
-  cx.beginPath(); cx.ellipse(-2, 0, 13, 8.5, 0, 0, 6.29); cx.fillStyle = "#F0502E"; cx.fill(); cx.lineWidth = 1.5; cx.strokeStyle = "#fff"; cx.stroke();
-  cx.beginPath(); cx.moveTo(-2, -8); cx.quadraticCurveTo(4, -13, 8, -7); cx.fillStyle = "#F0502E"; cx.fill();
-  cx.beginPath(); cx.arc(-9, -3, 2.6, 0, 6.29); cx.fillStyle = "#fff"; cx.fill();
-  cx.beginPath(); cx.arc(-9.6, -3, 1.4, 0, 6.29); cx.fillStyle = "#1B2B4A"; cx.fill();
+  var body = ["#6E3436", "#3E3450", "#232C4A"][level], fin = ["#C98A8A", "#9A93B8", "#8FA3C4"][level];
+  cx.save(); cx.translate(x, y); cx.rotate(t.a + Math.PI); cx.globalAlpha = k * (visible(t) ? 1 : .28); cx.scale(k, k);
+  var w = Math.sin(t.ph) * 6;
+  // 2つに分かれたしっぽ
+  cx.beginPath(); cx.moveTo(6, -4); cx.quadraticCurveTo(18, -5 + w, 30, -9 + w * 1.5); cx.quadraticCurveTo(22, w, 30, 9 + w * 1.5); cx.quadraticCurveTo(18, 5 + w, 6, 4); cx.closePath(); cx.fillStyle = fin; cx.fill();
+  cx.beginPath(); cx.moveTo(6, -2.5); cx.quadraticCurveTo(17, -3 + w, 26, -6 + w * 1.4); cx.lineTo(19, w); cx.lineTo(26, 6 + w * 1.4); cx.quadraticCurveTo(17, 3 + w, 6, 2.5); cx.fillStyle = body; cx.fill();
+  // 横のひれ
+  var fw = Math.sin(t.ph * .8) * 2;
+  cx.beginPath(); cx.ellipse(2, -10, 4, 2.2, -.6 + fw * .05, 0, 6.29); cx.ellipse(2, 10, 4, 2.2, .6 - fw * .05, 0, 6.29); cx.fillStyle = fin; cx.fill();
+  // からだと目（ほっぺはなし）
+  cx.beginPath(); cx.arc(-3, 0, 11, 0, 6.29); cx.fillStyle = body; cx.fill(); cx.lineWidth = 2; cx.strokeStyle = "#fff"; cx.stroke();
+  [[-8, -5], [-8, 5]].forEach(function(e){
+    cx.beginPath(); cx.arc(e[0], e[1], 3.4, 0, 6.29); cx.fillStyle = "#fff"; cx.fill();
+    cx.beginPath(); cx.arc(e[0] - .8, e[1], 2, 0, 6.29); cx.fillStyle = "#1B2B4A"; cx.fill();
+  });
   cx.restore();
 }
 function drawTad(t, now){
@@ -555,11 +591,20 @@ function drawPond(now){
     cx.beginPath(); for (var xx = 0; xx <= W; xx += 12) cx.lineTo(xx, yy + Math.sin(xx / 40 + now / 700 + i) * 3); cx.stroke();
   }
   if (G.flow){
-    cx.strokeStyle = "rgba(255,255,255,.35)"; cx.lineWidth = 2; cx.lineCap = "round";
-    if (!G.sx) G.sx = []; 
-    for (var j = 0; j < 14; j++){ var fy = (j + .5) / 14 * H, v = flowAt(fy), len = 10 + Math.abs(v) * .6;
-      G.sx[j] = ((G.sx[j] === undefined ? j * 97 : G.sx[j]) + v * 1.6 / 60 + (W + 60)) % (W + 60);
-      var fx0 = G.sx[j] - 30; cx.beginPath(); cx.moveTo(fx0, fy); cx.lineTo(fx0 + (v >= 0 ? len : -len), fy); cx.stroke(); }
+    // ★1126g 流れが目で見えるように：太いすじ＋矢じるし、流される葉っぱ
+    cx.lineCap = "round"; cx.lineJoin = "round";
+    if (!G.sx) G.sx = [];
+    for (var j = 0; j < 18; j++){ var fy = (j + .5) / 18 * H, v = flowAt(fy), len = 16 + Math.abs(v) * .7, dir = v >= 0 ? 1 : -1;
+      G.sx[j] = ((G.sx[j] === undefined ? (j * 137) % (W + 80) : G.sx[j]) + v * 2.2 / 60 + (W + 80)) % (W + 80);
+      var fx0 = G.sx[j] - 40, al = Math.min(.65, .25 + Math.abs(v) / 120);
+      cx.strokeStyle = "rgba(255,255,255," + al + ")"; cx.lineWidth = 3;
+      cx.beginPath(); cx.moveTo(fx0, fy); cx.lineTo(fx0 + len * dir, fy); cx.stroke();
+      cx.beginPath(); cx.moveTo(fx0 + (len - 6) * dir, fy - 5); cx.lineTo(fx0 + len * dir, fy); cx.lineTo(fx0 + (len - 6) * dir, fy + 5); cx.stroke(); }
+    G.leaves.forEach(function(lf){
+      lf.x += flowAt(lf.y) * 1.25 / 60; lf.a += .02 * lf.r; if (lf.x > W + 20) lf.x = -20; if (lf.x < -20) lf.x = W + 20;
+      cx.save(); cx.translate(lf.x, lf.y); cx.rotate(lf.a); cx.scale(lf.r, lf.r);
+      cx.beginPath(); cx.ellipse(0, 0, 9, 4.5, 0, 0, 6.29); cx.fillStyle = "rgba(240,160,60,.85)"; cx.fill();
+      cx.beginPath(); cx.moveTo(-9, 0); cx.lineTo(9, 0); cx.strokeStyle = "rgba(140,80,20,.7)"; cx.lineWidth = 1; cx.stroke(); cx.restore(); });
     if (G.whirl){ var wh = G.whirl; cx.save(); cx.translate(wh.x, wh.y);
       for (var q = 0; q < 3; q++){ cx.beginPath(); for (var u = 0; u < 60; u++){ var rr = 4 + u / 60 * wh.r, aa = -wh.a + q * 2.09 + u * .12; cx.lineTo(Math.cos(aa) * rr, Math.sin(aa) * rr); }
         cx.strokeStyle = "rgba(255,255,255," + (.45 - q * .08) + ")"; cx.lineWidth = 2.2; cx.stroke(); }
@@ -568,37 +613,48 @@ function drawPond(now){
   pads.forEach(function(p){ cx.save(); cx.translate(p.x, p.y); cx.rotate(p.a); cx.beginPath(); cx.moveTo(0, 0); cx.arc(0, 0, p.r, .35, 6.0); cx.closePath(); cx.fillStyle = "rgba(91,170,80,.55)"; cx.fill(); cx.restore(); });
 }
 function drawSticks(now){
-  var BUB = [1.1, .9, .7][level];
   sticks.forEach(function(k){
+    var BUB = k.bub;
     if (k.t < BUB){
+      if (k.surprise) return;   // 泡なし
       // ぷくぷく（泡）
       for (var i = 0; i < 5; i++){ var a = i * 1.3 + now / 300, r = 6 + ((k.t * 3 + i * .37) % 1) * 18;
         cx.beginPath(); cx.arc(k.x + Math.cos(a) * r * .6, k.y + Math.sin(a) * r * .4, 2.5 + i % 2, 0, 6.29); cx.strokeStyle = "rgba(255,255,255,.85)"; cx.lineWidth = 1.5; cx.stroke(); }
       cx.beginPath(); cx.ellipse(k.x, k.y, 14 + k.t * 10, 6 + k.t * 4, 0, 0, 6.29); cx.strokeStyle = "rgba(139,90,43," + (.25 + k.t / BUB * .4) + ")"; cx.lineWidth = 2; cx.stroke();
       return;
     }
-    var u = k.t - BUB, h = u < .18 ? u / .18 : u > 1.3 ? Math.max(0, 1 - (u - 1.3) / .3) : 1;
+    if (k.fake) return;
+    var u = k.t - BUB, h = u < .18 ? u / .18 : u > k.stay ? Math.max(0, 1 - (u - k.stay) / .3) : 1;
     h = h * (1 + (u < .35 ? Math.sin(u / .35 * Math.PI) * .12 : 0));   // ぴょこっと伸びる
-    var L = 64 * h, w = 13;
+    var L = k.L * h, w = k.w;
     cx.save();
-    cx.beginPath(); cx.ellipse(k.x, k.y, 18, 7, 0, 0, 6.29); cx.fillStyle = "rgba(0,50,90,.25)"; cx.fill();
+    cx.beginPath(); cx.ellipse(k.x, k.y, 10 + w, 7, 0, 0, 6.29); cx.fillStyle = "rgba(0,50,90,.25)"; cx.fill();
+    if (k.move && u < k.stay){ cx.beginPath(); cx.ellipse(k.x, k.y, 14 + w + Math.sin(now / 120) * 3, 8, 0, 0, 6.29); cx.strokeStyle = "rgba(255,255,255,.6)"; cx.lineWidth = 2; cx.stroke(); }
     var g = cx.createLinearGradient(k.x - w / 2, 0, k.x + w / 2, 0); g.addColorStop(0, "#7A4A22"); g.addColorStop(.5, "#B57A43"); g.addColorStop(1, "#6B3E1C");
     cx.fillStyle = g;
     cx.beginPath(); cx.moveTo(k.x - w / 2, k.y); cx.lineTo(k.x - w / 2, k.y - L + w / 2); cx.arc(k.x, k.y - L + w / 2, w / 2, Math.PI, 0); cx.lineTo(k.x + w / 2, k.y); cx.closePath(); cx.fill();
     cx.strokeStyle = "rgba(60,30,10,.45)"; cx.lineWidth = 1;
     for (var j = 1; j < 4; j++){ var yy = k.y - L * j / 4; if (L > 12){ cx.beginPath(); cx.moveTo(k.x - w / 2 + 2, yy); cx.quadraticCurveTo(k.x, yy - 3, k.x + w / 2 - 2, yy); cx.stroke(); } }
-    cx.beginPath(); cx.ellipse(k.x, k.y, 16, 6, 0, 0, Math.PI); cx.strokeStyle = "rgba(255,255,255,.8)"; cx.lineWidth = 2; cx.stroke();
+    cx.beginPath(); cx.ellipse(k.x, k.y, 8 + w * .7, 6, 0, 0, Math.PI); cx.strokeStyle = "rgba(255,255,255,.8)"; cx.lineWidth = 2; cx.stroke();
     cx.restore();
   });
 }
 var light = { x: 0, y: 0 };
 function drawNight(){
+  // ★1126g コースが上がるほど暗い：明るいところの大きさ・まわりの暗さ・ポイを出したときの明かり
+  var NL = [{ r: 2.6, idle: 1.6, dark: .80, fl: 0 }, { r: 2.0, idle: .9, dark: .90, fl: .04 }, { r: 1.55, idle: 0, dark: .97, fl: .12 }][level];
   if (poi.down){ light.x = poi.x; light.y = poi.y; } else if (!light.x){ light.x = W / 2; light.y = H / 2; }
-  var R = poiR() * 2.1, g = cx.createRadialGradient(light.x, light.y, R * .35, light.x, light.y, R);
-  g.addColorStop(0, "rgba(8,16,44,0)"); g.addColorStop(1, "rgba(8,16,44,.9)");
-  cx.fillStyle = g; cx.fillRect(0, 0, W, H);
-  // ほたる
-  for (var i = 0; i < 6; i++){ var fx1 = (Math.sin(G.t * .3 + i * 2.1) * .45 + .5) * W, fy1 = (Math.cos(G.t * .23 + i * 1.3) * .45 + .5) * H;
+  var want = poiR() * (poi.down ? NL.r : NL.idle);
+  G.lr = G.lr === undefined ? want : G.lr + (want - G.lr) * .18;
+  var R = G.lr * (1 + NL.fl * Math.sin(G.t * 23) * Math.sin(G.t * 7.3));   // 上級は明かりがちらちら
+  if (R < 4){ cx.fillStyle = "rgba(6,12,34," + NL.dark + ")"; cx.fillRect(0, 0, W, H); }
+  else {
+    var g = cx.createRadialGradient(light.x, light.y, R * .35, light.x, light.y, R);
+    g.addColorStop(0, "rgba(6,12,34,0)"); g.addColorStop(1, "rgba(6,12,34," + NL.dark + ")");
+    cx.fillStyle = g; cx.fillRect(0, 0, W, H);
+  }
+  // ほたる（上級ほど少ない）
+  for (var i = 0; i < [7, 5, 3][level]; i++){ var fx1 = (Math.sin(G.t * .3 + i * 2.1) * .45 + .5) * W, fy1 = (Math.cos(G.t * .23 + i * 1.3) * .45 + .5) * H;
     cx.beginPath(); cx.arc(fx1, fy1, 2.2, 0, 6.29); cx.fillStyle = "rgba(220,255,140," + (.5 + .4 * Math.sin(G.t * 3 + i)) + ")"; cx.fill(); }
 }
 function drawPoi(now){
@@ -653,8 +709,8 @@ function hud(){
   document.getElementById("pois").innerHTML = ph;
   document.getElementById("got").textContent = got + bonus;
   document.getElementById("quota").textContent = P.mult > 1 ? "池へ ×" + P.mult : "";
-  document.getElementById("melds").innerHTML = melds.length ? melds.map(function(m){ return '<span class="m ' + m.k + '">' + m.t.map(imgTag).join("") + '</span>'; }).join("") : '<span class="emp">ポン・チーができるとここに入るよ</span>';
-  document.getElementById("hand").innerHTML = hand.length ? '<span class="h">' + hand.map(imgTag).join("") + '</span>' : '<span class="emp">すくった牌が入るよ（8枚まで・次の回へ持ちこせるよ）</span>';
+  document.getElementById("melds").innerHTML = melds.length ? melds.map(function(m){ return '<span class="m ' + m.k + '">' + m.t.map(imgTag).join("") + '</span>'; }).join("") : '<span class="emp">ポン・チーはここ</span>';
+  document.getElementById("hand").innerHTML = hand.length ? '<span class="h">' + hand.map(imgTag).join("") + '</span>' : '<span class="emp">すくった牌（8枚まで・持ちこし）</span>';
   hudTime();
 }
 function hudTime(){
@@ -674,15 +730,27 @@ function lvButtons(){
 document.getElementById("stgs").addEventListener("click", function(e){ var b = e.target.closest("button"); if (!b) return; if (b.dataset.lock){ toast("ひとつ前のステージで、1回に" + ((V && V.clear) || 20) + "ぴき以上すくうと、あくよ🐸"); return; } stg = +b.dataset.s; remember(); lvButtons(); reset(); });
 document.getElementById("lvls").addEventListener("click", function(e){ var b = e.target.closest("button"); if (!b) return; level = +b.dataset.l; remember(); lvButtons(); reset(); });
 var roundId = "", starting = false;
+// ★1126g 係の返事を待たずに始める（start はうしろで送る。end は start の返事を待ってから送る）
+var startP = null, counting = false;
 function begin(){
   if (starting) return; starting = true;
   tone(660, .1, "triangle", .1);   // 音は、タップしたときにならす（スマホの決まり）
-  api("start", { c: level, s: stg }).then(function(j){
-    starting = false; apply(j); roundId = j.did && j.did.id;
-    document.getElementById("intro").hidden = true; document.getElementById("result").hidden = true;
-    reset(); playing = true;
-  }).catch(function(e){ starting = false; toast(e.message); });
+  roundId = "";
+  startP = api("start", { c: level, s: stg }).then(function(j){ apply(j); roundId = j.did && j.did.id; return true; }, function(e){ toast(e.message); return false; });
+  document.getElementById("intro").hidden = true; document.getElementById("result").hidden = true;
+  reset(); lockScroll(true);
+  counting = true; var cd = document.getElementById("cd");
+  cd.textContent = "よーい…"; cd.hidden = false;
+  setTimeout(function(){ cd.textContent = "スタート！"; tone(880, .15, "triangle", .14); }, 700);
+  setTimeout(function(){ cd.hidden = true; counting = false; starting = false; playing = true;
+    if (G.flow) pop(W / 2, H * .25, G.fd > 0 ? "🌊 右へ ながれているよ！" : "🌊 左へ ながれているよ！", "#fff"); }, 1150);
 }
+// ★1126g 遊んでいるあいだは、ページが動かないように固定する
+function lockScroll(on){
+  document.body.classList.toggle("lock", !!on);
+  if (on){ var hd = document.querySelector(".hud"); if (hd) hd.scrollIntoView({ block: "start", behavior: "smooth" }); }
+}
+document.addEventListener("touchmove", function(e){ if (playing || counting) e.preventDefault(); }, { passive: false });
 var lastRes = null;
 function finish(){
   if (!playing) return;
@@ -691,7 +759,11 @@ function finish(){
   lastRes = { got: got, meld: bonus - mb, ag: agariLog.slice(), mult: P.mult, total: Math.round((got + bonus) * P.mult), srv: null };
   var box = document.getElementById("result");
   box.innerHTML = '<div class="big">おしまい！</div><p>🌿 池に入れているよ…</p>'; box.hidden = false;
-  var send = function(){ return api("end", { id: roundId, got: got, bonus: bonus, bowl: P.tiles ? { hand: hand.slice(), melds: melds.map(function(m){ return { k: m.k, t: m.t.slice() }; }) } : null }); };
+  lockScroll(false);
+  var bw = P.tiles ? { hand: hand.slice(), melds: melds.map(function(m){ return { k: m.k, t: m.t.slice() }; }) } : null, g0 = got, b0 = bonus;
+  var send = function(){ return (startP || Promise.resolve(false)).then(function(ok){
+    if (!ok || !roundId) throw new Error("はじめの通信がうまくいかなかったので、この回は池に入らなかったよ💦");
+    return api("end", { id: roundId, got: g0, bonus: b0, bowl: bw }); }); };
   send().then(function(j){ apply(j); lastRes.srv = j.did || {}; showResult(); })
     .catch(function(e){ box.innerHTML = '<div class="big">おしまい！</div><p>' + esc(e.message) + '</p><button class="btn" id="retryEnd">もう一度送る</button><button class="btn" id="tolv" style="background:#fff;color:#1A8BA3;box-shadow:0 0 0 2px #1A8BA3;font-size:14px;padding:8px 18px">コース・ステージをえらぶ</button>';
       document.getElementById("retryEnd").addEventListener("click", finishSend);
