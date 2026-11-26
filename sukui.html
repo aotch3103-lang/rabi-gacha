@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>ポイ活おたま</title>
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800&display=swap" rel="stylesheet">
 <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
@@ -16,7 +16,7 @@
 :root{color-scheme:light;--pink:#1A8BA3;--ink:#1D3A40;--soft:#4B6B6F}
 *{box-sizing:border-box;min-width:0}
 body{margin:0;background:#E9F7F4 radial-gradient(ellipse 140px 18px at 30% 40%,rgba(255,255,255,.55),transparent 70%) 0 0/280px 120px;color:var(--ink);font:15px/1.55 "M PLUS Rounded 1c","Hiragino Maru Gothic ProN",sans-serif;font-weight:500;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;overflow-x:clip}
-.wrap{max-width:460px;margin:0 auto;padding:0 10px 28px}
+.wrap{max-width:520px;margin:0 auto;padding:0 6px 28px}
 header{position:relative;overflow:hidden;background:linear-gradient(170deg,#1C7F9C 0%,#2AA5B5 55%,#4CC3A4 100%);color:#fff;text-align:center;padding:12px 10px 22px;margin:0 -10px 10px}
 header .wave{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:14px;display:block}
 header h1{display:flex;align-items:center;justify-content:center;gap:8px;text-shadow:0 2px 0 rgba(0,60,70,.25);font-size:24px!important}
@@ -34,7 +34,7 @@ header .s{font-size:12px}
 .hud b{font-size:19px;color:var(--pink);font-weight:800}
 .tbar{height:7px;background:#CDEBE6;border-radius:4px;overflow:hidden;margin-top:2px}.tbar i{display:block;height:7px;background:var(--pink)}
 .pois{font-size:15px;letter-spacing:1px;line-height:27px}
-.pond{width:min(100%, calc((100vh - 170px) * .8));width:min(100%, calc((100dvh - 170px) * .8));margin:0 auto;position:relative;border-radius:26px;overflow:hidden;border:4px solid #fff;box-shadow:0 0 0 3px #6CC4A8,0 0 0 7px rgba(108,196,168,.25),0 8px 20px rgba(20,110,120,.25);aspect-ratio:4/5;background:#7FD0F2;touch-action:none}
+.pond{width:100%;height:calc(100vh - 120px);min-height:320px;margin:0;position:relative;border-radius:26px;overflow:hidden;border:4px solid #fff;box-shadow:0 0 0 3px #6CC4A8,0 0 0 7px rgba(108,196,168,.25),0 8px 20px rgba(20,110,120,.25);background:#7FD0F2;touch-action:none}
 .pond canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .bowl{background:#fff;border:2px solid #9FD8D0;border-radius:12px;padding:3px 6px;margin-bottom:6px;display:flex;align-items:center;gap:4px 10px;flex-wrap:wrap;min-height:34px}
 .bowl .row{display:flex;align-items:center;gap:4px}
@@ -47,10 +47,20 @@ header .s{font-size:12px}
 .bowl .emp{font-size:12px;color:#8FB8B2}
 .cover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:safe center;text-align:center;padding:14px;background:rgba(233,247,244,.95);z-index:3;overflow:auto}
 .cover[hidden]{display:none}
+.btn2r{border:2px solid var(--pink);background:#fff;color:var(--pink);border-radius:999px;padding:7px 16px;font:inherit;font-weight:800;font-size:14px;cursor:pointer;min-height:40px;margin:4px 0}
+.rules{position:fixed;inset:0;z-index:100;background:#E9F7F4;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.rules[hidden]{display:none}
+.rules .rbar{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;background:linear-gradient(170deg,#1C7F9C,#2AA5B5 60%,#4CC3A4);color:#fff;font-size:16px;z-index:1}
+.rules .rclose{border:2px solid #fff;background:transparent;color:#fff;border-radius:999px;padding:5px 14px;font:inherit;font-weight:800;font-size:14px;min-height:38px;cursor:pointer}
+.rules .rin{max-width:460px;margin:0 auto;padding:6px 12px 40px}
+.rules h2{font-size:17px;color:#11697C;margin:14px 0 6px}
+.rules .rcard{background:#fff;border:2px solid #9FD8D0;border-radius:14px;padding:10px 12px;font-size:14px;line-height:1.85}
 .cd{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:4;font-size:40px;font-weight:800;color:#fff;text-shadow:0 3px 0 #11697C,0 0 12px rgba(0,60,80,.5);pointer-events:none;background:rgba(10,60,80,.18)}
 .cd[hidden]{display:none}
 html,body{overscroll-behavior:none}
 body.lock{overflow:hidden;touch-action:none}
+body{touch-action:manipulation}
+.pond,.pond canvas{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
 .howd{width:100%;max-width:360px;margin:4px 0}.howd summary{cursor:pointer;font-weight:800;color:var(--pink);font-size:14px;padding:6px;list-style:none}.howd summary::-webkit-details-marker{display:none}
 .cover .big{font-size:26px;font-weight:800;color:var(--pink);line-height:1.2}
 .cover p{margin:6px 0;font-size:14px;line-height:1.6}
@@ -92,6 +102,33 @@ body.busy .busymark{display:block}
 </head>
 <body>
 <div class="busymark">🐰 通信中…</div>
+<div class="rules" id="rules" hidden>
+  <div class="rbar"><b>📖 ポイ活おたま あそびかた</b><button class="rclose" id="closeRules" type="button">✕ とじる</button></div>
+  <div class="rin">
+    <h2>🐟 あそびかた</h2>
+    <div class="rcard">👆 指を池に入れて、<b>そーっと</b>近づいて、<b>はなすとすくえる</b><br>
+        🌱 <b>初級</b>はすくうだけ。<b>中級・上級</b>は🐸と🀄が出てきて、池に入る数が<b>1.5倍・2倍</b><br>
+        💨 速く動かすと、にげる＆ポイが破れやすい。入れっぱなしでも弱る<br>
+        🐸 <b>カエル</b>がじゃまするよ！ポイに乗られたり、すくうと破れる<br>
+        🗺️ どのコースにも<b>6つのステージ</b>。🐸カエルおじゃま・🐟金魚まぎれ・🌊ながれる池・🌙夜の池・🪵にょっきり棒<br>
+        🀄 背中の牌は<b>おわん</b>へ。同じ3枚で<b>ポン</b>、つづき3枚で<b>チー</b><br>
+        🎉 面子4つ＋同じ牌2枚で<b>アガリ！</b> 役がつくとボーナス<br>
+        🥣 おわんの牌は<b>次の回に持ちこせる</b>よ。何回か遊んでアガろう<br>
+        ✨ 光っている子は、いまの手に<b>ほしい牌</b>だよ<br>
+        🧡 足のある子は速いけど2ひき分<br>
+        📱 ポイは<b>指の少し上</b>に出るよ。池の下のほうの子は、指を池の外（下）までずらすとすくえる</div>
+    <h2>🗺️ コースとステージ</h2>
+    <div class="rcard"><b>コース</b>：初級（すくうだけ・そのまま）／中級（牌と役・小さい子・1.5倍）／上級（いつもカエル・もぐる子・2倍）<br>
+    <b>ステージ</b>：①ふつうの池 ②カエルおじゃま ③金魚まぎれ（すくうと−1）④ながれる池（ポイも流される。中級：流れが逆に／上級：うずまき）⑤夜の池（ポイのまわりだけ明るい）⑥にょっきり棒（泡が出たら、木の棒が出てポイを破る）<br>
+    <b>役のボーナス（ひき）</b>：ポン＋3／チー＋2／アガリ＋10／役牌（白發中）＋3／三暗刻・一気通貫＋8／混一色＋6／清一色＋12／小三元＋8／対々和＋8／四暗刻・大三元（役満）＋30<br>
+    ・池に入る数 ＝（すくった数＋ボーナス）× コース（初級1・中級1.5・上級2）× お店に来た日2。池が100ぴきになるたびに、カエルになってがま口にラビが入るよ<br>
+    ・ステージは、1回で<b>20ぴき</b>以上すくうと、次のステージがあくよ（コースごと）<br>
+    ・ポイは指の少し上に出るよ。池の下のほうの子は、指を池の外（下）までずらすとすくえるよ<br>
+    <span style="font-size:11.5px">⚠️ ラビについて：ラビは、ドラパンの中だけで使えるアミューズメントコインです。換金・転売はできません。ゲームのしくみを不正に使ったときは、ラビの取り消しや利用停止をすることがあります。</span></div>
+    <button class="btn" id="closeRules2" type="button" style="display:block;margin:14px auto 0">ゲームにもどる</button>
+  </div>
+</div>
+
 <div class="wrap">
   <header><div class="pads"><i></i><i></i><i></i></div><div class="s">ドラパンのおたまじゃくしすくい</div><h1><svg class="tadsvg" viewBox="0 0 48 34" aria-hidden="true"><path d="M20 15 C28 4 36 20 46 6 C44 16 36 26 24 22 Z" fill="#8FA3C4"/><path d="M20 16 C28 8 35 20 44 9 C40 18 33 22 23 20 Z" fill="#1B2B4A"/><circle cx="15" cy="17" r="13" fill="#1B2B4A" stroke="#fff" stroke-width="2"/><ellipse cx="12" cy="9" rx="4" ry="1.8" fill="#4A5D80" transform="rotate(-20 12 9)"/><circle cx="9" cy="18" r="4.2" fill="#fff"/><circle cx="8" cy="19" r="2.3" fill="#1B2B4A"/><circle cx="7.4" cy="18.4" r=".8" fill="#fff"/><circle cx="6" cy="23" r="2" fill="#F7A8C8"/><circle cx="19" cy="19" r="4.2" fill="#fff"/><circle cx="18" cy="20" r="2.3" fill="#1B2B4A"/><circle cx="17.4" cy="19.4" r=".8" fill="#fff"/><circle cx="20" cy="24" r="2" fill="#F7A8C8"/></svg>ポイ活おたま<svg class="tadsvg r" viewBox="0 0 48 34" aria-hidden="true"><path d="M20 15 C28 4 36 20 46 6 C44 16 36 26 24 22 Z" fill="#8FA3C4"/><path d="M20 16 C28 8 35 20 44 9 C40 18 33 22 23 20 Z" fill="#1B2B4A"/><circle cx="15" cy="17" r="13" fill="#1B2B4A" stroke="#fff" stroke-width="2"/><ellipse cx="12" cy="9" rx="4" ry="1.8" fill="#4A5D80" transform="rotate(-20 12 9)"/><circle cx="9" cy="18" r="4.2" fill="#fff"/><circle cx="8" cy="19" r="2.3" fill="#1B2B4A"/><circle cx="7.4" cy="18.4" r=".8" fill="#fff"/><circle cx="6" cy="23" r="2" fill="#F7A8C8"/><circle cx="19" cy="19" r="4.2" fill="#fff"/><circle cx="18" cy="20" r="2.3" fill="#1B2B4A"/><circle cx="17.4" cy="19.4" r=".8" fill="#fff"/><circle cx="20" cy="24" r="2" fill="#F7A8C8"/></svg></h1><svg class="wave" viewBox="0 0 400 20" preserveAspectRatio="none" aria-hidden="true"><path d="M0 10 Q25 0 50 10 T100 10 T150 10 T200 10 T250 10 T300 10 T350 10 T400 10 V20 H0Z" fill="#E9F7F4"/></svg></header>
   <div class="gate" id="gate">🐰 よみこみ中…</div>
@@ -114,18 +151,7 @@ body.busy .busymark{display:block}
     <div class="cd" id="cd" hidden></div>
     <div class="cover" id="intro">
       <div class="big" style="font-size:22px">コースとステージをえらんでね</div>
-      <details class="howd"><summary>❓ 遊びかた（タップでひらく）</summary><div class="how">
-        👆 指を池に入れて、<b>そーっと</b>近づいて、<b>はなすとすくえる</b><br>
-        🌱 <b>初級</b>はすくうだけ。<b>中級・上級</b>は🐸と🀄が出てきて、池に入る数が<b>1.5倍・2倍</b><br>
-        💨 速く動かすと、にげる＆ポイが破れやすい。入れっぱなしでも弱る<br>
-        🐸 <b>カエル</b>がじゃまするよ！ポイに乗られたり、すくうと破れる<br>
-        🗺️ どのコースにも<b>6つのステージ</b>。🐸カエルおじゃま・🐟金魚まぎれ・🌊ながれる池・🌙夜の池・🪵にょっきり棒<br>
-        🀄 背中の牌は<b>おわん</b>へ。同じ3枚で<b>ポン</b>、つづき3枚で<b>チー</b><br>
-        🎉 面子4つ＋同じ牌2枚で<b>アガリ！</b> 役がつくとボーナス<br>
-        🥣 おわんの牌は<b>次の回に持ちこせる</b>よ。何回か遊んでアガろう<br>
-        ✨ 光っている子は、いまの手に<b>ほしい牌</b>だよ<br>
-        🧡 足のある子は速いけど2ひき分
-      </div></details>
+      <button class="btn2r" id="openRules" type="button">📖 あそびかた・ルール</button>
       <div id="ldesc" style="font-size:12.5px;color:var(--pink);font-weight:800"></div>
       <div class="lvls" id="lvls"></div>
       <div style="font-size:13px;color:var(--soft);margin-top:4px">ステージをえらんでね</div>
@@ -134,15 +160,7 @@ body.busy .busymark{display:block}
     </div>
     <div class="cover" id="result" hidden></div>
   </div>
-  <div class="note">
-    <b>コース</b>：初級（すくうだけ・そのまま）／中級（牌と役・小さい子・1.5倍）／上級（いつもカエル・もぐる子・2倍）<br>
-    <b>ステージ</b>：①ふつうの池 ②カエルおじゃま ③金魚まぎれ（すくうと−1）④ながれる池（ポイも流される。中級：流れが逆に／上級：うずまき）⑤夜の池（ポイのまわりだけ明るい）⑥にょっきり棒（泡が出たら、木の棒が出てポイを破る）<br>
-    <b>役のボーナス（ひき）</b>：ポン＋3／チー＋2／アガリ＋10／役牌（白發中）＋3／三暗刻・一気通貫＋8／混一色＋6／清一色＋12／小三元＋8／対々和＋8／四暗刻・大三元（役満）＋30<br>
-    ・池に入る数 ＝（すくった数＋ボーナス）× コース（初級1・中級1.5・上級2）× お店に来た日2。池が100ぴきになるたびに、カエルになってがま口にラビが入るよ<br>
-    ・ステージは、1回で<b>20ぴき</b>以上すくうと、次のステージがあくよ（コースごと）<br>
-    ・ポイは指の少し上に出るよ。池の下のほうの子は、指を池の外（下）までずらすとすくえるよ<br>
-    <span style="font-size:11.5px">⚠️ ラビについて：ラビは、ドラパンの中だけで使えるアミューズメントコインです。換金・転売はできません。ゲームのしくみを不正に使ったときは、ラビの取り消しや利用停止をすることがあります。</span>
-  </div>
+  <div style="text-align:center;margin-top:8px"><button class="btn2r" id="openRules2" type="button">📖 あそびかた・ルール</button></div>
   <div class="testbox" id="testbox" hidden><div class="tt">🧪 ためしボタン（お試しモードの人だけに出るよ）</div>
     <button data-t="tvisit" id="tVisit">お店に来た日にする</button><button data-t="topen">ステージをぜんぶあける</button><button data-t="tpond">池を95ひきにする</button><button data-t="treset">お試しの記録をぜんぶ消す</button>
   </div>
@@ -704,7 +722,8 @@ function frame(now){
 // ----- 上の表示・おわん -----
 function hud(){
   document.getElementById("lv").textContent = P.name + " " + (stg + 1);
-  document.querySelector(".bowl").style.display = P.tiles ? "" : "none";
+  var bwEl = document.querySelector(".bowl"), bwShow = P.tiles ? "" : "none";
+  if (bwEl.style.display !== bwShow){ bwEl.style.display = bwShow; setTimeout(fitPond, 0); }
   var ph = ""; for (var i = 0; i < POI_N; i++) ph += '<span style="color:' + (i < poiLeft ? "#1A8BA3" : "#BFDCD8") + '">' + (i < poiLeft ? "◯" : "✕") + '</span>';
   document.getElementById("pois").innerHTML = ph;
   document.getElementById("got").textContent = got + bonus;
@@ -746,11 +765,37 @@ function begin(){
     if (G.flow) pop(W / 2, H * .25, G.fd > 0 ? "🌊 右へ ながれているよ！" : "🌊 左へ ながれているよ！", "#fff"); }, 1150);
 }
 // ★1126g 遊んでいるあいだは、ページが動かないように固定する
+// ★1126h iPhoneでも動かないように：ページそのものを「ピン止め」する（position:fixed）。終わったら、もとの場所にもどす
+var lockY = 0, locked = false;
 function lockScroll(on){
-  document.body.classList.toggle("lock", !!on);
-  if (on){ var hd = document.querySelector(".hud"); if (hd) hd.scrollIntoView({ block: "start", behavior: "smooth" }); }
+  var b = document.body;
+  if (on && !locked){
+    var hd = document.querySelector(".hud");
+    lockY = Math.max(0, window.pageYOffset + (hd ? hd.getBoundingClientRect().top - 4 : 0));
+    b.classList.add("lock"); b.style.position = "fixed"; b.style.top = -lockY + "px"; b.style.left = "0"; b.style.right = "0"; b.style.width = "100%";
+    locked = true;
+  } else if (!on && locked){
+    b.classList.remove("lock"); b.style.position = ""; b.style.top = ""; b.style.left = ""; b.style.right = ""; b.style.width = "";
+    window.scrollTo(0, lockY); locked = false;
+  }
 }
-document.addEventListener("touchmove", function(e){ if (playing || counting) e.preventDefault(); }, { passive: false });
+// ★1126h 池の高さ：上の数字（とおわん）をのぞいた、画面の高さいっぱい
+function fitPond(){
+  var hd = document.querySelector(".hud"), pd = document.getElementById("pond");
+  if (!hd || !pd || !hd.offsetParent) return;
+  var gap = pd.getBoundingClientRect().top - hd.getBoundingClientRect().top;
+  var h = Math.max(320, Math.min(900, window.innerHeight - gap - 8));
+  if (Math.abs(pd.offsetHeight - h) > 2) pd.style.height = h + "px";
+}
+window.addEventListener("resize", function(){ if (!locked) fitPond(); });
+function openRules(on){ document.getElementById("rules").hidden = !on; if (on) document.getElementById("rules").scrollTop = 0; }
+["openRules", "openRules2"].forEach(function(id){ document.getElementById(id).addEventListener("click", function(){ openRules(true); }); });
+["closeRules", "closeRules2"].forEach(function(id){ document.getElementById(id).addEventListener("click", function(){ openRules(false); }); });
+function stopTouch(e){ if (playing || counting) e.preventDefault(); }
+document.addEventListener("touchmove", stopTouch, { passive: false });
+document.getElementById("pond").addEventListener("touchstart", stopTouch, { passive: false });   // iPhone：池をさわってもページが動かない・虫めがねが出ない
+document.getElementById("pond").addEventListener("touchmove", stopTouch, { passive: false });
+document.addEventListener("gesturestart", stopTouch, { passive: false });   // iPhone：2本指で大きくしない
 var lastRes = null;
 function finish(){
   if (!playing) return;
@@ -858,7 +903,7 @@ function boot(){
       if (j.closed){ gate(document.querySelector("header .tadsvg").outerHTML.replace("tadsvg", "tadsvg g") + "<br><b>ポイ活おたま</b>は、もうすぐはじまるよ！<br>じゅんび中なので、もう少し待っててね🐰"); return; }
       apply(j);
       document.getElementById("gate").hidden = true; document.getElementById("app").hidden = false;
-      recall(); size(); lvButtons(); reset();
+      recall(); lvButtons(); fitPond(); size(); reset();
     });
   }).catch(function(e){ gate("うまく開けなかったよ…もう一度開いてみてね🐰<br><small>" + esc(e.message) + "</small>"); });
 }
