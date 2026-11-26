@@ -47,6 +47,9 @@ header .s{font-size:12px}
 .bowl .emp{font-size:12px;color:#8FB8B2}
 .cover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:safe center;text-align:center;padding:14px;background:rgba(233,247,244,.95);z-index:3;overflow:auto}
 .cover[hidden]{display:none}
+.psize{font-size:12.5px;color:var(--soft);display:flex;align-items:center;gap:4px;justify-content:center;margin:2px 0}
+.psize button{border:2px solid #9FD8D0;background:#fff;color:#11697C;border-radius:10px;font:inherit;font-weight:800;font-size:13px;min-width:40px;min-height:34px;cursor:pointer}
+.psize button.on{background:#1A8BA3;border-color:#1A8BA3;color:#fff}
 .btn2r{border:2px solid var(--pink);background:#fff;color:var(--pink);border-radius:999px;padding:7px 16px;font:inherit;font-weight:800;font-size:14px;cursor:pointer;min-height:40px;margin:4px 0}
 .rules{position:fixed;inset:0;z-index:100;background:#E9F7F4;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .rules[hidden]{display:none}
@@ -116,10 +119,11 @@ body.busy .busymark{display:block}
         🥣 おわんの牌は<b>次の回に持ちこせる</b>よ。何回か遊んでアガろう<br>
         ✨ 光っている子は、いまの手に<b>ほしい牌</b>だよ<br>
         🧡 足のある子は速いけど2ひき分<br>
+        ⏰ 時計を背負った子をすくうと<b>＋5秒</b>（1回で＋30秒まで）<br>
         📱 ポイは<b>指の少し上</b>に出るよ。池の下のほうの子は、指を池の外（下）までずらすとすくえる</div>
     <h2>🗺️ コースとステージ</h2>
     <div class="rcard"><b>コース</b>：初級（すくうだけ・そのまま）／中級（牌と役・小さい子・1.5倍）／上級（いつもカエル・もぐる子・2倍）<br>
-    <b>ステージ</b>：①ふつうの池 ②カエルおじゃま ③金魚まぎれ（すくうと−1）④ながれる池（ポイも流される。中級：流れが逆に／上級：うずまき）⑤夜の池（ポイのまわりだけ明るい）⑥にょっきり棒（泡が出たら、木の棒が出てポイを破る）<br>
+    <b>ステージ</b>：①ふつうの池 ②カエルおじゃま ③金魚まぎれ（すくうと−1。中級・上級は、足のある子にそっくりな黄色の金魚も出て −2・−3）④ながれる池（ポイも流される。中級：流れが逆に／上級：うずまき）⑤夜の池（ポイのまわりだけ明るい）⑥にょっきり棒（泡が出たら、木の棒が出てポイを破る）<br>
     <b>役のボーナス（ひき）</b>：ポン＋3／チー＋2／アガリ＋10／役牌（白發中）＋3／三暗刻・一気通貫＋8／混一色＋6／清一色＋12／小三元＋8／対々和＋8／四暗刻・大三元（役満）＋30<br>
     ・池に入る数 ＝（すくった数＋ボーナス）× コース（初級1・中級1.5・上級2）× お店に来た日2。池が100ぴきになるたびに、カエルになってがま口にラビが入るよ<br>
     ・ステージは、1回で<b>20ぴき</b>以上すくうと、次のステージがあくよ（コースごと）<br>
@@ -152,6 +156,7 @@ body.busy .busymark{display:block}
     <div class="cover" id="intro">
       <div class="big" style="font-size:22px">コースとステージをえらんでね</div>
       <button class="btn2r" id="openRules" type="button">📖 あそびかた・ルール</button>
+      <div class="psize" id="psize"></div>
       <div id="ldesc" style="font-size:12.5px;color:var(--pink);font-weight:800"></div>
       <div class="lvls" id="lvls"></div>
       <div style="font-size:13px;color:var(--soft);margin-top:4px">ステージをえらんでね</div>
@@ -191,7 +196,7 @@ var level = 0, P = LV[0];
 var STG = [
   { name: "ふつうの池",   icon: "🌿", desc: "まずはここから。そーっとすくおう" },
   { name: "カエルおじゃま", icon: "🐸", desc: "カエルがたくさん！ポイに乗られないように" },
-  { name: "金魚まぎれ",   icon: "🐟", desc: "おたまじゃくしにそっくりな金魚がいるよ。しっぽが2つに分かれていたら金魚！すくうと1ぴき へっちゃう" },
+  { name: "金魚まぎれ",   icon: "🐟", desc: "おたまじゃくしにそっくりな金魚がいるよ。しっぽが2つに分かれていたら金魚！すくうと1ぴき へっちゃう（中級・上級は黄色の金魚も。−2・−3）" },
   { name: "ながれる池",   icon: "🌊", desc: "水がながれて、ポイも流される（中級：流れが逆になる／上級：うずまきも）" },
   { name: "夜の池",       icon: "🌙", desc: "まっくら！ポイのまわりだけ明るいよ（上級ほど暗い）" },
   { name: "にょっきり棒", icon: "🪵", desc: "ぷくぷく泡が出たら注意！木の棒がにょっきり出てポイを破るよ（中級：太い棒・にせの泡・動く棒／上級：いきなり・2本いっぺん）" }
@@ -271,13 +276,18 @@ function newTad(edge){
   if (edge){ var s = Math.floor(Math.random() * 4); if (s === 0){ t.x = -20; t.a = 0; } else if (s === 1){ t.x = W + 20; t.a = Math.PI; } else if (s === 2){ t.y = -20; t.a = Math.PI / 2; } else { t.y = H + 20; t.a = -Math.PI / 2; } }
   return t;
 }
+var CLOCK_ADD = 5, CLOCK_MAX = 30;   // ★1126h 時計の子：＋5秒、1回で＋30秒まで
+function newClock(){ var t = newTad(true); t.clock = true; t.tile = -1; t.big = false; t.small = false; t.dive = false; t.sp *= 1.15; return t; }
 function newFish(edge){
-  var t = newTad(edge); t.fish = true; t.tile = -1; t.big = false; t.small = false; t.sp = rnd(24, 34) * P.sp; return t;   // ★1126g 上級は金魚ももぐる
+  var t = newTad(edge); t.fish = true; t.tile = -1; t.big = false; t.small = false; t.sp = rnd(24, 34) * P.sp;   // ★1126g 上級は金魚ももぐる
+  // ★1126h 黄色の金魚（足のある子にそっくり）：中級から。すくうと 中級−2・上級−3
+  if (level >= 1 && Math.random() < [0, .3, .4][level]){ t.ofish = true; t.sp = rnd(46, 58) * P.sp; }
+  return t;
 }
 function newFrog(){ return { x: rnd(.2, .8) * W, y: rnd(.2, .8) * H, tx: 0, ty: 0, sx: 0, sy: 0, hop: 0, wait: rnd(P.wait[0], P.wait[1]), face: 1 }; }
 function reset(){
   P = LV[level]; bag = [];
-  G = { frogs: P.frogs + (stg === 1 ? [2, 2, 2][level] : 0), fish: stg === 2 ? [4, 5, 7][level] : 0, flow: stg === 3 ? [52, 60, 72][level] : 0, night: stg === 4, stick: stg === 5, t: 0,
+  G = { frogs: P.frogs + (stg === 1 ? [2, 2, 2][level] : 0), fish: stg === 2 ? [4, 5, 7][level] : 0, flow: stg === 3 ? [52, 60, 72][level] : 0, night: stg === 4, stick: stg === 5, t: 0, nextClock: rnd(3, 6), ext: 0,
     fd: 1, dir: 1, nextRev: rnd(6, 9), rev: stg === 3 && level >= 1, whirl: stg === 3 && level >= 2 ? { x: W / 2, y: H * .5, r: Math.min(W, H) * .24, a: 0 } : null,
     poiPull: [.6, .65, .75][level], leaves: [] };
   if (G.flow) for (var lv0 = 0; lv0 < 7; lv0++) G.leaves.push({ x: rnd(0, 1) * W, y: rnd(.05, .95) * H, a: rnd(0, 6.28), r: rnd(.7, 1.2) });
@@ -405,9 +415,12 @@ function lift(){
     caught = caught.slice(0, 1); poi.hp = 0;
   } else poi.hp -= w * .5;
   var n = 0, fishN = 0;
-  caught.forEach(function(t){ t.caught = 1; if (t.fish) fishN++; else n += t.big ? 2 : 1; });
+  var clk = 0;
+  var pen = 0, ofN = 0;
+  caught.forEach(function(t){ t.caught = 1; if (t.fish){ fishN++; if (t.ofish){ ofN++; pen += [1, 2, 3][level]; } else pen += 1; } else n += t.big ? 2 : 1; if (t.clock) clk++; });
   got += n;
-  if (fishN){ var lost = Math.min(got, fishN); got -= lost; pop(poi.x, poi.y + 24, "🐟 金魚だった！ −" + fishN, "#FF5A3C"); SND.miss(); }
+  if (clk){ var addT = Math.min(CLOCK_MAX - G.ext, clk * CLOCK_ADD); if (addT > 0){ G.ext += addT; timeLeft += addT; pop(W / 2, H * .18, "⏰ ＋" + addT + "秒！", "#FFD000"); [1047, 1319].forEach(function(f, i){ tone(f, .12, "square", .08, i * .08); }); } }
+  if (fishN){ var lost = Math.min(got, pen); got -= lost; pop(poi.x, poi.y + 24, (ofN ? "🐟 黄色の金魚だった！ −" : "🐟 金魚だった！ −") + pen, "#FF5A3C"); SND.miss(); }
   if (n) pop(poi.x, poi.y, (caught.length - fishN > 1 ? (caught.length - fishN) + "ひき いっぺんに！ " : "すくった！ ") + "+" + n, "#fff");
   if (n) SND.got(n);
   caught.forEach(function(t){ if (t.tile >= 0) addTile(t.tile, poi.x, poi.y); });
@@ -477,7 +490,9 @@ function step(dt){
   });
   // すくった子の数だけ、はしから新しい子が泳いでくる
   tads = tads.filter(function(t){ return !t.caught || t.caught < .6; });
-  while (playing && tads.filter(function(t){ return !t.caught && !t.fish; }).length < P.pop) tads.push(newTad(true));
+  while (playing && tads.filter(function(t){ return !t.caught && !t.fish && !t.clock; }).length < P.pop) tads.push(newTad(true));
+  if (playing){ G.nextClock -= dt;
+    if (G.nextClock <= 0){ G.nextClock = rnd(5, 8); if (G.ext < CLOCK_MAX && !tads.some(function(t){ return t.clock && !t.caught; })) tads.push(newClock()); } }
   while (playing && tads.filter(function(t){ return !t.caught && t.fish; }).length < G.fish) tads.push(newFish(true));
   // カエル：ときどきジャンプ。ポイが水に入っていると、そっちへ跳んでくる
   frogs.forEach(function(f){
@@ -542,6 +557,7 @@ function drawFish(t){
   if (k <= 0) return;
   if (t.caught) y -= t.caught * 120;
   var body = ["#6E3436", "#3E3450", "#232C4A"][level], fin = ["#C98A8A", "#9A93B8", "#8FA3C4"][level];
+  if (t.ofish){ body = level >= 2 ? "#E8710A" : "#F05A22"; fin = level >= 2 ? "#F7B977" : "#F7A27A"; }   // 上級は足のある子と同じ色
   cx.save(); cx.translate(x, y); cx.rotate(t.a + Math.PI); cx.globalAlpha = k * (visible(t) ? 1 : .28); cx.scale(k, k);
   var w = Math.sin(t.ph) * 6;
   // 2つに分かれたしっぽ
@@ -549,7 +565,10 @@ function drawFish(t){
   cx.beginPath(); cx.moveTo(6, -2.5); cx.quadraticCurveTo(17, -3 + w, 26, -6 + w * 1.4); cx.lineTo(19, w); cx.lineTo(26, 6 + w * 1.4); cx.quadraticCurveTo(17, 3 + w, 6, 2.5); cx.fillStyle = body; cx.fill();
   // 横のひれ
   var fw = Math.sin(t.ph * .8) * 2;
-  cx.beginPath(); cx.ellipse(2, -10, 4, 2.2, -.6 + fw * .05, 0, 6.29); cx.ellipse(2, 10, 4, 2.2, .6 - fw * .05, 0, 6.29); cx.fillStyle = fin; cx.fill();
+  if (t.ofish && level >= 2){   // 上級：ひれが足みたいに見える
+    cx.strokeStyle = body; cx.lineWidth = 3; cx.lineCap = "round";
+    cx.beginPath(); cx.moveTo(4, -8); cx.lineTo(8, -12 + fw); cx.moveTo(4, 8); cx.lineTo(8, 12 - fw); cx.stroke();
+  } else { cx.beginPath(); cx.ellipse(2, -10, 4, 2.2, -.6 + fw * .05, 0, 6.29); cx.ellipse(2, 10, 4, 2.2, .6 - fw * .05, 0, 6.29); cx.fillStyle = fin; cx.fill(); }
   // からだと目（ほっぺはなし）
   cx.beginPath(); cx.arc(-3, 0, 11, 0, 6.29); cx.fillStyle = body; cx.fill(); cx.lineWidth = 2; cx.strokeStyle = "#fff"; cx.stroke();
   [[-8, -5], [-8, 5]].forEach(function(e){
@@ -576,6 +595,10 @@ function drawTad(t, now){
     cx.beginPath(); cx.arc(e[0] + 4, e[1] * 1.6, 1.8, 0, 6.29); cx.fillStyle = "#F7A8C8"; cx.fill();
   });
   cx.restore();
+  if (t.clock && !t.caught){   // 背中の時計
+    cx.save(); cx.globalAlpha = k * a0; cx.font = "18px sans-serif"; cx.textAlign = "center"; cx.textBaseline = "bottom";
+    cx.shadowColor = "#FFD000"; cx.shadowBlur = 8 + 4 * Math.sin(now / 130); cx.fillText("⏰", x, y - 9); cx.restore();
+  }
   if (t.tile >= 0 && timg[t.tile] && timg[t.tile].complete){
     var tw = 18 * Math.max(.85, s) * k, th = tw * 125 / 96, gx = x - tw / 2 + 1, gy = y - th - 4;
     cx.save(); cx.globalAlpha = k * a0;
@@ -734,7 +757,7 @@ function hud(){
 }
 function hudTime(){
   document.getElementById("time").textContent = Math.ceil(timeLeft);
-  document.getElementById("tbar").style.width = (timeLeft / TIME * 100) + "%";
+  document.getElementById("tbar").style.width = Math.min(100, timeLeft / TIME * 100) + "%";
 }
 
 // ----- はじめ・おわり -----
@@ -773,21 +796,29 @@ function lockScroll(on){
     var hd = document.querySelector(".hud");
     lockY = Math.max(0, window.pageYOffset + (hd ? hd.getBoundingClientRect().top - 4 : 0));
     b.classList.add("lock"); b.style.position = "fixed"; b.style.top = -lockY + "px"; b.style.left = "0"; b.style.right = "0"; b.style.width = "100%";
-    locked = true;
+    locked = true; setTimeout(fitPond, 60);
   } else if (!on && locked){
     b.classList.remove("lock"); b.style.position = ""; b.style.top = ""; b.style.left = ""; b.style.right = ""; b.style.width = "";
     window.scrollTo(0, lockY); locked = false;
   }
 }
 // ★1126h 池の高さ：上の数字（とおわん）をのぞいた、画面の高さいっぱい
+var POND_SIZE = [{ n: "小", cut: 150 }, { n: "中", cut: 80 }, { n: "大", cut: 12 }], pondSize = 1;
+try { var ps0 = localStorage.getItem("sukui-size"); if (ps0 !== null && POND_SIZE[+ps0]) pondSize = +ps0; } catch (e) {}
 function fitPond(){
   var hd = document.querySelector(".hud"), pd = document.getElementById("pond");
   if (!hd || !pd || !hd.offsetParent) return;
   var gap = pd.getBoundingClientRect().top - hd.getBoundingClientRect().top;
-  var h = Math.max(320, Math.min(900, window.innerHeight - gap - 8));
+  var vh = Math.min(window.innerHeight, window.visualViewport ? window.visualViewport.height : 9999, document.documentElement.clientHeight || 9999);   // LINEの下のバーのぶんを入れない
+  var h = Math.max(280, Math.min(900, vh - gap - POND_SIZE[pondSize].cut));
   if (Math.abs(pd.offsetHeight - h) > 2) pd.style.height = h + "px";
 }
 window.addEventListener("resize", function(){ if (!locked) fitPond(); });
+function sizeButtons(){ var el = document.getElementById("psize"); if (!el) return;
+  el.innerHTML = '池の大きさ：' + POND_SIZE.map(function(p, i){ return '<button type="button" data-z="' + i + '" class="' + (i === pondSize ? "on" : "") + '">' + p.n + '</button>'; }).join(""); }
+document.getElementById("psize").addEventListener("click", function(e){ var b = e.target.closest("button"); if (!b) return;
+  pondSize = +b.dataset.z; try { localStorage.setItem("sukui-size", pondSize); } catch (er) {} sizeButtons(); fitPond(); toast("池の大きさ：" + POND_SIZE[pondSize].n + "（下が切れるときは「中」か「小」にしてね）"); });
+sizeButtons();
 function openRules(on){ document.getElementById("rules").hidden = !on; if (on) document.getElementById("rules").scrollTop = 0; }
 ["openRules", "openRules2"].forEach(function(id){ document.getElementById(id).addEventListener("click", function(){ openRules(true); }); });
 ["closeRules", "closeRules2"].forEach(function(id){ document.getElementById(id).addEventListener("click", function(){ openRules(false); }); });
