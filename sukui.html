@@ -12,6 +12,9 @@
    PICTURE: 池そのものが主役。泳ぐおたまじゃくし・じゃまするカエル・ポイ
    COLOUR and TYPE: ドラパンのピンク #1A8BA3 と池の水色、M PLUS Rounded 1c
    LAYOUT: 上にレベル・時間・ポイ・すくった数、まん中に池、下におわん（手牌と面子）
+   ★【新1127e】ママおたまは、どの池にもランダム（8回に1回・7秒・すくうと＋20・夜の池だけ光る）・わたしの記録に「ママをすくった回数」
+   ★【新1127d】21ステージ（🦞ザリガニ・🧲じしゃく）・ラッキー池は曜日・夜の池に光るママおたま
+   ★【新1127c】19ステージ・今日のラッキー池・夜の池×2・×1.5なし・ドリンク券とメーターなし・わたしの記録（係【新1127c】といっしょに入れてね）
    ★【新1126f】本番（名前：ポイ活おたま）：池・ラビ・ステージの鍵は、ドラパンゲームの係（GAS）が守る */
 :root{color-scheme:light;--pink:#1A8BA3;--ink:#1D3A40;--soft:#4B6B6F}
 *{box-sizing:border-box;min-width:0}
@@ -70,8 +73,13 @@ body{touch-action:manipulation}
 .cover .how{background:#fff;border:2px solid #9FD8D0;border-radius:14px;padding:6px 10px;text-align:left;font-size:13px;line-height:1.75;margin:4px 0}
 .lvls{display:flex;gap:6px;justify-content:center;margin:6px 0}
 .stgs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin:4px 0;width:100%;max-width:360px}
-.stgs button{border:2px solid #8FCBF0;background:#fff;border-radius:12px;font:inherit;font-size:10.5px;font-weight:800;color:#1C5D8C;padding:4px 2px;min-height:52px;cursor:pointer;line-height:1.25}
-.stgs button span{display:block;font-size:20px}
+.stgs button{border:2px solid #8FCBF0;background:#fff;border-radius:12px;font:inherit;font-size:10.5px;font-weight:800;color:#1C5D8C;padding:3px 2px;min-height:46px;cursor:pointer;line-height:1.2}
+.stgs button span{display:block;font-size:18px}
+.stgs button.lk{border-color:#9ED39A;background:#F3FFF0;color:#2F7A2B}
+.stgs button.lk.on{background:#4FAE4A;border-color:#4FAE4A;color:#fff}
+.snack{position:absolute;top:8px;right:8px;z-index:2;border:2px solid #fff;background:#FF5FA0;color:#fff;border-radius:999px;font:inherit;font-weight:800;font-size:13px;padding:6px 12px;min-height:38px;box-shadow:0 3px 0 #C2346E;cursor:pointer;touch-action:none}
+.snack b{background:#fff;color:#FF5FA0;border-radius:999px;padding:0 7px;margin-left:2px}
+.snack[hidden]{display:none}
 .stgs button.on{background:#2E8FC4;color:#fff;border-color:#2E8FC4}
 .lvls button{min-width:76px;padding:0 10px;white-space:nowrap;height:44px;border-radius:12px;border:2px solid var(--pink);background:#fff;color:var(--pink);font:inherit;font-weight:800;font-size:17px;cursor:pointer}
 .lvls button.on{background:var(--pink);color:#fff}
@@ -105,6 +113,23 @@ body{touch-action:manipulation}
 .tk button{flex:none;white-space:nowrap;line-height:1.3;border:2px solid #E8901A;background:#fff;color:#B05A00;border-radius:999px;font:inherit;font-weight:800;font-size:12px;padding:5px 10px;min-height:36px;cursor:pointer}
 .gate{text-align:center;padding:26px 16px;font-size:14px;line-height:1.8;background:#fff;border:2px solid #9FD8D0;border-radius:16px}
 .stgs button.lock{opacity:.45;cursor:default}
+.stgs button.off{opacity:.5;background:#F2F2F2;border-color:#CCC;color:#888}
+.stgs button.lk.today{box-shadow:0 0 0 3px #8CE07A,0 0 12px rgba(140,224,122,.8)}
+.luckyv{font-size:12.5px;color:#2F7A2B;font-weight:800;margin:2px 0}.luckyv small{display:block;font-weight:500;color:#4B6B6F}
+.mystat{border:2px solid #8FCBF0;background:#fff;color:#1C5D8C;border-radius:999px;font:inherit;font-weight:800;font-size:12px;padding:3px 10px;min-height:30px;cursor:pointer}
+.stbig{text-align:center;background:#fff;border:2px solid #9FD8D0;border-radius:16px;padding:10px;margin:10px 0}
+.stbig small{display:block;color:#4B6B6F;font-size:13px}.stbig b{font-size:40px;color:#1A8BA3;line-height:1.1}.stbig span{font-size:14px;color:#4B6B6F}
+.stmama{background:#FFF0F6;border:2px solid #FF9CC0;border-radius:12px;padding:6px 10px;font-weight:800;color:#C2345E;font-size:14px;margin-bottom:8px;text-align:center}.stmama b{font-size:22px;margin:0 2px}
+.sttop{background:#FFF8E1;border:2px solid #E8C64A;border-radius:12px;padding:6px 10px;font-weight:800;color:#7A5A00;font-size:13.5px;margin-bottom:8px}
+.sttb{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;font-size:12.5px}
+.sttb th{background:#E3F4FF;color:#1C5D8C;padding:5px 3px;font-size:11.5px}.sttb td{padding:5px 3px;border-top:1px solid #E3EFEF;text-align:right;white-space:nowrap}
+.sttb td:first-child{text-align:left;white-space:normal}.sttb tr.top td{background:#FFF8E1;font-weight:800}.sttb tr.none td{color:#A9BDBD}
+.stgs button.bon{background:linear-gradient(160deg,#1B2350,#3A3F8F);color:#FFE27A;border-color:#E8C64A;box-shadow:0 0 0 2px rgba(232,198,74,.35),0 0 12px rgba(255,216,74,.45)}
+.stgs button.bon.on{border-color:#FFD84A;box-shadow:0 0 0 3px #FFD84A,0 0 16px rgba(255,216,74,.8)}
+.stgs button.bon.lock{opacity:.6}
+.stgs button em.l{background:#8CE07A;color:#1F5A1C}
+.stgs button em{display:block;font-style:normal;font-size:10px;background:#FFD84A;color:#5A3A00;border-radius:999px;margin:2px auto 0;width:max-content;padding:0 6px}
+.cd.bon{background:radial-gradient(circle,rgba(40,30,90,.55),rgba(10,10,40,.75));color:#FFE27A;font-size:30px;text-shadow:0 0 14px #FFB800,0 3px 0 #5A3A00}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:rgba(16,58,66,.92);color:#fff;font-size:14px;padding:10px 16px;border-radius:14px;z-index:90;max-width:90%;text-align:center}
 .busymark{display:none;position:fixed;top:10px;right:10px;background:rgba(26,139,163,.92);color:#fff;font-size:12px;font-weight:800;padding:5px 11px;border-radius:999px;z-index:80}
 body.busy .busymark{display:block}
@@ -124,38 +149,42 @@ body.busy .busymark{display:block}
         🌱 <b>練習</b>はラビなしで、ゆっくり・牌なし。<b>🔥 本番</b>は🐸と🀄が出てきて、すくった数が池に入るよ<br>
         💨 速く動かすと、にげる＆ポイが破れやすい。入れっぱなしでも弱る<br>
         🐸 <b>カエル</b>がじゃまするよ！ポイに乗られたり、すくうと破れる<br>
-        🗺️ どのコースにも<b>6つのステージ</b>。🐸カエルおじゃま・🐟金魚まぎれ・🌊ながれる池・🌙夜の池・🪵にょっきり棒<br>
+        🗺️ ステージは<b>21こ</b>。こまる仕掛けと🍀ラッキーの池がこうたいで出てくるよ。ラストは<b>🌙夜の池（ボーナス・2倍）</b><br>
+
         🀄 背中の牌は<b>おわん</b>へ。同じ3枚で<b>ポン</b>、つづき3枚で<b>チー</b><br>
         🎉 面子4つ＋同じ牌2枚で<b>アガリ！</b> 役がつくとボーナス<br>
         🥣 おわんの牌は<b>次の回に持ちこせる</b>よ。何回か遊んでアガろう<br>
-        ✨ 光っている子は、いまの手に<b>ほしい牌</b>だよ<br>
+        💕 どの池にも、たまに<b>ママおたま</b>（ピンク・メガネ）があらわれるよ。7秒でいなくなるから、そーっとすくってね（＋20）。夜の池ではママが光って、まわりが明るくなるよ<br>
+        ✨ 光って「ほしい！」の札がついた子は、いまの手に<b>ほしい牌</b>。すくうとポン・チー・アガリに近づいて、ボーナスがもらえるよ<br>
         🧡 足のある子は速いけど2ひき分<br>
         ⏰ 時計を背負った子をすくうと<b>＋5秒</b>（1回で＋30秒まで）<br>
         📱 ポイは<b>指の少し上</b>に出るよ。池の下のほうの子は、指を池の外（下）までずらすとすくえる</div>
     <h2>🗺️ コースとステージ</h2>
     <div class="rcard"><b>コース</b>：🌱 練習（池には入らない・ステージは全部ためせる）／🔥 本番（牌と役・いつもカエル・もぐる子・池に入る）<br>
-    <b>ステージ</b>：①ふつうの池 ②カエルおじゃま ③金魚まぎれ（すくうと−1。本番は、足のある子にそっくりな黄色の金魚も出て −3）④ながれる池（ポイも流される。本番は流れが逆になる・うずまきも）⑤夜の池（ポイのまわりだけ明るい。本番はもっと暗い）⑥にょっきり棒（泡が出たら、木の棒が出てポイを破る。本番は太い棒・にせの泡・動く棒・いきなり・2本いっぺん）<br>
+    <b>ステージ</b>：1 🌿ふつうの池／2 🐸カエルおじゃま／3 🌈にじいろおたま🍀（にじ色の子は＋5）／4 🐟金魚まぎれ（金魚は−1、本番の黄色は−3）／5 ❄️すべる池（ポイがすべる）／6 🍬おやつタイム🍀（エサでよってくる）／7 🌊ながれる池／8 🫧あわあわ池（泡はつついてわる）／9 🎆花火の池🍀（花火に集まる）／10 👑おたまキング（2回で＋10）／11 🌧️雨の池（雨つぶでにげる）／12 🐠大群の池🍀／13 🦆アヒル親子（ポイを押す）／14 🀄そろい牌の池🍀／15 🪵にょっきり棒／16 🌀ぐるぐる池／17 ⏰時計の池🍀（時計の子がいっぱい）／18 🍃かくれんぼ池（はっぱをめくる）／19 🦞ザリガニの池（はさみでちょきん）／20 🧲じしゃくポイの池🍀（じしゃくタイム）／21 🌙夜の池（ボーナス×2）<br>
     <b>役のボーナス（ひき）</b>：ポン＋3／チー＋2／アガリ＋10／役牌（白發中）＋3／三暗刻・一気通貫＋8／混一色＋6／清一色＋12／小三元＋8／対々和＋8／四暗刻・大三元（役満）＋30<br>
-    ・池に入る数（本番）＝（すくった数＋ボーナス）× 1.5 × お店に来た日2。池が<b>500ぴき</b>になるたびに、カエルになってがま口に<b>1ラビ</b>入るよ<br>
-    ・🥤 <b>今月のすくいメーター</b>：その月に池に入った数（来店日は2倍）が <b>3万で200円・6万で300円・10万で500円</b>のドリンク券！ 券は1か月使えるよ。お店でスタッフに見せてね<br>
-    ・ステージは、1回で<b>20ぴき</b>以上すくうと、次のステージがあくよ（コースごと）<br>
+    ・池に入る数（本番）＝（すくった数＋ボーナス）× お店に来た日2（🌙夜の池はさらに×2）。池が<b>1,000ぴき</b>になるたびに、カエルになってがま口に<b>1ラビ</b>入るよ<br>
+    ・🍀 <b>ラッキーの池</b>は、曜日で1つだけ遊べるよ（月🌈にじいろ・火🍬おやつ・水🎆花火・木🐠大群・金🀄そろい牌・土⏰時計・日🧲じしゃく）。お休みの日は、とばして先のステージへ進めるよ。練習ではいつでも遊べる<br>
+    ・📊 <b>わたしの記録</b>：これまでにすくった数と、ステージごとの合計・平均・ベスト。平均がいちばん多いステージに🏅（本番だけ・3回以上遊んだステージ）<br>
+    ・ステージは、1回で<b>20ぴき</b>以上すくうと、次のステージがあくよ（ラッキーの池はとばして、つぎの池まであく）<br>
     ・ポイは指の少し上に出るよ。池の下のほうの子は、指を池の外（下）までずらすとすくえるよ<br>
     <span style="font-size:11.5px">⚠️ ラビについて：ラビは、ドラパンの中だけで使えるアミューズメントコインです。換金・転売はできません。ゲームのしくみを不正に使ったときは、ラビの取り消しや利用停止をすることがあります。</span></div>
     <button class="btn" id="closeRules2" type="button" style="display:block;margin:14px auto 0">ゲームにもどる</button>
   </div>
 </div>
 
+<div class="rules" id="statp" hidden>
+  <div class="rbar"><b>📊 わたしの記録（本番）</b><button class="rclose" id="closeStat" type="button">✕ とじる</button></div>
+  <div class="rin" id="statIn"></div>
+</div>
 <div class="wrap">
   <header><div class="pads"><i></i><i></i><i></i></div><div class="s">ドラパンのおたまじゃくしすくい</div><h1><svg class="tadsvg" viewBox="0 0 48 34" aria-hidden="true"><path d="M20 15 C28 4 36 20 46 6 C44 16 36 26 24 22 Z" fill="#8FA3C4"/><path d="M20 16 C28 8 35 20 44 9 C40 18 33 22 23 20 Z" fill="#1B2B4A"/><circle cx="15" cy="17" r="13" fill="#1B2B4A" stroke="#fff" stroke-width="2"/><ellipse cx="12" cy="9" rx="4" ry="1.8" fill="#4A5D80" transform="rotate(-20 12 9)"/><circle cx="9" cy="18" r="4.2" fill="#fff"/><circle cx="8" cy="19" r="2.3" fill="#1B2B4A"/><circle cx="7.4" cy="18.4" r=".8" fill="#fff"/><circle cx="6" cy="23" r="2" fill="#F7A8C8"/><circle cx="19" cy="19" r="4.2" fill="#fff"/><circle cx="18" cy="20" r="2.3" fill="#1B2B4A"/><circle cx="17.4" cy="19.4" r=".8" fill="#fff"/><circle cx="20" cy="24" r="2" fill="#F7A8C8"/></svg>ポイ活おたま<svg class="tadsvg r" viewBox="0 0 48 34" aria-hidden="true"><path d="M20 15 C28 4 36 20 46 6 C44 16 36 26 24 22 Z" fill="#8FA3C4"/><path d="M20 16 C28 8 35 20 44 9 C40 18 33 22 23 20 Z" fill="#1B2B4A"/><circle cx="15" cy="17" r="13" fill="#1B2B4A" stroke="#fff" stroke-width="2"/><ellipse cx="12" cy="9" rx="4" ry="1.8" fill="#4A5D80" transform="rotate(-20 12 9)"/><circle cx="9" cy="18" r="4.2" fill="#fff"/><circle cx="8" cy="19" r="2.3" fill="#1B2B4A"/><circle cx="7.4" cy="18.4" r=".8" fill="#fff"/><circle cx="6" cy="23" r="2" fill="#F7A8C8"/><circle cx="19" cy="19" r="4.2" fill="#fff"/><circle cx="18" cy="20" r="2.3" fill="#1B2B4A"/><circle cx="17.4" cy="19.4" r=".8" fill="#fff"/><circle cx="20" cy="24" r="2" fill="#F7A8C8"/></svg></h1><svg class="wave" viewBox="0 0 400 20" preserveAspectRatio="none" aria-hidden="true"><path d="M0 10 Q25 0 50 10 T100 10 T150 10 T200 10 T250 10 T300 10 T350 10 T400 10 V20 H0Z" fill="#E9F7F4"/></svg></header>
   <div class="gate" id="gate">🐰 よみこみ中…</div>
   <div id="app" hidden>
   <div class="gama"><span id="gamaL">👛 がま口</span><span class="v" id="gamaV"></span></div>
   <div class="pondbar"><div class="r"><b>🌿 おたまじゃくし池</b><span id="pondN"></span></div><div class="bar"><i id="pondBar" style="width:0%"></i></div>
-    <div class="r" style="font-size:12px"><span id="pondRate"></span><span id="todayV"></span></div></div>
-  <div class="meter"><div class="r"><b>🥤 今月のすくいメーター</b><span id="meterN"></span></div>
-    <div class="mbar"><i id="meterBar"></i><span id="meterMarks"></span></div>
-    <div class="r" style="font-size:12px"><span id="meterNext"></span><span>来店日は2倍🏪</span></div></div>
-  <div id="tickets"></div>
+    <div class="r" style="font-size:12px"><span id="pondRate"></span><span id="todayV"></span></div>
+    <div class="r" style="font-size:12px"><span id="lifeV"></span><button type="button" class="mystat" id="openStat">📊 わたしの記録</button></div></div>
   <div class="hud">
     <div><small>コース</small><b id="lv" style="font-size:15px">本番 1</b></div>
     <div><small>のこり</small><b id="time">30</b><div class="tbar"><i id="tbar" style="width:100%"></i></div></div>
@@ -168,6 +197,7 @@ body.busy .busymark{display:block}
   </div>
   <div class="pond" id="pond">
     <canvas id="cv"></canvas>
+    <button class="snack" id="snack" type="button" hidden>🍬 エサをまく</button>
     <div class="cd" id="cd" hidden></div>
     <div class="cover" id="intro">
       <div class="big" style="font-size:22px">コースとステージをえらんでね</div>
@@ -176,14 +206,14 @@ body.busy .busymark{display:block}
       <div id="ldesc" style="font-size:12.5px;color:var(--pink);font-weight:800"></div>
       <div class="lvls" id="lvls"></div>
       <div style="font-size:13px;color:var(--soft);margin-top:4px">ステージをえらんでね</div>
-      <div class="stgs" id="stgs"></div><div id="sdesc" style="font-size:12.5px;color:#1C5D8C;font-weight:800;min-height:20px"></div>
+      <div class="stgs" id="stgs"></div><div id="luckyV" class="luckyv"></div><div id="sdesc" style="font-size:12.5px;color:#1C5D8C;font-weight:800;min-height:20px"></div>
       <button class="btn" id="go">はじめる！</button>
     </div>
     <div class="cover" id="result" hidden></div>
   </div>
   <div style="text-align:center;margin-top:8px"><button class="btn2r" id="openRules2" type="button">📖 あそびかた・ルール</button></div>
   <div class="testbox" id="testbox" hidden><div class="tt">🧪 ためしボタン（お試しモードの人だけに出るよ）</div>
-    <button data-t="tvisit" id="tVisit">お店に来た日にする</button><button data-t="topen">ステージをぜんぶあける</button><button data-t="tmeter">メーターを＋1万</button><button data-t="tpond">池をあと5ひきでカエルにする</button><button data-t="treset">お試しの記録をぜんぶ消す</button>
+    <button data-t="tvisit" id="tVisit">お店に来た日にする</button><button data-t="topen">ステージをぜんぶあける</button><button data-t="tpond">池をあと5ひきでカエルにする</button><button data-t="treset">お試しの記録をぜんぶ消す</button>
   </div>
   </div>
 </div>
@@ -203,19 +233,34 @@ function imgTag(t){ return '<img src="' + TILES[t] + '" alt="' + TN[t] + '">'; }
 // ----- レベル -----
 // ★コース：0＝練習（もと初級）・1＝中級（★1127b 使わない）・2＝本番（もと上級）。mult：池に入る数が何倍になるか
 var LV = [
-  { name: "練習", sp: .80, flee: .48, drain: .75, frogs: 0, small: 0,   dive: 0,   pop: 20, tiles: 0,   mult: 1,   aim: 0,   wait: [2, 3],   desc: "池には入らないよ。ゆっくり・牌なしで、6つのステージを ぜんぶ ためせる" },
+  { name: "練習", sp: .80, flee: .48, drain: .75, frogs: 0, small: 0,   dive: 0,   pop: 20, tiles: 0,   mult: 1,   aim: 0,   wait: [2, 3],   desc: "池には入らないよ。ゆっくり・牌なしで、ステージを ぜんぶ ためせる" },
   { name: "中級", sp: 1.0, flee: .36, drain: 1.0, frogs: 0, small: .15, dive: 0,   pop: 18, tiles: .75, mult: 1.2, aim: .35, wait: [1.6, 3], desc: "牌と役あり・小さい子・池へ1.2倍" },
-  { name: "本番", sp: 1.3, flee: .28, drain: 1.3, frogs: 1, small: .25, dive: .25, pop: 16, tiles: .8,  mult: 1.5, aim: .55, wait: [1, 2.2], desc: "池に入る・メーターが進む！ 牌と役・いつもカエル・もぐる子（ステージは順番にあく）" }
+  { name: "本番", sp: 1.3, flee: .28, drain: 1.3, frogs: 1, small: .25, dive: .25, pop: 16, tiles: .8,  mult: 1,   aim: .55, wait: [1, 2.2], desc: "池に入る・ラビがたまる！ 牌と役・いつもカエル・もぐる子（ステージは順番にあく・🍀ラッキー池は日がわり）" }
 ];
 var level = 2, P = LV[2];   // ★1127b コースは「練習（0）」と「本番（2）」だけ。中級（1）は使わない
-// ★ステージ：どのコースにも6つ。仕掛けの強さはコースで変わる
+// ★ステージ：21こ（こまる仕掛けと🍀ラッキーを交互に。ラストは夜の池のボーナス）。k＝仕掛けの名前・day＝ラッキー池の曜日（0＝日）
 var STG = [
-  { name: "ふつうの池",   icon: "🌿", desc: "まずはここから。そーっとすくおう" },
-  { name: "カエルおじゃま", icon: "🐸", desc: "カエルがたくさん！ポイに乗られないように" },
-  { name: "金魚まぎれ",   icon: "🐟", desc: "おたまじゃくしにそっくりな金魚がいるよ。しっぽが2つに分かれていたら金魚！すくうと1ぴき へっちゃう（本番は黄色の金魚も。−3）" },
-  { name: "ながれる池",   icon: "🌊", desc: "水がながれて、ポイも流される（本番は流れが逆になる・うずまきも）" },
-  { name: "夜の池",       icon: "🌙", desc: "まっくら！ポイのまわりだけ明るいよ（本番はもっと暗い）" },
-  { name: "にょっきり棒", icon: "🪵", desc: "ぷくぷく泡が出たら注意！木の棒がにょっきり出てポイを破るよ（本番は太い棒・にせの泡・動く棒・いきなり・2本いっぺん）" }
+  { k: "normal",  name: "ふつうの池",   icon: "🌿", desc: "まずはここから。そーっとすくおう" },
+  { k: "frog",    name: "カエルおじゃま", icon: "🐸", desc: "カエルがたくさん！ポイに乗られないように" },
+  { k: "rainbow", name: "にじいろおたま", icon: "🌈", lucky: 1, day: 1, desc: "にじ色の子がときどき出てくるよ。すくうと＋5！すばしっこいから、いそいで" },
+  { k: "fish",    name: "金魚まぎれ",   icon: "🐟", desc: "おたまじゃくしにそっくりな金魚がいるよ。しっぽが2つに分かれていたら金魚！すくうと1ぴき へっちゃう（本番は黄色の金魚も。−3）" },
+  { k: "slide",   name: "すべる池",     icon: "❄️", desc: "氷の池！ポイがつるつるすべって、思った所で止まらないよ" },
+  { k: "snack",   name: "おやつタイム", icon: "🍬", lucky: 1, day: 2, desc: "池の右上の「エサをまく」ボタンで、子があつまってくるよ（1回に3つまで）" },
+  { k: "flow",    name: "ながれる池",   icon: "🌊", desc: "水がながれて、ポイも流される（本番は流れが逆になる・うずまきも）" },
+  { k: "bubble",  name: "あわあわ池",   icon: "🫧", desc: "泡に入った子はすくえないよ。ポイでつつくと泡がパチン！そのすきにすくおう" },
+  { k: "fire",    name: "花火の池",     icon: "🎆", lucky: 1, day: 3, desc: "ドーンと花火が上がると、子が花火のほうへあつまるよ" },
+  { k: "king",    name: "おたまキング", icon: "👑", desc: "大きな王さまおたま！2回すくわないと取れないけど、取れたら＋10" },
+  { k: "rain",    name: "雨の池",       icon: "🌧️", desc: "雨つぶの波で、子がびっくりしてにげるよ" },
+  { k: "school",  name: "大群の池",     icon: "🐠", lucky: 1, day: 4, desc: "おたまの群れがいっせいに泳ぐよ。群れごとすくって「いっぺんに！」" },
+  { k: "duck",    name: "アヒル親子",   icon: "🦆", desc: "アヒルの親子が一列で泳いできて、ポイを押しのけるよ" },
+  { k: "soroi",   name: "そろい牌の池", icon: "🀄", lucky: 1, day: 5, desc: "背中の牌が同じ種類ばかり！ポン・チー・役ができやすいよ（練習でも牌が出るよ）" },
+  { k: "stick",   name: "にょっきり棒", icon: "🪵", desc: "ぷくぷく泡が出たら注意！木の棒がにょっきり出てポイを破るよ（本番は太い棒・にせの泡・動く棒・いきなり・2本いっぺん）" },
+  { k: "spin",    name: "ぐるぐる池",   icon: "🌀", desc: "池ぜんたいが、ゆっくり回っているよ。ポイも少し回される" },
+  { k: "clock",   name: "時計の池",     icon: "⏰", lucky: 1, day: 6, desc: "時計の子がいっぱい！すくうと時間がのびるよ（1回で＋30秒まで）" },
+  { k: "hide",    name: "かくれんぼ池", icon: "🍃", desc: "大きなはっぱの下に子がかくれるよ。ポイでつつくと、はっぱがぺろんとめくれる" },
+  { k: "crab",    name: "ザリガニの池", icon: "🦞", desc: "ザリガニがのそのそ歩いているよ。ポイに近づくと「ちょきん！」とはさみで破るから、よけてね" },
+  { k: "magnet",  name: "じしゃくポイの池", icon: "🧲", lucky: 1, day: 0, desc: "ときどき「じしゃくタイム！」。ポイを入れておくと、子がポイに吸いよせられてくるよ" },
+  { k: "night",   name: "夜の池",       icon: "🌙", bonus: 2, desc: "🌟 ラストのボーナスステージ！まっくらだけど、池に入る数が2倍！ポイのまわりだけ明るいよ" }
 ];
 var stg = 0, G = {};   // G：いまのステージの仕掛け
 var bowls = [null, { hand: [], melds: [] }, { hand: [], melds: [] }];   // おわんは、コースごとに次の回へ持ちこす
@@ -271,6 +316,10 @@ function pick(a){ return a[Math.floor(Math.random() * a.length)]; }
 function shuffle(a){ for (var i = a.length - 1; i > 0; i--){ var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
 // 牌のふくろ：面子になりやすいように、1回ぶん（面子4つ＋雀頭＋まぜもの）を作ってまぜる
 function fillBag(){
+  if (G.soroi){   // ★そろい牌：5種類だけ（つづき3つ＋三元牌2つ）
+    var S0 = Math.random() < .5 ? 2 : 11, st0 = S0 + Math.floor(Math.random() * 7), dr = shuffle(DRAG.slice()).slice(0, 2), K = [st0, st0 + 1, st0 + 2, dr[0], dr[1]], tl = [];
+    for (var z = 0; z < 20; z++) tl.push(pick(K)); bag = bag.concat(tl); return;
+  }
   var S = Math.random() < .5 ? 2 : 11, tiles = [];
   for (var m = 0; m < 4; m++){
     var r = Math.random();
@@ -287,15 +336,18 @@ function nextTile(){ if (!bag.length) fillBag(); return bag.shift(); }
 function newTad(edge){
   var big = Math.random() < .16, small = !big && Math.random() < P.small;
   var t = { x: rnd(.12, .88) * W, y: rnd(.12, .88) * H, a: rnd(0, 6.28), sp: (big ? rnd(46, 58) : small ? rnd(34, 42) : rnd(24, 34)) * P.sp,
-    ph: rnd(0, 6.28), big: big, small: small, tile: Math.random() < P.tiles ? nextTile() : -1, flee: 0, caught: 0, turn: rnd(-1, 1),
+    ph: rnd(0, 6.28), big: big, small: small, tile: Math.random() < (G.soroi ? .85 : P.tiles) ? nextTile() : -1, flee: 0, caught: 0, turn: rnd(-1, 1),
     dive: Math.random() < P.dive, dv: rnd(0, 6.28), in: edge ? 1 : 0 };
+  if (G.bubble && Math.random() < G.bubble) t.bub = true;
+  if (G.schools){ t.sc = Math.floor(Math.random() * G.schools.length); t.ox = rnd(-36, 36); t.oy = rnd(-30, 30); }
   if (edge){ var s = Math.floor(Math.random() * 4); if (s === 0){ t.x = -20; t.a = 0; } else if (s === 1){ t.x = W + 20; t.a = Math.PI; } else if (s === 2){ t.y = -20; t.a = Math.PI / 2; } else { t.y = H + 20; t.a = -Math.PI / 2; } }
   return t;
 }
+var MAMA_RATE = 1 / 8, MAMA_LIFE = 7;   // ★1127e ママおたまが出る割合（1回の中で1度だけ）・いる時間（秒）
 var CLOCK_ADD = 5, CLOCK_MAX = 30;   // ★1126h 時計の子：＋5秒、1回で＋30秒まで
-function newClock(){ var t = newTad(true); t.clock = true; t.tile = -1; t.big = false; t.small = false; t.dive = false; t.sp *= 1.15; return t; }
+function newClock(){ var t = newTad(true); t.sc = undefined; t.clock = true; t.tile = -1; t.big = false; t.small = false; t.dive = false; t.sp *= 1.15; return t; }
 function newFish(edge){
-  var t = newTad(edge); t.fish = true; t.tile = -1; t.big = false; t.small = false; t.sp = rnd(24, 34) * P.sp;   // ★1126g 上級は金魚ももぐる
+  var t = newTad(edge); t.sc = undefined; t.fish = true; t.tile = -1; t.big = false; t.small = false; t.sp = rnd(24, 34) * P.sp;   // ★1126g 上級は金魚ももぐる
   // ★1126h 黄色の金魚（足のある子にそっくり）：中級から。すくうと 中級−2・上級−3
   if (level >= 1 && Math.random() < [0, .3, .4][level]){ t.ofish = true; t.sp = rnd(46, 58) * P.sp; }
   return t;
@@ -303,12 +355,16 @@ function newFish(edge){
 function newFrog(){ return { x: rnd(.2, .8) * W, y: rnd(.2, .8) * H, tx: 0, ty: 0, sx: 0, sy: 0, hop: 0, wait: rnd(P.wait[0], P.wait[1]), face: 1 }; }
 function reset(){
   P = LV[level]; bag = [];
-  G = { frogs: P.frogs + (stg === 1 ? [2, 2, 2][level] : 0), fish: stg === 2 ? [4, 5, 7][level] : 0, flow: stg === 3 ? [52, 60, 72][level] : 0, night: stg === 4, stick: stg === 5, t: 0, nextClock: rnd(3, 6), ext: 0,
-    fd: 1, dir: 1, nextRev: rnd(6, 9), rev: stg === 3 && level >= 1, whirl: stg === 3 && level >= 2 ? { x: W / 2, y: H * .5, r: Math.min(W, H) * .24, a: 0 } : null,
+  var SK = STG[stg].k;
+  G = { k: SK, frogs: P.frogs + (SK === "frog" ? 2 : 0), fish: SK === "fish" ? [4, 5, 7][level] : 0, flow: SK === "flow" ? [52, 60, 72][level] : 0, night: SK === "night", stick: SK === "stick", t: 0, nextClock: SK === "clock" ? 1.5 : rnd(3, 6), ext: 0,
+    clockMax: CLOCK_MAX /* ★1127c 時計の池も＋30秒まで */, slide: SK === "slide", bubble: SK === "bubble" ? (level ? .55 : .4) : 0, soroi: SK === "soroi", pop: P.pop + (SK === "school" ? 5 : 0),
+    spin: SK === "spin" ? (level ? .34 : .22) : 0, snack: SK === "snack" ? 3 : 0, lure: null, nextKing: .5, nextRb: 2.5, nextFire: 2.5, nextDrop: 1, nextDuck: 1.2,
+    fd: 1, dir: 1, nextRev: rnd(6, 9), rev: SK === "flow" && level >= 1, whirl: SK === "flow" && level >= 2 ? { x: W / 2, y: H * .5, r: Math.min(W, H) * .24, a: 0 } : null,
     poiPull: [.6, .65, .75][level], leaves: [] };
   if (G.flow) for (var lv0 = 0; lv0 < 7; lv0++) G.leaves.push({ x: rnd(0, 1) * W, y: rnd(.05, .95) * H, a: rnd(0, 6.28), r: rnd(.7, 1.2) });
-  sticks = []; G.nextStick = stg === 5 ? 2 : 999;
-  tads = []; for (var i = 0; i < P.pop; i++) tads.push(newTad(false));
+  sticks = []; G.nextStick = SK === "stick" ? 2 : 999;
+  gimInit(SK);
+  tads = []; for (var i = 0; i < G.pop; i++) tads.push(newTad(false));
   for (var q = 0; q < G.fish; q++) tads.push(newFish(false));
   frogs = []; for (var f = 0; f < G.frogs; f++) frogs.push(newFrog());
   pads = []; for (var p = 0; p < 4; p++) pads.push({ x: rnd(.1, .9) * W, y: rnd(.1, .9) * H, r: rnd(18, 30), a: rnd(0, 6.28) });
@@ -316,8 +372,9 @@ function reset(){
   var bw = bowls[level]; hand = bw ? bw.hand : []; melds = bw ? bw.melds : []; agari = false; agariLog = [];
   calcWant(); hud();
 }
+function bonusX(){ return STG[stg].bonus || 1; }
 function poiR(){ return Math.max(34, Math.min(W, H) * .12); }
-function visible(t){ return !t.dive || Math.sin(t.dv) > -.35; }   // もぐっているあいだは、すくえない
+function visible(t){ return (!t.dive || Math.sin(t.dv) > -.35) && !(G.leafs && underLeaf(t)); }   // もぐっているあいだは、すくえない
 
 // ----- おわん（手と面子） -----
 function addTile(t, x, y){
@@ -399,7 +456,9 @@ function yakuList(){
 // ----- 指の動き -----
 var pond = document.getElementById("pond");
 function pos(e){ var r = cv.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
-function place(p){ poi.fx = p.x; poi.fy = p.y; poi.x = p.x + (poi.dx || 0); poi.y = Math.max(-poiR() * .5, p.y - poi.off) + (poi.dy || 0); }
+function place(p){ poi.fx = p.x; poi.fy = p.y; var tx = p.x + (poi.dx || 0), ty = Math.max(-poiR() * .5, p.y - poi.off) + (poi.dy || 0);
+  if (G.slide && poi.down){ poi.tx = tx; poi.ty = ty; return; }   // ★すべる池：ポイは指を追いかけてすべる
+  poi.x = tx; poi.y = ty; poi.tx = tx; poi.ty = ty; poi.vx = 0; poi.vy = 0; }
 pond.addEventListener("pointerdown", function(e){
   if (!playing || poiLeft <= 0) return;
   var p = pos(e); poi.off = e.pointerType === "mouse" ? 0 : poiR() + 46; poi.dx = 0; poi.dy = 0;
@@ -423,9 +482,17 @@ function lift(){
     pop(poi.x, poi.y, "カエルは重い！", "#3B6D11"); SND.kero(); tear(); return;
   }
   var caught = [];
-  tads.forEach(function(t){ if (!t.caught && t.in <= 0 && visible(t) && Math.hypot(t.x - poi.x, t.y - poi.y) < R * (t.small ? .7 : .82)) caught.push(t); });
+  tads.forEach(function(t){ if (!t.caught && t.in <= 0 && visible(t) && !t.bub && Math.hypot(t.x - poi.x, t.y - poi.y) < R * (t.king ? 1 : t.small ? .7 : .82)) caught.push(t); });
+  if (G.mama && !(G.mama.in > 0) && Math.hypot(G.mama.x - poi.x, G.mama.y - poi.y) < R * .85){   // 💕 ママをすくった
+    G.mama = null; G.mamaGot = 1; got += 20; poi.hp -= 30; fx.push({ k: "f", t: 0 }); pop(W / 2, H * .3, "💕 ママをすくった！ ＋20", "#FF5FA0"); pop(W / 2, H * .4, "また会おうね〜💕", "#FFD84A");
+    [784, 988, 1175, 1568, 1976].forEach(function(f, i){ tone(f, .2, "triangle", .14, i * .08); }); SND.got(5);
+    if (poi.hp <= 0) tear(); hud(); return; }
+  var kg = caught.filter(function(t){ return t.king && !t.kh; });   // ★キング：1回目はにげる
+  if (kg.length){ kg.forEach(function(t){ t.kh = 1; t.flee = 1; t.a = rnd(0, 6.28); pop(t.x, t.y - 46, "👑 あと1回！", "#FFD84A"); });
+    caught = caught.filter(function(t){ return kg.indexOf(t) < 0; }); poi.hp -= 25; tone(330, .15, "square", .08); tone(262, .2, "square", .07, .1);
+    if (!caught.length){ if (poi.hp <= 0) tear(); hud(); return; } }
   if (!caught.length){ SND.miss(); ripple(poi.x, poi.y); return; }
-  var w = 0; caught.forEach(function(t){ w += t.big ? 22 : 12; });
+  var w = 0; caught.forEach(function(t){ w += t.king ? 40 : t.big ? 22 : 12; });
   if (poi.hp - w * .5 <= 0 && caught.length > 1){
     caught.sort(function(a, b){ return (b.big ? 1 : 0) - (a.big ? 1 : 0); });
     caught = caught.slice(0, 1); poi.hp = 0;
@@ -433,13 +500,15 @@ function lift(){
   var n = 0, fishN = 0;
   var clk = 0;
   var pen = 0, ofN = 0;
-  caught.forEach(function(t){ t.caught = 1; if (t.fish){ fishN++; if (t.ofish){ ofN++; pen += [1, 2, 3][level]; } else pen += 1; } else n += t.big ? 2 : 1; if (t.clock) clk++; });
+  caught.forEach(function(t){ t.caught = 1; if (t.fish){ fishN++; if (t.ofish){ ofN++; pen += [1, 2, 3][level]; } else pen += 1; } else n += t.king ? 10 : t.rain ? 5 : t.big ? 2 : 1; if (t.clock) clk++;
+    if (t.king){ pop(W / 2, H * .3, "👑 キングゲット！ ＋10", "#FFD84A"); fx.push({ k: "f", t: 0 }); [523, 659, 784, 1047, 1319].forEach(function(f, i){ tone(f, .2, "triangle", .14, i * .08); }); }
+    if (t.rain){ pop(t.x, t.y - 40, "🌈 にじいろ！ ＋5", "#FF5FA0"); [1047, 1319, 1568, 2093].forEach(function(f, i){ tone(f, .14, "sine", .12, i * .05); }); } });
   got += n;
-  if (clk){ var addT = Math.min(CLOCK_MAX - G.ext, clk * CLOCK_ADD); if (addT > 0){ G.ext += addT; timeLeft += addT; pop(W / 2, H * .18, "⏰ ＋" + addT + "秒！", "#FFD000"); [1047, 1319].forEach(function(f, i){ tone(f, .12, "square", .08, i * .08); }); } }
+  if (clk){ var addT = Math.min(G.clockMax - G.ext, clk * CLOCK_ADD); if (addT > 0){ G.ext += addT; timeLeft += addT; pop(W / 2, H * .18, "⏰ ＋" + addT + "秒！", "#FFD000"); [1047, 1319].forEach(function(f, i){ tone(f, .12, "square", .08, i * .08); }); } }
   if (fishN){ var lost = Math.min(got, pen); got -= lost; pop(poi.x, poi.y + 24, (ofN ? "🐟 黄色の金魚だった！ −" : "🐟 金魚だった！ −") + pen, "#FF5A3C"); SND.miss(); }
-  if (n) pop(poi.x, poi.y, (caught.length - fishN > 1 ? (caught.length - fishN) + "ひき いっぺんに！ " : "すくった！ ") + "+" + n, "#fff");
+  if (n) pop(poi.x, poi.y, (caught.length - fishN > 1 ? (caught.length - fishN) + "ひき いっぺんに！ " : "すくった！ ") + "+" + n + (bonusX() > 1 ? " 🌟×" + bonusX() : ""), bonusX() > 1 ? "#FFD84A" : "#fff");
   if (n) SND.got(n);
-  caught.forEach(function(t){ if (t.tile >= 0) addTile(t.tile, poi.x, poi.y); });
+  caught.forEach(function(t){ if (t.tile >= 0){ if (want[t.tile]) wantBurst(poi.x, poi.y, t.tile); addTile(t.tile, poi.x, poi.y); } });
   if (poi.hp <= 0) tear();
   hud();
 }
@@ -458,6 +527,7 @@ function pop(x, y, txt, c){ fx.push({ k: "p", x: x, y: y, t: 0, txt: txt, c: c }
 function flowAt(y){ return G.flow * G.fd * (.55 + .45 * Math.sin(y / H * Math.PI * 2 + G.t * .8)); }
 function step(dt){
   G.t += dt;
+  gimStep(dt);
   if (G.flow){
     // 中級から：ときどき流れが逆になる
     if (G.rev && playing){ G.nextRev -= dt; if (G.nextRev <= 0){ G.dir = -G.dir; G.nextRev = rnd(6, 9); pop(W / 2, H * .3, G.dir > 0 ? "ざざーっ！ 流れが右へ" : "ざざーっ！ 流れが左へ", "#1C5D8C"); tone(220, .4, "sawtooth", .05); tone(160, .5, "sine", .07, .1); } }
@@ -485,12 +555,24 @@ function step(dt){
     if (t.in > 0) t.in -= dt * 1.2;
     t.ph += dt * (t.flee > 0 ? 22 : 9); t.dv += dt * 1.3;
     t.turn += rnd(-1.5, 1.5) * dt; t.turn = Math.max(-1.2, Math.min(1.2, t.turn)); t.a += t.turn * dt;
+    if (t.rain){ t.life -= dt; if (t.life < 0 && t.in <= 0){ t.in = 0; t.caught = .01; t.gone = 1; } }
+    if (G.lure && G.lure.t > 0 && t.flee <= 0 && Math.random() < dt * 4){ t.a = Math.atan2(G.lure.y - t.y, G.lure.x - t.x) + rnd(-.35, .35); t.turn = 0; }
+    if (G.mag && G.mag.t > 0 && poi.down && t.flee <= 0 && Math.hypot(t.x - poi.x, t.y - poi.y) < R * 4.2){ t.a = Math.atan2(poi.y - t.y, poi.x - t.x) + rnd(-.2, .2); t.turn = 0; t.magd = 1; } else t.magd = 0;
+    if (G.mama && G.night && t.flee <= 0 && Math.random() < dt * .7){ t.a = Math.atan2(G.mama.y + rnd(-50, 50) - t.y, G.mama.x + rnd(-50, 50) - t.x); }
+    if (G.leafs && Math.random() < dt * .35){ var nl = G.leafs[Math.floor(Math.random() * G.leafs.length)]; t.a = Math.atan2(nl.y - t.y, nl.x - t.x); }
     if (poi.down){
       var d = Math.hypot(t.x - poi.x, t.y - poi.y);
+      if (t.bub && d < R * .9){ t.bub = false; t.flee = .45; t.a = Math.atan2(t.y - poi.y, t.x - poi.x); ripple(t.x, t.y); tone(1400, .06, "sine", .1); tone(900, .08, "sine", .07, .04); pop(t.x, t.y - 26, "パチン！", "#7FD0F2"); }
       if (d < R * 2.6 && poi.spd > (t.big ? P.flee * .55 : P.flee)){ t.a = Math.atan2(t.y - poi.y, t.x - poi.x) + rnd(-.4, .4); t.flee = .7; }
     }
     if (t.flee > 0) t.flee -= dt;
-    var sp = t.sp * (t.tile >= 0 ? .85 : 1) * (t.flee > 0 ? 3.4 : 1) * (.7 + .3 * Math.sin(t.ph * .5));
+    var sp = t.sp * (t.tile >= 0 ? .85 : 1) * (t.flee > 0 ? 3.4 : 1) * (.7 + .3 * Math.sin(t.ph * .5)) * (t.king ? .55 : 1);
+    if (G.lure && G.lure.t > 0 && t.flee <= 0) sp *= 1.5;
+    if (t.magd) sp *= 1.35;
+    if (G.schools && t.sc !== undefined && t.flee <= 0){   // ★群れ：リーダーについていく
+      var sc = G.schools[t.sc], gx = sc.x + t.ox, gy = sc.y + t.oy, gd = Math.hypot(gx - t.x, gy - t.y);
+      t.a = Math.atan2(gy - t.y, gx - t.x); sp = Math.min(120, 8 + gd * 2.4); }
+    if (G.spin){ var ccx = W / 2, ccy = H / 2, ox0 = t.x - ccx; t.x += -(t.y - ccy) * G.spin * dt; t.y += ox0 * G.spin * dt; t.a += G.spin * dt; }
     t.x += Math.cos(t.a) * sp * dt; t.y += Math.sin(t.a) * sp * dt;
     if (G.flow){
       t.x += flowAt(t.y) * dt;
@@ -506,9 +588,9 @@ function step(dt){
   });
   // すくった子の数だけ、はしから新しい子が泳いでくる
   tads = tads.filter(function(t){ return !t.caught || t.caught < .6; });
-  while (playing && tads.filter(function(t){ return !t.caught && !t.fish && !t.clock; }).length < P.pop) tads.push(newTad(true));
+  while (playing && tads.filter(function(t){ return !t.caught && !t.fish && !t.clock && !t.king && !t.rain; }).length < G.pop) tads.push(newTad(true));
   if (playing){ G.nextClock -= dt;
-    if (G.nextClock <= 0){ G.nextClock = rnd(5, 8); if (G.ext < CLOCK_MAX && !tads.some(function(t){ return t.clock && !t.caught; })) tads.push(newClock()); } }
+    if (G.nextClock <= 0){ G.nextClock = G.k === "clock" ? rnd(1.2, 2.2) : rnd(5, 8); if (G.ext < G.clockMax && tads.filter(function(t){ return t.clock && !t.caught; }).length < (G.k === "clock" ? 3 : 1)) tads.push(newClock()); } }
   while (playing && tads.filter(function(t){ return !t.caught && t.fish; }).length < G.fish) tads.push(newFish(true));
   // カエル：ときどきジャンプ。ポイが水に入っていると、そっちへ跳んでくる
   frogs.forEach(function(f){
@@ -563,7 +645,8 @@ function step(dt){
   });
   sticks = sticks.filter(function(k){ return k.fake ? k.t < k.bub + .15 : k.t < k.bub + k.stay + .3; });
   fx.forEach(function(f){ f.t += dt; });
-  fx = fx.filter(function(f){ return f.t < (f.k === "r" ? .8 : 1.2); });
+  fx.forEach(function(f){ if (f.k === "b") f.ps.forEach(function(p){ p.x += p.vx * dt; p.y += p.vy * dt; p.vx *= .93; p.vy = p.vy * .93 + 260 * dt; }); });
+  fx = fx.filter(function(f){ return f.t < (f.k === "r" ? .8 : f.k === "f" ? .35 : f.k === "b" ? 1.1 : 1.2); });
 }
 
 // ----- 描く -----
@@ -595,12 +678,15 @@ function drawFish(t){
 }
 function drawTad(t, now){
   if (t.fish) return drawFish(t);
-  var s = t.big ? 1.15 : t.small ? .72 : 1, x = t.x, y = t.y, k = t.caught ? Math.max(0, 1 - t.caught * 2.2) : 1;
+  if (t.gone) return;
+  var s = t.king ? 2.1 : t.big ? 1.15 : t.small ? .72 : 1, x = t.x, y = t.y, k = t.caught ? Math.max(0, 1 - t.caught * 2.2) : 1;
   if (k <= 0) return;
   var a0 = visible(t) ? 1 : .28;
   if (t.caught) y -= t.caught * 120;
   cx.save(); cx.translate(x, y); cx.rotate(t.a + Math.PI); cx.scale(s * k, s * k); cx.globalAlpha = k * a0;
   var body = t.big ? "#E8710A" : "#1B2B4A", fin = t.big ? "#F7B977" : "#8FA3C4", w = Math.sin(t.ph) * 6;
+  if (t.rain){ var hu = (now / 4 + t.ph * 20) % 360; body = "hsl(" + hu + ",85%,52%)"; fin = "hsl(" + ((hu + 60) % 360) + ",90%,75%)"; }
+  if (t.king){ body = "#5B3FA0"; fin = "#C9B4F2"; }
   cx.beginPath(); cx.moveTo(6, -5); cx.quadraticCurveTo(18, -6 + w, 30, w * 1.6); cx.quadraticCurveTo(18, 6 + w, 6, 5); cx.closePath(); cx.fillStyle = fin; cx.fill();
   cx.beginPath(); cx.moveTo(6, -2.5); cx.quadraticCurveTo(17, -2 + w, 27, w * 1.5); cx.quadraticCurveTo(17, 2 + w, 6, 2.5); cx.fillStyle = body; cx.fill();
   if (t.big){ cx.strokeStyle = body; cx.lineWidth = 3; cx.lineCap = "round"; var lg = Math.sin(t.ph * .7) * 2; cx.beginPath(); cx.moveTo(4, -8); cx.lineTo(9, -14 + lg); cx.moveTo(4, 8); cx.lineTo(9, 14 - lg); cx.stroke(); }
@@ -611,6 +697,15 @@ function drawTad(t, now){
     cx.beginPath(); cx.arc(e[0] + 4, e[1] * 1.6, 1.8, 0, 6.29); cx.fillStyle = "#F7A8C8"; cx.fill();
   });
   cx.restore();
+  if (t.king && !t.caught){ cx.save(); cx.globalAlpha = k * a0; cx.font = "26px sans-serif"; cx.textAlign = "center"; cx.textBaseline = "bottom"; cx.fillText("👑", x, y - 18 + Math.sin(now / 200) * 2);
+    if (t.kh){ cx.font = "800 13px sans-serif"; cx.fillStyle = "#EE1E7B"; cx.fillText("あと1回", x, y + 40); } cx.restore(); }
+  if (t.rain && !t.caught){ cx.save(); cx.globalAlpha = k * a0 * .8;
+    for (var rb = 0; rb < 5; rb++){ var ra = now / 300 + rb * 1.26; cx.fillStyle = "hsl(" + (rb * 72 + now / 5) % 360 + ",90%,65%)"; cx.beginPath(); cx.arc(x + Math.cos(ra) * 22, y + Math.sin(ra) * 22, 3, 0, 6.29); cx.fill(); } cx.restore(); }
+  if (t.bub && !t.caught){ cx.save(); cx.globalAlpha = k * a0; var br = 21 * s;
+    var bg = cx.createRadialGradient(x - br * .35, y - br * .35, 2, x, y, br); bg.addColorStop(0, "rgba(255,255,255,.55)"); bg.addColorStop(.7, "rgba(200,240,255,.15)"); bg.addColorStop(1, "rgba(255,255,255,.75)");
+    cx.fillStyle = bg; cx.beginPath(); cx.arc(x, y, br + Math.sin(now / 250 + t.ph) * 1.5, 0, 6.29); cx.fill();
+    cx.strokeStyle = "rgba(255,255,255,.9)"; cx.lineWidth = 1.5; cx.stroke();
+    cx.beginPath(); cx.ellipse(x - br * .4, y - br * .45, br * .22, br * .12, -.6, 0, 6.29); cx.fillStyle = "rgba(255,255,255,.9)"; cx.fill(); cx.restore(); }
   if (t.clock && !t.caught){   // 背中の時計
     cx.save(); cx.globalAlpha = k * a0; cx.font = "18px sans-serif"; cx.textAlign = "center"; cx.textBaseline = "bottom";
     cx.shadowColor = "#FFD000"; cx.shadowBlur = 8 + 4 * Math.sin(now / 130); cx.fillText("⏰", x, y - 9); cx.restore();
@@ -618,8 +713,8 @@ function drawTad(t, now){
   if (t.tile >= 0 && timg[t.tile] && timg[t.tile].complete){
     var tw = 18 * Math.max(.85, s) * k, th = tw * 125 / 96, gx = x - tw / 2 + 1, gy = y - th - 4;
     cx.save(); cx.globalAlpha = k * a0;
-    if (want[t.tile] && !t.caught){ cx.shadowColor = "#FFD000"; cx.shadowBlur = 10 + 5 * Math.sin(now / 150); }
-    cx.drawImage(timg[t.tile], gx, gy, tw, th); cx.restore();
+    if (!(want[t.tile] && !t.caught)) cx.drawImage(timg[t.tile], gx, gy, tw, th);   // ほしい牌は drawWant でいちばん上に描く
+    cx.restore();
   }
 }
 function drawFrog(f){
@@ -640,7 +735,8 @@ function drawFrog(f){
   cx.restore();
 }
 function drawPond(now){
-  var g = cx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, "#9BDDF7"); g.addColorStop(1, "#4FAEDC");
+  var BG = { slide: ["#F1FBFF", "#A9D8EE"], rain: ["#8EAFC2", "#4B7590"], fire: ["#6E64B8", "#2F3D80"], rainbow: ["#C9F0FF", "#7FC8EC"], hide: ["#A6E3F2", "#4FAE9A"], snack: ["#BFEFFF", "#68BCE4"] }[G.k] || ["#9BDDF7", "#4FAEDC"];
+  var g = cx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, BG[0]); g.addColorStop(1, BG[1]);
   cx.fillStyle = g; cx.fillRect(0, 0, W, H);
   cx.strokeStyle = "rgba(255,255,255,.18)"; cx.lineWidth = 2;
   for (var i = 0; i < 7; i++){
@@ -704,15 +800,57 @@ function drawNight(){
   var want = poiR() * (poi.down ? NL.r : NL.idle);
   G.lr = G.lr === undefined ? want : G.lr + (want - G.lr) * .18;
   var R = G.lr * (1 + NL.fl * Math.sin(G.t * 23) * Math.sin(G.t * 7.3));   // 上級は明かりがちらちら
-  if (R < 4){ cx.fillStyle = "rgba(6,12,34," + NL.dark + ")"; cx.fillRect(0, 0, W, H); }
-  else {
-    var g = cx.createRadialGradient(light.x, light.y, R * .35, light.x, light.y, R);
-    g.addColorStop(0, "rgba(6,12,34,0)"); g.addColorStop(1, "rgba(6,12,34," + NL.dark + ")");
-    cx.fillStyle = g; cx.fillRect(0, 0, W, H);
-  }
+  // ★1127d くらやみに「明かりの穴」をあける（ポイのまわり・光るママおたま）
+  var nc = G.nc || (G.nc = document.createElement("canvas")), cw = Math.ceil(W), ch = Math.ceil(H);
+  if (nc.width !== cw || nc.height !== ch){ nc.width = cw; nc.height = ch; }
+  var n2 = nc.getContext("2d");
+  n2.globalCompositeOperation = "source-over"; n2.clearRect(0, 0, cw, ch); n2.fillStyle = "rgba(6,12,34," + NL.dark + ")"; n2.fillRect(0, 0, cw, ch);
+  n2.globalCompositeOperation = "destination-out";
+  function hole(x, y, r){ var g = n2.createRadialGradient(x, y, r * .35, x, y, r); g.addColorStop(0, "rgba(0,0,0,1)"); g.addColorStop(1, "rgba(0,0,0,0)"); n2.fillStyle = g; n2.beginPath(); n2.arc(x, y, r, 0, 6.29); n2.fill(); }
+  if (R >= 4) hole(light.x, light.y, R);
+  var lp = mamaLamp(); if (lp) hole(lp.x, lp.y, poiR() * (level ? 2 : 2.4) * (1 + .05 * Math.sin(G.t * 3)));
+  cx.drawImage(nc, 0, 0, W, H);
   // ほたる（上級ほど少ない）
   for (var i = 0; i < [7, 5, 3][level]; i++){ var fx1 = (Math.sin(G.t * .3 + i * 2.1) * .45 + .5) * W, fy1 = (Math.cos(G.t * .23 + i * 1.3) * .45 + .5) * H;
     cx.beginPath(); cx.arc(fx1, fy1, 2.2, 0, 6.29); cx.fillStyle = "rgba(220,255,140," + (.5 + .4 * Math.sin(G.t * 3 + i)) + ")"; cx.fill(); }
+}
+// ★ほしい牌の子：くるくる光るすじ・輪・きらきら・「ほしい！」の札（夜の池でも見える）
+function drawWant(now){
+  tads.forEach(function(t){
+    if (t.caught || t.tile < 0 || !want[t.tile] || t.in > 0) return;
+    var x = t.x, y = t.y - 14, a0 = visible(t) ? 1 : .35, ph = now / 600 + t.ph * .1;
+    cx.save(); cx.globalAlpha = a0; cx.translate(x, y);
+    cx.save(); cx.rotate(ph);
+    for (var i = 0; i < 10; i++){ cx.rotate(Math.PI / 5);
+      var g = cx.createLinearGradient(0, 0, 0, -46); g.addColorStop(0, "rgba(255,220,60,.55)"); g.addColorStop(1, "rgba(255,220,60,0)");
+      cx.fillStyle = g; cx.beginPath(); cx.moveTo(-5, 0); cx.lineTo(0, -46 - 6 * Math.sin(now / 200 + i)); cx.lineTo(5, 0); cx.fill(); }
+    cx.restore();
+    var pr = 26 + 5 * Math.sin(now / 140);
+    cx.beginPath(); cx.arc(0, 0, pr, 0, 6.29); cx.strokeStyle = "rgba(255,216,74,.95)"; cx.lineWidth = 3; cx.stroke();
+    cx.beginPath(); cx.arc(0, 0, pr + 8, 0, 6.29); cx.strokeStyle = "rgba(255,120,180,.7)"; cx.lineWidth = 2; cx.setLineDash([4, 6]); cx.lineDashOffset = -now / 40; cx.stroke(); cx.setLineDash([]);
+    for (var k = 0; k < 4; k++){ var sa = now / 380 + k * 1.57, sx = Math.cos(sa) * (pr + 6), sy = Math.sin(sa) * (pr + 6), sz = 4 + 2 * Math.sin(now / 90 + k);
+      cx.fillStyle = k % 2 ? "#fff" : "#FFE066"; cx.beginPath();
+      for (var q = 0; q < 8; q++){ var rr = q % 2 ? sz * .35 : sz, aa = q * Math.PI / 4; cx.lineTo(sx + Math.cos(aa) * rr, sy + Math.sin(aa) * rr); } cx.closePath(); cx.fill(); }
+    var by = -pr - 22 + 3 * Math.sin(now / 160);
+    cx.font = "800 12px 'M PLUS Rounded 1c',sans-serif"; cx.textAlign = "center"; cx.textBaseline = "middle";
+    cx.fillStyle = "#EE1E7B"; cx.beginPath(); if (cx.roundRect) cx.roundRect(-24, by - 9, 48, 18, 9); else cx.rect(-24, by - 9, 48, 18); cx.fill();
+    cx.fillStyle = "#fff"; cx.fillText("ほしい！", 0, by + 1);
+    cx.restore();
+    // 牌（大きく・金のふち）
+    if (timg[t.tile] && timg[t.tile].complete){
+      var zz = 1.4 + .08 * Math.sin(now / 120), tw = 18 * zz * (t.big ? 1.15 : 1), th = tw * 125 / 96, gx = x - tw / 2, gy = t.y - th - 4;
+      cx.save(); cx.globalAlpha = a0; cx.shadowColor = "#FFD000"; cx.shadowBlur = 16;
+      cx.fillStyle = "#FFD84A"; cx.beginPath(); if (cx.roundRect) cx.roundRect(gx - 3, gy - 3, tw + 6, th + 6, 5); else cx.rect(gx - 3, gy - 3, tw + 6, th + 6); cx.fill(); cx.shadowBlur = 0;
+      cx.drawImage(timg[t.tile], gx, gy, tw, th); cx.restore();
+    }
+  });
+}
+// ★ほしい牌をすくった：はじける光・画面がピカッ・牌がドーン
+function wantBurst(x, y, tile){
+  var ps = []; for (var i = 0; i < 26; i++){ var a = Math.random() * 6.29, v = rnd(120, 300); ps.push({ x: x, y: y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, c: pick(["#FFD84A", "#FF5FA0", "#fff", "#7FD0F2", "#8CE07A"]), s: rnd(3, 6) }); }
+  fx.push({ k: "b", t: 0, ps: ps, x: x, y: y, tile: tile });
+  fx.push({ k: "f", t: 0 });
+  [1319, 1568, 2093, 2637].forEach(function(f, i){ tone(f, .16, "triangle", .13, i * .06); }); tone(2637, .4, "sine", .08, .3);
 }
 function drawPoi(now){
   var R = poiR(), x = poi.x, y = poi.y, hp = Math.max(0, poi.hp) / 100;
@@ -733,6 +871,13 @@ function drawPoi(now){
 }
 function drawFx(){
   fx.forEach(function(f){
+    if (f.k === "f"){ cx.fillStyle = "rgba(255,236,150," + (.55 * (1 - f.t / .35)) + ")"; cx.fillRect(0, 0, W, H); return; }
+    if (f.k === "b"){
+      cx.save(); var al = Math.max(0, 1 - f.t / 1.1);
+      cx.beginPath(); cx.arc(f.x, f.y, 20 + f.t * 160, 0, 6.29); cx.strokeStyle = "rgba(255,216,74," + al + ")"; cx.lineWidth = 6 * al + 1; cx.stroke();
+      f.ps.forEach(function(p){ cx.globalAlpha = al; cx.fillStyle = p.c; cx.beginPath(); cx.arc(p.x, p.y, p.s, 0, 6.29); cx.fill(); });
+      if (timg[f.tile] && timg[f.tile].complete){ var sc = 1 + Math.min(1, f.t * 4) * 1.2, tw = 26 * sc, th = tw * 125 / 96; cx.globalAlpha = al; cx.shadowColor = "#FFD000"; cx.shadowBlur = 20; cx.drawImage(timg[f.tile], f.x - tw / 2, f.y - th - 30 - f.t * 30, tw, th); }
+      cx.restore(); return; }
     if (f.k === "r"){ cx.beginPath(); cx.arc(f.x, f.y, 10 + f.t * 70, 0, 6.29); cx.strokeStyle = "rgba(255,255,255," + Math.max(0, .7 - f.t) + ")"; cx.lineWidth = 2; cx.stroke(); return; }
     cx.save(); cx.globalAlpha = Math.max(0, 1 - f.t / 1.2);
     cx.font = "800 18px 'M PLUS Rounded 1c',sans-serif"; cx.textAlign = "center";
@@ -741,16 +886,200 @@ function drawFx(){
     cx.strokeText(f.txt, xx, yy); cx.fillText(f.txt, xx, yy); cx.restore();
   });
 }
+// ===== ★1127 新しい仕掛け =====
+function gimInit(SK){
+  G.leafs = null; G.schools = null; G.ducks = SK === "duck" ? [] : null; G.fires = SK === "fire" ? [] : null; G.streaks = null; G.cracks = null; G.food = [];
+  if (SK === "hide"){ G.leafs = []; for (var i = 0; i < 4; i++) G.leafs.push({ x: (i % 2 ? .7 : .3) * W + rnd(-30, 30), y: (i < 2 ? .3 : .72) * H + rnd(-30, 30), r: Math.min(W, H) * .15 + rnd(0, 10), a: rnd(0, 6.28), vx: rnd(-8, 8), vy: rnd(-8, 8), open: 0 }); }
+  if (SK === "school"){ G.schools = []; for (var j = 0; j < 3; j++) G.schools.push({ x: rnd(.2, .8) * W, y: (.2 + j * .3) * H, a: rnd(0, 6.28), sp: rnd(34, 44) * P.sp, turn: 0 }); }
+  if (SK === "rain"){ G.streaks = []; for (var r = 0; r < 46; r++) G.streaks.push({ x: rnd(0, 1), y: rnd(0, 1), v: rnd(.6, 1) }); }
+  if (SK === "slide"){ G.cracks = []; for (var c = 0; c < 7; c++){ var pts = [[rnd(0, 1), rnd(0, 1)]]; for (var q = 0; q < 4; q++){ var lp = pts[pts.length - 1]; pts.push([lp[0] + rnd(-.12, .12), lp[1] + rnd(-.1, .1)]); } G.cracks.push(pts); } }
+  G.crabs = null; G.mag = null; G.mama = null;
+  if (SK === "crab"){ G.crabs = []; for (var cr = 0; cr < (level ? 3 : 2); cr++) G.crabs.push({ x: rnd(.15, .85) * W, y: rnd(.2, .85) * H, a: rnd(0, 6.28), cd: 0, ph: rnd(0, 6) }); }
+  if (SK === "magnet") G.mag = { t: 0, next: 2.5 };
+  G.mamaAt = Math.random() < MAMA_RATE ? rnd(5, 20) : -1; G.mamaGot = 0; G.pt = 0;   // ★1127e ママが出るかどうか・出る時間
+  var sb = document.getElementById("snack"); if (sb){ sb.hidden = SK !== "snack"; snackBtn(); }
+}
+function underLeaf(t){ return G.leafs.some(function(l){ return l.open <= 0 && Math.hypot(t.x - l.x, t.y - l.y) < l.r * .85; }); }
+function snackBtn(){ var sb = document.getElementById("snack"); if (sb) sb.innerHTML = "🍬 エサをまく <b>" + (G.snack || 0) + "</b>"; }
+function newKing(){ var t = newTad(true); t.sc = undefined; t.king = true; t.tile = -1; t.big = false; t.small = false; t.dive = false; t.bub = false; t.kh = 0; return t; }
+function newRainbow(){ var t = newTad(true); t.sc = undefined; t.rain = true; t.tile = -1; t.big = false; t.small = false; t.dive = false; t.bub = false; t.sp *= 1.7; t.life = 6; return t; }
+function poiShift(ax, ay){ poi.dx = (poi.dx || 0) + ax; poi.dy = (poi.dy || 0) + ay; poi.x = poi.fx + poi.dx; poi.y = Math.max(-poiR() * .5, poi.fy - poi.off) + poi.dy; }
+function gimStep(dt){
+  var R = poiR();
+  if (G.lure){ G.lure.t -= dt; if (G.lure.t <= 0) G.lure = null; }
+  G.food = G.food.filter(function(f){ f.t += dt; return f.t < 4.5; });
+  // ❄️ すべる：ばねで指を追いかける（止まりにくい）
+  if (G.slide && poi.down){
+    var kk = level ? 34 : 48, dmp = level ? .3 : .15;
+    poi.vx = (poi.vx || 0) + (poi.tx - poi.x) * kk * dt; poi.vy = (poi.vy || 0) + (poi.ty - poi.y) * kk * dt;
+    poi.vx *= Math.pow(dmp, dt); poi.vy *= Math.pow(dmp, dt); poi.x += poi.vx * dt; poi.y += poi.vy * dt;
+    poi.spd = Math.max(poi.spd, Math.hypot(poi.vx, poi.vy) / 1000 * .6);
+  }
+  // 🌀 ぐるぐる：ポイも少し回される
+  if (G.spin && poi.down){ poiShift(-(poi.y - H / 2) * G.spin * .45 * dt, (poi.x - W / 2) * G.spin * .45 * dt); }
+  if (G.spin) pads.forEach(function(p){ var ox = p.x - W / 2; p.x += -(p.y - H / 2) * G.spin * dt; p.y += ox * G.spin * dt; p.a += G.spin * dt; });
+  // 💕 ママおたま：たまにあらわれて、7秒たつと池から出ていく。ポイを速く動かすと にげる
+  if (playing){ G.pt += dt;
+    if (!G.mama && G.mamaAt >= 0 && G.pt >= G.mamaAt){ G.mamaAt = -1; var side = Math.random() < .5;
+      G.mama = { x: side ? -30 : W + 30, y: rnd(.25, .75) * H, a: side ? 0 : Math.PI, turn: 0, flee: 0, ph: 0, in: 1, life: MAMA_LIFE, leave: 0 };
+      pop(W / 2, H * .2, "💕 ママがあらわれた！", "#FF5FA0"); [988, 1319, 1568].forEach(function(f, i){ tone(f, .14, "sine", .1, i * .08); }); } }
+  if (G.mama){ var mm = G.mama; mm.ph += dt * 8;
+    if (mm.in > 0) mm.in -= dt;
+    mm.life -= dt; if (mm.life <= 0 && !mm.leave){ mm.leave = 1; mm.a = mm.x < W / 2 ? Math.PI : 0; pop(mm.x, mm.y - 40, "バイバイ💕", "#FF9CC0"); }
+    if (!mm.leave){ mm.turn += rnd(-1.2, 1.2) * dt; mm.turn = Math.max(-.8, Math.min(.8, mm.turn)); mm.a += mm.turn * dt; }
+    if (poi.down){ var pd0 = Math.hypot(mm.x - poi.x, mm.y - poi.y); if (pd0 < R * 2.4 && poi.spd > (level ? .16 : .22)){ mm.a = Math.atan2(mm.y - poi.y, mm.x - poi.x) + rnd(-.3, .3); mm.flee = .8; } }
+    if (mm.flee > 0) mm.flee -= dt;
+    var msp = (level ? 34 : 26) * (mm.flee > 0 ? 3 : 1) * (mm.leave ? 3.2 : 1);
+    mm.x += Math.cos(mm.a) * msp * dt; mm.y += Math.sin(mm.a) * msp * dt;
+    if (!(mm.in > 0) && !mm.leave){ var mg = 40; if (mm.x < mg){ mm.x = mg; mm.a = Math.PI - mm.a; } if (mm.x > W - mg){ mm.x = W - mg; mm.a = Math.PI - mm.a; } if (mm.y < mg + 20){ mm.y = mg + 20; mm.a = -mm.a; } if (mm.y > H - mg){ mm.y = H - mg; mm.a = -mm.a; } }
+    if (mm.leave && (mm.x < -50 || mm.x > W + 50 || mm.y < -50 || mm.y > H + 50)) G.mama = null; }
+  // 🦞 ザリガニ
+  if (G.crabs) G.crabs.forEach(function(c){ c.ph += dt * 3; if (c.cd > 0) c.cd -= dt;
+    var near = poi.down ? Math.hypot(poi.x - c.x, poi.y - c.y) : 999;
+    if (poi.down && level && near < R * 5){ var want0 = Math.atan2(poi.y - c.y, poi.x - c.x), da = Math.atan2(Math.sin(want0 - c.a), Math.cos(want0 - c.a)); c.a += Math.max(-1, Math.min(1, da)) * 1.2 * dt; }
+    else c.a += rnd(-1, 1) * dt;
+    var csp = (level ? 30 : 20) * (.6 + .4 * Math.sin(c.ph));
+    c.x += Math.cos(c.a) * csp * dt; c.y += Math.sin(c.a) * csp * dt; var m2 = 30;
+    if (c.x < m2){ c.x = m2; c.a = Math.PI - c.a; } if (c.x > W - m2){ c.x = W - m2; c.a = Math.PI - c.a; } if (c.y < m2){ c.y = m2; c.a = -c.a; } if (c.y > H - m2){ c.y = H - m2; c.a = -c.a; }
+    c.snap = near < R * 1.7;
+    tads.forEach(function(t){ if (!t.caught && Math.hypot(t.x - c.x, t.y - c.y) < 46){ t.a = Math.atan2(t.y - c.y, t.x - c.x); t.flee = .5; } });
+    if (playing && poi.down && c.cd <= 0 && near < R * .72 + 10){ c.cd = 2; pop(c.x, c.y - 30, "ちょきん！ ポイが破れた", "#D93A2B"); tone(1800, .05, "square", .08); tone(1200, .05, "square", .08, .06); tear(); } });
+  // 🧲 じしゃくタイム
+  if (G.mag && playing){ if (G.mag.t > 0) G.mag.t -= dt; else { G.mag.next -= dt; if (G.mag.next <= 0){ G.mag.t = level ? 2.6 : 3.5; G.mag.next = rnd(6, 8); pop(W / 2, H * .22, "🧲 じしゃくタイム！", "#FF5A3C"); [660, 880, 1320].forEach(function(f, i){ tone(f, .12, "square", .06, i * .07); }); } } }
+  if (!playing) return;
+  // 👑 キング
+  if (G.k === "king" && !tads.some(function(t){ return t.king && !t.caught; })){ G.nextKing -= dt; if (G.nextKing <= 0){ G.nextKing = 3; tads.push(newKing()); pop(W / 2, H * .2, "👑 キングがきた！", "#FFD84A"); } }
+  // 🌈 にじいろ
+  if (G.k === "rainbow" && !tads.some(function(t){ return t.rain && !t.caught; })){ G.nextRb -= dt; if (G.nextRb <= 0){ G.nextRb = rnd(2.5, 4.5); tads.push(newRainbow()); tone(1568, .1, "sine", .08); } }
+  // 🫧 泡の子を ときどき足す
+  // 🐠 群れのリーダー
+  if (G.schools) G.schools.forEach(function(sc){ sc.turn += rnd(-1.4, 1.4) * dt; sc.turn = Math.max(-.9, Math.min(.9, sc.turn)); sc.a += sc.turn * dt;
+    sc.x += Math.cos(sc.a) * sc.sp * dt; sc.y += Math.sin(sc.a) * sc.sp * dt; var m = 60;
+    if (sc.x < m){ sc.x = m; sc.a = Math.PI - sc.a; } if (sc.x > W - m){ sc.x = W - m; sc.a = Math.PI - sc.a; } if (sc.y < m){ sc.y = m; sc.a = -sc.a; } if (sc.y > H - m){ sc.y = H - m; sc.a = -sc.a; } });
+  // 🍃 はっぱ
+  if (G.leafs) G.leafs.forEach(function(l){ l.x += l.vx * dt; l.y += l.vy * dt; l.a += dt * .1; if (l.x < l.r * .6 || l.x > W - l.r * .6) l.vx = -l.vx; if (l.y < l.r * .6 || l.y > H - l.r * .6) l.vy = -l.vy;
+    if (l.open > 0) l.open -= dt;
+    else if (poi.down && Math.hypot(poi.x - l.x, poi.y - l.y) < l.r * .9){ l.open = level ? 2.2 : 3; pop(l.x, l.y - l.r, "ぺろん！", "#3B8F3B"); tone(520, .08, "triangle", .1); tone(780, .1, "triangle", .08, .06);
+      tads.forEach(function(t){ if (!t.caught && Math.hypot(t.x - l.x, t.y - l.y) < l.r) { t.flee = level ? .5 : .25; t.a = Math.atan2(t.y - l.y, t.x - l.x); } }); } });
+  // 🌧️ 雨つぶ
+  if (G.streaks){ G.nextDrop -= dt; if (G.nextDrop <= 0){ G.nextDrop = level ? rnd(.2, .4) : rnd(.35, .6); var dx0 = rnd(.05, .95) * W, dy0 = rnd(.05, .95) * H; ripple(dx0, dy0);
+      tads.forEach(function(t){ if (!t.caught && Math.hypot(t.x - dx0, t.y - dy0) < 75){ t.a = Math.atan2(t.y - dy0, t.x - dx0); t.flee = .6; } }); } }
+  // 🦆 アヒル親子
+  if (G.ducks){ G.nextDuck -= dt; if (G.nextDuck <= 0){ G.nextDuck = level ? rnd(3.5, 5) : rnd(5, 7); var dr = Math.random() < .5 ? 1 : -1; G.ducks.push({ x: dr > 0 ? -30 : W + 30, y: rnd(.15, .85) * H, dir: dr, n: level ? 4 : 3, wob: rnd(0, 6) }); tone(700, .08, "square", .05); tone(760, .08, "square", .05, .12); }
+    G.ducks.forEach(function(d){ d.x += d.dir * (level ? 62 : 48) * dt; d.y += Math.sin(G.t * 1.5 + d.wob) * 12 * dt;
+      for (var i = 0; i <= d.n; i++){ var px = d.x - d.dir * i * 30, py = d.y;
+        tads.forEach(function(t){ if (!t.caught && Math.hypot(t.x - px, t.y - py) < 50){ t.a = Math.atan2(t.y - py, t.x - px); t.flee = .4; } });
+        if (poi.down){ var pd = Math.hypot(poi.x - px, poi.y - py); if (pd < R + 16 && pd > 1) poiShift((poi.x - px) / pd * 230 * dt, (poi.y - py) / pd * 230 * dt); } } });
+    G.ducks = G.ducks.filter(function(d){ return d.dir > 0 ? d.x - d.n * 30 < W + 40 : d.x + d.n * 30 > -40; }); }
+  // 🎆 花火
+  if (G.fires){ G.nextFire -= dt; if (G.nextFire <= 0){ G.nextFire = rnd(6, 8); G.fires.push({ x: rnd(.2, .8) * W, ty: rnd(.25, .6) * H, y: H + 10, t: 0, boom: 0, ps: [] }); tone(400, .5, "sine", .04); }
+    G.fires.forEach(function(f){ f.t += dt;
+      if (!f.boom){ f.y -= (H + 10 - f.ty) / .8 * dt; if (f.y <= f.ty){ f.boom = f.t; f.y = f.ty; var hu = rnd(0, 360);
+          for (var i = 0; i < 40; i++){ var a = i / 40 * 6.28, v = rnd(90, 170); f.ps.push({ x: f.x, y: f.y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, c: "hsl(" + (hu + rnd(-30, 30)) + ",95%,65%)" }); }
+          G.lure = { x: f.x, y: f.y, t: 2.8 }; fx.push({ k: "f", t: 0 }); tone(90, .4, "sawtooth", .1); tone(60, .5, "sine", .14, .02); pop(f.x, f.y - 30, "ドーン！", "#FFD84A"); } }
+      else f.ps.forEach(function(p){ p.x += p.vx * dt; p.y += p.vy * dt; p.vx *= .96; p.vy = p.vy * .96 + 40 * dt; }); });
+    G.fires = G.fires.filter(function(f){ return !f.boom || f.t - f.boom < 1.6; }); }
+}
+function gimUnder(now){
+  if (G.cracks){ cx.strokeStyle = "rgba(255,255,255,.75)"; cx.lineWidth = 1.5; G.cracks.forEach(function(c){ cx.beginPath(); c.forEach(function(p){ cx.lineTo(p[0] * W, p[1] * H); }); cx.stroke(); });
+    for (var i = 0; i < 12; i++){ var sx = ((i * 97 + now / 30) % (W + 40)) - 20, sy = (i * 53) % H; cx.fillStyle = "rgba(255,255,255,.7)"; cx.beginPath(); cx.arc(sx, sy, 1.6, 0, 6.29); cx.fill(); } }
+  if (G.spin){ cx.save(); cx.translate(W / 2, H / 2); cx.rotate(G.t * G.spin); cx.strokeStyle = "rgba(255,255,255,.22)"; cx.lineWidth = 3;
+    for (var a = 0; a < 4; a++){ cx.beginPath(); for (var u = 0; u < 50; u++){ var rr = 10 + u * Math.max(W, H) / 70, aa = a * 1.57 + u * .09; cx.lineTo(Math.cos(aa) * rr, Math.sin(aa) * rr); } cx.stroke(); } cx.restore(); }
+  G.food.forEach(function(f){ for (var i = 0; i < 9; i++){ var a = i * .7, r = 6 + (i % 3) * 7; cx.fillStyle = ["#FF8FB8", "#FFD84A", "#8CE07A"][i % 3]; cx.globalAlpha = Math.max(0, 1 - f.t / 4.5);
+    cx.beginPath(); cx.arc(f.x + Math.cos(a) * r, f.y + Math.sin(a) * r + Math.min(1, f.t * 3) * 3, 3, 0, 6.29); cx.fill(); } cx.globalAlpha = 1; });
+}
+// 💕 ママおたま（夜の池）：ふつうのおたまと同じ形・ピンク・茶色の細長いメガネ・ふんわり光る
+function mamaLamp(){ var m = G.mama; if (!m || !G.night) return null; return { x: m.x, y: m.y }; }
+function mamaArt(cx, x, y, sc, a, ph, t){
+  var w = Math.sin(ph) * 6, gl = .85 + .15 * Math.sin((t || 0) / 300);
+  cx.save(); cx.translate(x, y);
+  var halo = cx.createRadialGradient(0, 0, 4, 0, 0, 34 * sc); halo.addColorStop(0, "rgba(255,170,200," + (.6 * gl) + ")"); halo.addColorStop(.5, "rgba(255,140,180," + (.25 * gl) + ")"); halo.addColorStop(1, "rgba(255,120,170,0)");
+  cx.fillStyle = halo; cx.beginPath(); cx.arc(0, 0, 34 * sc, 0, 6.29); cx.fill();
+  cx.rotate(a + Math.PI); cx.scale(sc, sc);
+  var body = "#EE3F79", fin = "#F9A7C4";
+  // しっぽ（ふつうのおたまと同じ形）
+  cx.beginPath(); cx.moveTo(6, -5); cx.quadraticCurveTo(18, -6 + w, 30, w * 1.6); cx.quadraticCurveTo(18, 6 + w, 6, 5); cx.closePath(); cx.fillStyle = fin; cx.fill();
+  cx.beginPath(); cx.moveTo(6, -2.5); cx.quadraticCurveTo(17, -2 + w, 27, w * 1.5); cx.quadraticCurveTo(17, 2 + w, 6, 2.5); cx.fillStyle = body; cx.fill();
+  // からだ
+  var bg = cx.createRadialGradient(-5, -3, 1, -3, 0, 12); bg.addColorStop(0, "#FF9CC0"); bg.addColorStop(1, body);
+  cx.beginPath(); cx.arc(-3, 0, 11, 0, 6.29); cx.fillStyle = bg; cx.fill(); cx.lineWidth = 2; cx.strokeStyle = "#fff"; cx.stroke();
+  // 目（ほっぺはなし）
+  [[-8, -5], [-8, 5]].forEach(function(e){
+    cx.beginPath(); cx.arc(e[0], e[1], 3.6, 0, 6.29); cx.fillStyle = "#fff"; cx.fill();
+    cx.beginPath(); cx.arc(e[0] - .8, e[1], 2, 0, 6.29); cx.fillStyle = "#1B2B4A"; cx.fill();
+  });
+  // メガネ（細長いスクエア・茶色。目は少しはみ出てOK）
+  function rr(x0, y0, w0, h0, r0){ cx.beginPath(); if (cx.roundRect) cx.roundRect(x0, y0, w0, h0, r0); else cx.rect(x0, y0, w0, h0); }
+  [[-8, -5.4], [-8, 5.4]].forEach(function(e){ rr(e[0] - 2.6, e[1] - 4.4, 5.2, 8.8, 1.2); cx.fillStyle = "rgba(255,235,210,.22)"; cx.fill(); cx.strokeStyle = "#7A4A26"; cx.lineWidth = 1.5; cx.stroke(); });
+  cx.strokeStyle = "#7A4A26"; cx.lineWidth = 1.5; cx.beginPath(); cx.moveTo(-8.4, -1); cx.lineTo(-8.4, 1); cx.stroke();
+  cx.lineWidth = 1.2; cx.beginPath(); cx.moveTo(-6.5, -9.8); cx.lineTo(-1.5, -10.6); cx.moveTo(-6.5, 9.8); cx.lineTo(-1.5, 10.6); cx.stroke();
+  cx.strokeStyle = "rgba(255,255,255,.85)"; cx.lineWidth = .8; [[-8, -5.4], [-8, 5.4]].forEach(function(e){ cx.beginPath(); cx.moveTo(e[0] - 1.6, e[1] - 3.2); cx.lineTo(e[0] - 1.6, e[1] - 1.2); cx.stroke(); });
+  cx.restore();
+}
+function drawMama(now){
+  var m = G.mama; if (!m) return;
+  var al = m.in > 0 ? Math.max(.3, 1 - m.in) : 1;
+  cx.save(); cx.globalAlpha = al; mamaArt(cx, m.x, m.y, 1.5, m.a, m.ph * 1.4, now); cx.restore();
+  cx.save(); cx.globalAlpha = al; var by = m.y - 34; cx.font = "800 12px 'M PLUS Rounded 1c',sans-serif"; cx.textAlign = "center"; cx.textBaseline = "middle";
+  cx.fillStyle = "#FF5FA0"; cx.beginPath(); if (cx.roundRect) cx.roundRect(m.x - 22, by - 9, 44, 18, 9); else cx.rect(m.x - 22, by - 9, 44, 18); cx.fill();
+  cx.fillStyle = "#fff"; cx.fillText("ママ💕", m.x, by + 1); cx.restore();
+}
+function drawCrab(c, now){
+  var op = c.snap ? Math.abs(Math.sin(now / 70)) : .3 + .2 * Math.sin(now / 400 + c.ph);
+  cx.save(); cx.translate(c.x, c.y); cx.rotate(c.a);
+  cx.fillStyle = "rgba(0,40,70,.22)"; cx.beginPath(); cx.ellipse(-2, 4, 26, 9, 0, 0, 6.29); cx.fill();
+  cx.strokeStyle = "#A8231A"; cx.lineWidth = 2; for (var l = -1; l <= 1; l++){ var lw = Math.sin(c.ph * 2 + l) * 3; cx.beginPath(); cx.moveTo(l * 5, -6); cx.lineTo(l * 5 + lw, -14); cx.moveTo(l * 5, 6); cx.lineTo(l * 5 - lw, 14); cx.stroke(); }
+  for (var sgm = 0; sgm < 4; sgm++){ cx.beginPath(); cx.ellipse(-12 - sgm * 6, 0, 5 - sgm * .6, 6 - sgm * .8, 0, 0, 6.29); cx.fillStyle = sgm % 2 ? "#C9362A" : "#D9452F"; cx.fill(); }
+  cx.beginPath(); cx.moveTo(-36, 0); cx.lineTo(-42, -6); cx.lineTo(-42, 6); cx.closePath(); cx.fillStyle = "#C9362A"; cx.fill();
+  cx.beginPath(); cx.ellipse(0, 0, 11, 8, 0, 0, 6.29); cx.fillStyle = "#E0503A"; cx.fill();
+  [-1, 1].forEach(function(sd){
+    cx.strokeStyle = "#C9362A"; cx.lineWidth = 3; cx.beginPath(); cx.moveTo(8, sd * 4); cx.lineTo(16, sd * 10); cx.stroke();
+    cx.save(); cx.translate(20, sd * 12); cx.rotate(sd * .25);
+    cx.fillStyle = "#E0503A"; cx.beginPath(); cx.ellipse(2, 0, 7, 4.5, 0, 0, 6.29); cx.fill();
+    cx.save(); cx.rotate(-sd * op * .7); cx.beginPath(); cx.ellipse(10, -sd * 2, 6, 2.6, 0, 0, 6.29); cx.fillStyle = "#D9452F"; cx.fill(); cx.restore();
+    cx.save(); cx.rotate(sd * op * .5); cx.beginPath(); cx.ellipse(10, sd * 2, 6, 2.2, 0, 0, 6.29); cx.fillStyle = "#B82E22"; cx.fill(); cx.restore();
+    cx.restore(); });
+  cx.strokeStyle = "#8A1D14"; cx.lineWidth = 1; cx.beginPath(); cx.moveTo(9, -3); cx.quadraticCurveTo(26, -20, 34, -16); cx.moveTo(9, 3); cx.quadraticCurveTo(26, 20, 34, 16); cx.stroke();
+  [-3, 3].forEach(function(ey){ cx.beginPath(); cx.arc(8, ey, 2.4, 0, 6.29); cx.fillStyle = "#fff"; cx.fill(); cx.beginPath(); cx.arc(8.6, ey, 1.3, 0, 6.29); cx.fillStyle = "#111"; cx.fill(); });
+  cx.restore();
+  if (c.snap){ cx.save(); cx.font = "800 12px sans-serif"; cx.textAlign = "center"; cx.fillStyle = "#D93A2B"; cx.strokeStyle = "#fff"; cx.lineWidth = 3; cx.strokeText("カチカチ", c.x, c.y - 26); cx.fillText("カチカチ", c.x, c.y - 26); cx.restore(); }
+}
+function gimOver(now){
+  if (G.crabs) G.crabs.forEach(function(c){ drawCrab(c, now); });
+  if (G.mag && G.mag.t > 0){
+    cx.save(); cx.font = "800 16px 'M PLUS Rounded 1c',sans-serif"; cx.textAlign = "center"; cx.fillStyle = "#FF5A3C"; cx.strokeStyle = "#fff"; cx.lineWidth = 4;
+    var tx0 = "🧲 じしゃくタイム！ あと" + Math.ceil(G.mag.t) + "秒" + (poi.down ? "" : "（ポイを入れて！）"); cx.strokeText(tx0, W / 2, 26); cx.fillText(tx0, W / 2, 26); cx.restore();
+    if (poi.down){ var Rr = poiR(); cx.save(); cx.translate(poi.x, poi.y);
+      for (var q = 0; q < 3; q++){ var rr = Rr * (1.4 + ((now / 400 + q / 3) % 1) * 2.6); cx.beginPath(); cx.arc(0, 0, rr, 0, 6.29); cx.strokeStyle = "rgba(255,90,60," + (.5 - q * .12) + ")"; cx.lineWidth = 2; cx.setLineDash([6, 8]); cx.lineDashOffset = now / 30; cx.stroke(); }
+      cx.setLineDash([]); cx.font = "22px sans-serif"; cx.textAlign = "center"; cx.textBaseline = "middle"; cx.fillText("🧲", 0, -Rr - 14); cx.restore(); } }
+  if (G.leafs) G.leafs.forEach(function(l){ cx.save(); cx.translate(l.x, l.y - (l.open > 0 ? 8 : 0)); cx.rotate(l.a); cx.globalAlpha = l.open > 0 ? .28 : .97;
+    cx.beginPath(); cx.moveTo(0, 0); cx.arc(0, 0, l.r, .3, 6.0); cx.closePath();
+    var lg = cx.createRadialGradient(-l.r * .3, -l.r * .3, 4, 0, 0, l.r); lg.addColorStop(0, "#8BD86A"); lg.addColorStop(1, "#3E9A3E"); cx.fillStyle = lg; cx.fill();
+    cx.strokeStyle = "rgba(30,90,30,.5)"; cx.lineWidth = 2; for (var v = 0; v < 6; v++){ cx.beginPath(); cx.moveTo(0, 0); cx.lineTo(Math.cos(.6 + v) * l.r * .85, Math.sin(.6 + v) * l.r * .85); cx.stroke(); }
+    cx.restore(); });
+  if (G.ducks) G.ducks.forEach(function(d){ for (var i = d.n; i >= 0; i--){ var px = d.x - d.dir * i * 30, py = d.y + Math.sin(G.t * 6 + i) * 1.5;
+      cx.beginPath(); cx.ellipse(px - d.dir * 8, py + 10, i ? 12 : 18, 4, 0, 0, 6.29); cx.strokeStyle = "rgba(255,255,255,.5)"; cx.lineWidth = 1.5; cx.stroke();
+      cx.save(); cx.translate(px, py); if (d.dir > 0) cx.scale(-1, 1); cx.font = (i ? 20 : 32) + "px sans-serif"; cx.textAlign = "center"; cx.textBaseline = "middle"; cx.fillText(i ? "🐤" : "🦆", 0, 0); cx.restore(); } });
+  if (G.fires) G.fires.forEach(function(f){
+    if (!f.boom){ cx.strokeStyle = "rgba(255,230,150,.9)"; cx.lineWidth = 3; cx.beginPath(); cx.moveTo(f.x, f.y); cx.lineTo(f.x, f.y + 26); cx.stroke(); cx.fillStyle = "#fff"; cx.beginPath(); cx.arc(f.x, f.y, 3, 0, 6.29); cx.fill(); }
+    else { var al = Math.max(0, 1 - (f.t - f.boom) / 1.6); f.ps.forEach(function(p){ cx.globalAlpha = al; cx.fillStyle = p.c; cx.beginPath(); cx.arc(p.x, p.y, 2.6, 0, 6.29); cx.fill(); }); cx.globalAlpha = 1; } });
+  if (G.lure && G.lure.t > 0){ cx.beginPath(); cx.arc(G.lure.x, G.lure.y, 18 + Math.sin(now / 120) * 4, 0, 6.29); cx.strokeStyle = "rgba(255,216,74," + Math.min(.8, G.lure.t) + ")"; cx.lineWidth = 2; cx.stroke(); }
+  if (G.streaks){ cx.fillStyle = "rgba(40,60,90,.12)"; cx.fillRect(0, 0, W, H); cx.strokeStyle = "rgba(255,255,255,.45)"; cx.lineWidth = 1.3;
+    G.streaks.forEach(function(r){ r.y += r.v * .02; r.x -= r.v * .006; if (r.y > 1.05){ r.y = -.05; r.x = rnd(0, 1.1); } cx.beginPath(); cx.moveTo(r.x * W, r.y * H); cx.lineTo(r.x * W - 5, r.y * H + 16); cx.stroke(); }); }
+}
 function frame(now){
   var dt = lastT ? Math.min(.05, (now - lastT) / 1000) : 0; lastT = now;
   if (W){
-    step(dt); drawPond(now);
+    step(dt); drawPond(now); gimUnder(now);
     tads.forEach(function(t){ if (!t.caught) drawTad(t, now); });
+    gimOver(now);
     frogs.forEach(function(f){ if (!f.hop) drawFrog(f); });
     drawPoi(now);
     frogs.forEach(function(f){ if (f.hop) drawFrog(f); });
     if (G.stick) drawSticks(now);
     if (G.night) drawNight();
+    if (G.mama) drawMama(now);   // ★1127d ママは光っているので、くらやみの上に描く
+    drawWant(now);
     tads.forEach(function(t){ if (t.caught) drawTad(t, now); });
     drawFx();
   }
@@ -761,12 +1090,12 @@ function frame(now){
 // ----- 上の表示・おわん -----
 function hud(){
   document.getElementById("lv").textContent = P.name + " " + (stg + 1);
-  var bwEl = document.querySelector(".bowl"), bwShow = P.tiles ? "" : "none";
+  var bwEl = document.querySelector(".bowl"), bwShow = (P.tiles || G.soroi) ? "" : "none";
   if (bwEl.style.display !== bwShow){ bwEl.style.display = bwShow; setTimeout(fitPond, 0); }
   var ph = ""; for (var i = 0; i < POI_N; i++) ph += '<span style="color:' + (i < poiLeft ? "#1A8BA3" : "#BFDCD8") + '">' + (i < poiLeft ? "◯" : "✕") + '</span>';
   document.getElementById("pois").innerHTML = ph;
   document.getElementById("got").textContent = got + bonus;
-  document.getElementById("quota").textContent = P.mult > 1 ? "池へ ×" + P.mult : "";
+  document.getElementById("quota").textContent = (P.mult > 1 ? "池へ ×" + P.mult : "") + (bonusX() > 1 ? " 🌟×" + bonusX() : "");
   document.getElementById("melds").innerHTML = melds.length ? melds.map(function(m){ return '<span class="m ' + m.k + '">' + m.t.map(imgTag).join("") + '</span>'; }).join("") : '<span class="emp">ポン・チーはここ</span>';
   document.getElementById("hand").innerHTML = hand.length ? '<span class="h">' + hand.map(imgTag).join("") + '</span>' : '<span class="emp">すくった牌（8枚まで・持ちこし）</span>';
   hudTime();
@@ -777,31 +1106,44 @@ function hudTime(){
 }
 
 // ----- はじめ・おわり -----
+// ★1127c このステージは今あそべる？（練習はぜんぶ。本番はあいていて、ラッキー池は今日の1つだけ）
+var DAYN = ["日", "月", "火", "水", "木", "金", "土"];
+function luckyToday(){ return V && V.lucky !== undefined ? V.lucky : -1; }
+function canPlay(i){ if (level === 0) return true; var op = (V && V.open && V.open[level]) || 1; return i < op && (!STG[i].lucky || i === luckyToday()); }
+function nextPlay(i){ for (var j = i + 1; j < STG.length; j++) if (canPlay(j)) return j; return -1; }
 function lvButtons(){
   var h = ""; [0, 2].forEach(function(i){ h += '<button class="' + (i === level ? "on" : "") + '" data-l="' + i + '">' + (i === 0 ? "🌱 " : "🔥 ") + LV[i].name + '</button>'; });
   document.getElementById("lvls").innerHTML = h; document.getElementById("ldesc").textContent = LV[level].desc;
   var op = level === 0 ? STG.length : (V && V.open && V.open[level]) || 1;   // 練習は、いつも全部あいている
-  if (stg >= op) stg = op - 1;
-  document.getElementById("stgs").innerHTML = STG.map(function(g, i){ var lk = i >= op; return '<button class="' + (i === stg ? "on" : "") + (lk ? " lock" : "") + '" data-s="' + i + '"' + (lk ? ' data-lock="1"' : '') + '><span>' + (lk ? "🔒" : g.icon) + '</span>' + (i + 1) + ' ' + g.name + '</button>'; }).join("");
+  if (!canPlay(stg)){ var bk = stg; while (bk > 0 && !canPlay(bk)) bk--; stg = bk; }
+  var lt = luckyToday();
+  document.getElementById("stgs").innerHTML = STG.map(function(g, i){ var lk = i >= op, off = !lk && level !== 0 && g.lucky && i !== lt; return '<button class="' + (i === stg ? "on" : "") + (lk ? " lock" : "") + (off ? " off" : "") + (g.lucky && i === lt && level !== 0 ? " today" : "") + (g.bonus ? " bon" : "") + (g.lucky ? " lk" : "") + '" data-s="' + i + '"' + (lk ? ' data-lock="1"' : '') + (off ? ' data-off="1"' : '') + '><span>' + (lk ? "🔒" : off ? "💤" : g.icon) + '</span>' + (i + 1) + ' ' + g.name + (g.bonus ? '<em>ボーナス×' + g.bonus + '</em>' : '') + (g.lucky ? '<em class="l">' + (off ? DAYN[g.day] + 'ようび' : level !== 0 && i === lt ? '今日のラッキー🍀' : 'ラッキー🍀 ' + DAYN[g.day]) + '</em>' : '') + '</button>'; }).join("");
   document.getElementById("sdesc").textContent = STG[stg].desc;
+  var lx = document.getElementById("luckyV");
+  if (lx) lx.innerHTML = lt >= 0 ? '🍀 今日（' + DAYN[STG[lt].day] + '）のラッキー池：<b>' + STG[lt].icon + ' ' + STG[lt].name + '</b>' + (V.luckyNext !== undefined ? '<small>（あしたは ' + STG[V.luckyNext].icon + ' ' + STG[V.luckyNext].name + '）</small>' : '') : '';
 }
-document.getElementById("stgs").addEventListener("click", function(e){ var b = e.target.closest("button"); if (!b) return; if (b.dataset.lock){ toast("ひとつ前のステージで、1回に" + ((V && V.clear) || 20) + "ぴき以上すくうと、あくよ🐸"); return; } stg = +b.dataset.s; remember(); lvButtons(); reset(); });
+document.getElementById("stgs").addEventListener("click", function(e){ var b = e.target.closest("button"); if (!b) return; if (b.dataset.lock){ toast("ひとつ前のステージで、1回に" + ((V && V.clear) || 20) + "ぴき以上すくうと、あくよ🐸"); return; }
+  if (b.dataset.off){ toast("🍀このラッキー池は " + DAYN[STG[+b.dataset.s].day] + "ようび に遊べるよ。今日のラッキー池は「" + STG[luckyToday()].name + "」！（練習ならいつでも遊べるよ）"); return; } stg = +b.dataset.s; remember(); lvButtons(); reset(); });
 document.getElementById("lvls").addEventListener("click", function(e){ var b = e.target.closest("button"); if (!b) return; level = +b.dataset.l; remember(); lvButtons(); reset(); });
 var roundId = "", starting = false;
 // ★1126g 係の返事を待たずに始める（start はうしろで送る。end は start の返事を待ってから送る）
 var startP = null, counting = false;
 function begin(){
-  if (starting) return; starting = true;
+  if (starting) return;
+  if (!canPlay(stg)){ toast("このステージは、いまは遊べないよ🍀"); toIntro(); return; }
+  starting = true;
   tone(660, .1, "triangle", .1);   // 音は、タップしたときにならす（スマホの決まり）
   roundId = "";
+  bestBefore[stg] = (V && V.stat && V.stat.st && V.stat.st[stg] && V.stat.st[stg].best) || 0;
   startP = level === 0 ? null : api("start", { c: level, s: stg }).then(function(j){ apply(j); roundId = j.did && j.did.id; return true; }, function(e){ toast(e.message); return false; });
   document.getElementById("intro").hidden = true; document.getElementById("result").hidden = true;
   reset(); lockScroll(true);
   counting = true; var cd = document.getElementById("cd");
-  cd.textContent = "よーい…"; cd.hidden = false;
-  setTimeout(function(){ cd.textContent = "スタート！"; tone(880, .15, "triangle", .14); }, 700);
-  setTimeout(function(){ cd.hidden = true; counting = false; starting = false; playing = true;
-    if (G.flow) pop(W / 2, H * .25, G.fd > 0 ? "🌊 右へ ながれているよ！" : "🌊 左へ ながれているよ！", "#fff"); }, 1150);
+  cd.textContent = bonusX() > 1 ? "🌟 ボーナスステージ！" : "よーい…"; cd.hidden = false; cd.classList.toggle("bon", bonusX() > 1);
+  if (bonusX() > 1){ [523, 784, 1047, 1568].forEach(function(f, i){ tone(f, .2, "triangle", .13, i * .09); }); setTimeout(function(){ cd.textContent = "池に入る数 ×" + bonusX() + "！"; }, 600); }
+  setTimeout(function(){ cd.textContent = "スタート！"; tone(880, .15, "triangle", .14); }, bonusX() > 1 ? 1300 : 700);
+  setTimeout(function(){ cd.hidden = true; cd.classList.remove("bon"); counting = false; starting = false; playing = true;
+    if (G.flow) pop(W / 2, H * .25, G.fd > 0 ? "🌊 右へ ながれているよ！" : "🌊 左へ ながれているよ！", "#fff"); }, bonusX() > 1 ? 1800 : 1150);
 }
 // ★1126g 遊んでいるあいだは、ページが動かないように固定する
 // ★1126h iPhoneでも動かないように：ページそのものを「ピン止め」する（position:fixed）。終わったら、もとの場所にもどす
@@ -835,9 +1177,36 @@ function sizeButtons(){ var el = document.getElementById("psize"); if (!el) retu
 document.getElementById("psize").addEventListener("click", function(e){ var b = e.target.closest("button"); if (!b) return;
   pondSize = +b.dataset.z; try { localStorage.setItem("sukui-size", pondSize); } catch (er) {} sizeButtons(); fitPond(); toast("池の大きさ：" + POND_SIZE[pondSize].n + "（下が切れるときは「中」か「小」にしてね）"); });
 sizeButtons();
+// ★1127c わたしの記録
+var bestBefore = {};
+function bestNow(g){ return level === 2 && V && V.stat && V.stat.st && V.stat.st[stg] && V.stat.st[stg].n > 1 && g > (bestBefore[stg] || 0) && g === V.stat.st[stg].best; }
+function openStat(on){
+  var el = document.getElementById("statp"); el.hidden = !on; if (!on) return; el.scrollTop = 0;
+  var st = (V && V.stat) || { n: 0, got: 0, st: {} }, top = -1, topAv = 0;
+  STG.forEach(function(g, i){ var x = st.st[i]; if (x && x.n >= 3 && x.got / x.n > topAv){ topAv = x.got / x.n; top = i; } });
+  var rows = STG.map(function(g, i){ var x = st.st[i] || { n: 0, got: 0, best: 0 };
+    return '<tr class="' + (i === top ? "top" : "") + (x.n ? "" : " none") + '"><td>' + g.icon + ' ' + (i + 1) + ' ' + g.name + (i === top ? ' 🏅' : '') + '</td><td>' + x.n + '</td><td>' + x.got.toLocaleString() + '</td><td>' + (x.n ? (x.got / x.n).toFixed(1) : '−') + '</td><td>' + (x.best || '−') + '</td></tr>'; }).join("");
+  document.getElementById("statIn").innerHTML =
+    '<div class="stbig"><small>これまでに すくったおたま</small><b>' + Number(st.got).toLocaleString() + '</b><span>ひき（' + st.n + '回）</span></div>' +
+    '<div class="stmama">💕 ママをすくった回数 <b>' + (st.mama || 0) + '</b>回</div>' +
+    (top >= 0 ? '<div class="sttop">🏅 いちばん得意なのは「' + STG[top].icon + ' ' + STG[top].name + '」！ 1回 平均 ' + topAv.toFixed(1) + 'ひき</div>' : '<div class="sttop">同じステージを3回遊ぶと、得意なステージに🏅がつくよ</div>') +
+    '<table class="sttb"><thead><tr><th>ステージ</th><th>回</th><th>合計</th><th>平均</th><th>ベスト</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+    '<div style="font-size:12px;color:#4B6B6F;margin-top:8px">※ 本番でだけ数えるよ。数えるのは「すくった数」（ボーナスや2倍は入らない）。金魚で へった数も入るよ</div>' +
+    '<button class="btn" id="closeStat2" type="button" style="display:block;margin:14px auto 0">ゲームにもどる</button>';
+  document.getElementById("closeStat2").addEventListener("click", function(){ openStat(false); });
+}
+document.getElementById("openStat").addEventListener("click", function(){ openStat(true); });
+document.getElementById("closeStat").addEventListener("click", function(){ openStat(false); });
 function openRules(on){ document.getElementById("rules").hidden = !on; if (on) document.getElementById("rules").scrollTop = 0; }
 ["openRules", "openRules2"].forEach(function(id){ document.getElementById(id).addEventListener("click", function(){ openRules(true); }); });
 ["closeRules", "closeRules2"].forEach(function(id){ document.getElementById(id).addEventListener("click", function(){ openRules(false); }); });
+document.getElementById("snack").addEventListener("pointerdown", function(e){
+  e.stopPropagation(); e.preventDefault();
+  if (!playing || !(G.snack > 0)) return;
+  G.snack--; snackBtn();
+  var x = rnd(.2, .8) * W, y = rnd(.25, .8) * H; G.food.push({ x: x, y: y, t: 0 }); G.lure = { x: x, y: y, t: 4 }; ripple(x, y);
+  [880, 1175, 1568].forEach(function(f, i){ tone(f, .1, "triangle", .1, i * .06); }); pop(x, y - 30, "🍬 エサだよ〜", "#FF5FA0");
+});
 function stopTouch(e){ if (playing || counting) e.preventDefault(); }
 document.addEventListener("touchmove", stopTouch, { passive: false });
 document.getElementById("pond").addEventListener("touchstart", stopTouch, { passive: false });   // iPhone：池をさわってもページが動かない・虫めがねが出ない
@@ -848,15 +1217,15 @@ function finish(){
   if (!playing) return;
   playing = false; poi.down = false; hudTime(); SND.end();
   var mb = 0; agariLog.forEach(function(a){ mb += a.yb; });
-  lastRes = { got: got, meld: bonus - mb, ag: agariLog.slice(), mult: P.mult, total: Math.round((got + bonus) * P.mult), srv: null };
+  lastRes = { got: got, meld: bonus - mb, ag: agariLog.slice(), mult: P.mult, bx: bonusX(), total: Math.round((got + bonus) * P.mult * bonusX()), srv: null };
   var box = document.getElementById("result");
   lockScroll(false);
   if (level === 0){ showPractice(); return; }
   box.innerHTML = '<div class="big">おしまい！</div><p>🌿 池に入れているよ…</p>'; box.hidden = false;
-  var bw = P.tiles ? { hand: hand.slice(), melds: melds.map(function(m){ return { k: m.k, t: m.t.slice() }; }) } : null, g0 = got, b0 = bonus;
+  var bw = P.tiles ? { hand: hand.slice(), melds: melds.map(function(m){ return { k: m.k, t: m.t.slice() }; }) } : null, g0 = got, b0 = bonus, m0 = G.mamaGot ? 1 : 0;
   var send = function(){ return (startP || Promise.resolve(false)).then(function(ok){
     if (!ok || !roundId) throw new Error("はじめの通信がうまくいかなかったので、この回は池に入らなかったよ💦");
-    return api("end", { id: roundId, got: g0, bonus: b0, bowl: bw }); }); };
+    return api("end", { id: roundId, got: g0, bonus: b0, bowl: bw, mama: m0 }); }); };
   send().then(function(j){ apply(j); lastRes.srv = j.did || {}; showResult(); })
     .catch(function(e){ box.innerHTML = '<div class="big">おしまい！</div><p>' + esc(e.message) + '</p><button class="btn" id="retryEnd">もう一度送る</button><button class="btn" id="tolv" style="background:#fff;color:#1A8BA3;box-shadow:0 0 0 2px #1A8BA3;font-size:14px;padding:8px 18px">コース・ステージをえらぶ</button>';
       document.getElementById("retryEnd").addEventListener("click", finishSend);
@@ -870,7 +1239,7 @@ function showPractice(){
   var would = Math.round((r.got + r.meld) * LV[2].mult);
   box.innerHTML = '<div class="big">練習 おしまい！</div>' +
     '<div class="res"><div><span>すくった子</span><b>' + r.got + 'ひき</b></div></div>' +
-    '<div style="font-size:13px;color:#4B6B6F;line-height:1.7">🌱 練習なので、池には入らないよ<br>本番でも、がんばって遊んでね🔥</div>' +
+    '<div style="font-size:13px;color:#4B6B6F;line-height:1.7">🌱 練習なので、池には入らないよ' + (r.bx > 1 ? '（本番の夜の池なら ×' + r.bx + '！）' : '') + '<br>本番でも、がんばって遊んでね🔥</div>' +
     '<button class="btn" id="again">もう一回 練習</button>' +
     '<button class="btn" id="toreal" style="margin-left:6px">🔥 本番で遊ぶ</button>' +
     '<button class="btn" id="tolv" style="background:#fff;color:#1A8BA3;box-shadow:0 0 0 2px #1A8BA3;margin-top:8px;font-size:14px;padding:8px 18px">コース・ステージをえらぶ</button>';
@@ -882,26 +1251,27 @@ function showPractice(){
 function toIntro(){ document.getElementById("result").hidden = true; lvButtons(); reset(); document.getElementById("intro").hidden = false; }
 function showResult(){
   var r = lastRes, d = r.srv || {}, sum = d.put || 0, box = document.getElementById("result");
-  var visit = d.mult && d.mult > r.mult + .01;
+  var visit = d.mult && d.mult > r.mult * r.bx + .01;
   box.innerHTML = '<div class="big">おしまい！</div>' +
     '<div class="res"><div><span>すくった子</span><b>' + r.got + 'ひき</b></div>' +
     (P.tiles ? '<div><span>🀄 ポン・チー</span><b>+' + r.meld + '</b></div>' : '') +
     r.ag.map(function(a){ return '<div class="y"><span>🎉 アガリ' + (a.ys.length ? '（' + a.ys.map(function(y){ return y[0]; }).join('・') + '）' : '') + '</span><b>+' + a.yb + '</b></div>'; }).join("") +
     (r.mult > 1 ? '<div><span>🔥 ' + P.name + 'ボーナス</span><b>×' + r.mult + '</b></div>' : '') +
+    (r.bx > 1 ? '<div class="y"><span>🌟 ボーナスステージ（夜の池）</span><b>×' + r.bx + '</b></div>' : '') +
     (visit ? '<div><span>🏪 お店に来た日</span><b>×2</b></div>' : '') +
     '<div class="t"><span>池に入った</span><span>' + sum + 'ひき</span></div></div>' +
     (d.cut ? '<div style="font-size:12px;color:#B00">（1回で入れられる数をこえたので、切ったよ）</div>' : '') +
     (d.frogs ? '<div class="frogbig">🐸</div><div style="font-weight:800;color:#3B6D11">池が' + V.need + 'ぴき！ カエル' + d.frogs + 'ひき → ' + (V.trial ? 'お試しラビ' : 'がま口') + 'に ' + d.rabi + 'ラビ👛</div>' : '<div style="font-size:13px;color:#1C5D8C">池は ' + V.pond + ' / ' + V.need + 'ひき。あと ' + (V.need - V.pond) + 'ひきでカエルに！</div>') +
-    ((d.tickets || []).length ? d.tickets.map(function(t){ return '<div class="up" style="color:#B05A00;font-size:17px">🥤 ' + t.yen + '円のドリンク券ゲット！<br><small>' + esc(t.until) + 'まで・お店で見せてね</small></div>'; }).join("") : '') +
+    (bestNow(r.got) ? '<div class="up" style="color:#B05A00">🏆 このステージのベスト更新！ ' + r.got + 'ひき</div>' : '') +
     (d.unlocked ? '<div class="up">🔓 ステージ' + d.unlocked + '「' + STG[d.unlocked - 1].name + '」があいたよ！</div>' : '') +
     (P.tiles && (hand.length || melds.length) ? '<div style="font-size:12.5px;color:#8A5A00">🥣 おわんの牌は、次の回に持ちこすよ</div>' : '') +
 
     '<button class="btn" id="again">もう一回（' + P.name + ' ' + (stg + 1) + '）</button>' +
-    (stg < STG.length - 1 && stg + 1 < (V.open[level] || 1) ? '<button class="btn" id="nexts" style="margin-left:6px">つぎのステージ ' + STG[stg + 1].icon + '</button>' : '') +
+    (nextPlay(stg) >= 0 ? '<button class="btn" id="nexts" style="margin-left:6px">つぎのステージ ' + STG[nextPlay(stg)].icon + '</button>' : '') +
     '<button class="btn" id="tolv" style="background:#fff;color:#1A8BA3;box-shadow:0 0 0 2px #1A8BA3;margin-top:8px;font-size:14px;padding:8px 18px">コース・ステージをえらぶ</button>';
   box.hidden = false;
   document.getElementById("again").addEventListener("click", begin);
-  var nb = document.getElementById("nexts"); if (nb) nb.addEventListener("click", function(){ stg++; remember(); begin(); });
+  var nb = document.getElementById("nexts"); if (nb) nb.addEventListener("click", function(){ stg = nextPlay(stg); remember(); begin(); });
   document.getElementById("tolv").addEventListener("click", toIntro);
 }
 document.getElementById("go").addEventListener("click", begin);
@@ -942,12 +1312,13 @@ function apply(j){
   document.getElementById("pondRate").textContent = V.need + "ぴきで " + V.rate + "ラビ" + (V.visited ? "　🏪 きょうは来店で2倍！" : "");
   document.getElementById("todayV").textContent = "きょう " + V.today.plays + "回・" + V.today.got + "ひき";
   if (V.tickets === undefined && old && old.tickets) V.tickets = old.tickets;
-  showMeter();
+  document.getElementById("lifeV").textContent = "🐟 これまでに " + Number((V.stat && V.stat.got) || 0).toLocaleString() + "ひき すくったよ";
+  if (document.getElementById("stgs")) lvButtons();
   document.getElementById("testbox").hidden = !V.trial;
   document.getElementById("tVisit").textContent = V.visited ? "✅ いま：お店に来た日（押すともどる）" : "お店に来た日にする";
 }
 // ★1127a 今月のすくいメーターとドリンク券
-function showMeter(){
+function showMeter(){ return;
   var me = V.meter; if (!me) return;
   var T = me.tiers, top = T[T.length - 1].n, nx = null;
   T.forEach(function(t){ if (!nx && me.n < t.n) nx = t; });
@@ -960,7 +1331,7 @@ function showMeter(){
     return '<div class="tk' + (t.used ? " used" : "") + '"><div><b>🥤 ' + esc(t.what) + '</b><br><span>' + (t.used ? "使用済み（" + esc(t.used.slice(5, 16)) + "）" : esc(t.until) + " まで・お店でスタッフに見せてね") + '</span></div>' +
       (t.used ? "" : '<button type="button" data-no="' + t.no + '">使用済み<br><small>スタッフが押す</small></button>') + '</div>'; }).join("");
 }
-document.getElementById("tickets").addEventListener("click", function(e){
+(document.getElementById("tickets") || document.createElement("div")).addEventListener("click", function(e){
   var b = e.target.closest("button"); if (!b || playing) return;
   if (!b.dataset.ok){ b.dataset.ok = 1; b.innerHTML = "本当に？<br><small>もう一回</small>"; b.style.background = "#E8901A"; b.style.color = "#fff"; return; }
   api("tuse", { no: +b.dataset.no }).then(function(j){ apply(j); toast("使用済みにしたよ🥤"); }).catch(function(er){ toast(er.message); });
@@ -969,7 +1340,7 @@ function toast(t){ var d = document.createElement("div"); d.className = "toast";
 function relogin(){ try { liff.logout(); } catch (e) {} liff.login({ redirectUri: location.href }); }
 function gate(html){ document.getElementById("app").hidden = true; var g = document.getElementById("gate"); g.hidden = false; g.innerHTML = html; }
 function remember(){ try { localStorage.setItem("sukui-pick", JSON.stringify({ c: level, s: stg })); } catch (e) {} }
-function recall(){ try { var x = JSON.parse(localStorage.getItem("sukui-pick") || "null"); if (x && x.c >= 0 && x.c < 3){ level = x.c === 0 ? 0 : 2; stg = Math.max(0, Math.min(5, x.s | 0)); } } catch (e) {} }
+function recall(){ try { var x = JSON.parse(localStorage.getItem("sukui-pick") || "null"); if (x && x.c >= 0 && x.c < 3){ level = x.c === 0 ? 0 : 2; stg = Math.max(0, Math.min(STG.length - 1, x.s | 0)); } } catch (e) {} }
 document.getElementById("testbox").addEventListener("click", function(e){
   var b = e.target.closest("button"); if (!b || playing) return;
   if (b.dataset.t === "treset" && !b.dataset.ok){ b.dataset.ok = 1; b.textContent = "本当に消す？もう一回タップ"; return; }
