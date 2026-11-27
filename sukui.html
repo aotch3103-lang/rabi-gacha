@@ -73,7 +73,7 @@ body{touch-action:manipulation}
 .stgs button{border:2px solid #8FCBF0;background:#fff;border-radius:12px;font:inherit;font-size:10.5px;font-weight:800;color:#1C5D8C;padding:4px 2px;min-height:52px;cursor:pointer;line-height:1.25}
 .stgs button span{display:block;font-size:20px}
 .stgs button.on{background:#2E8FC4;color:#fff;border-color:#2E8FC4}
-.lvls button{width:76px;height:44px;border-radius:12px;border:2px solid var(--pink);background:#fff;color:var(--pink);font:inherit;font-weight:800;font-size:17px;cursor:pointer}
+.lvls button{min-width:76px;padding:0 10px;white-space:nowrap;height:44px;border-radius:12px;border:2px solid var(--pink);background:#fff;color:var(--pink);font:inherit;font-weight:800;font-size:17px;cursor:pointer}
 .lvls button.on{background:var(--pink);color:#fff}
 .btn{border:0;border-radius:999px;padding:11px 28px;font:inherit;font-size:17px;font-weight:800;color:#fff;background:linear-gradient(135deg,#1A8BA3,#3FBFA6);box-shadow:0 4px 0 #11697C;cursor:pointer;margin-top:8px;min-height:44px}
 .btn:focus-visible,.lvls button:focus-visible{outline:3px solid #22A8E0;outline-offset:2px}
@@ -92,6 +92,17 @@ body{touch-action:manipulation}
 .pondbar .r{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
 .pondbar .bar{height:10px;background:#fff;border-radius:5px;overflow:hidden;margin:3px 0}.pondbar .bar i{display:block;height:10px;background:linear-gradient(90deg,#5BB8E8,#2E8FC4);transition:width 1s ease}
 .gate .tadsvg.g{width:54px;display:inline-block;animation:wig 1.4s ease-in-out infinite}
+.meter{background:#FFF8E1;border:2px solid #E8C64A;border-radius:14px;padding:5px 10px;margin-bottom:6px;font-size:13px;color:#7A5A00}
+.meter .r{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.meter .mbar{position:relative;height:12px;background:#fff;border-radius:6px;margin:4px 0 14px}
+.meter .mbar i{display:block;height:12px;border-radius:6px;background:linear-gradient(90deg,#F2C230,#E8901A);transition:width 1s ease}
+.meter .mk{position:absolute;top:-2px;width:2px;height:16px;background:#B07A00}
+.meter .mk b{position:absolute;top:16px;left:50%;transform:translateX(-50%);font-size:10px;white-space:nowrap;color:#8A5A00}
+.meter .mk.ok b{color:#3B6D11}
+.meter .mk:last-child b{left:auto;right:0;transform:none}
+.tk{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#fff;border:2px dashed #E8901A;border-radius:14px;padding:6px 10px;margin-bottom:6px;font-size:13px}
+.tk b{font-size:15px;color:#B05A00}.tk.used{opacity:.55;border-style:solid}
+.tk button{flex:none;white-space:nowrap;line-height:1.3;border:2px solid #E8901A;background:#fff;color:#B05A00;border-radius:999px;font:inherit;font-weight:800;font-size:12px;padding:5px 10px;min-height:36px;cursor:pointer}
 .gate{text-align:center;padding:26px 16px;font-size:14px;line-height:1.8;background:#fff;border:2px solid #9FD8D0;border-radius:16px}
 .stgs button.lock{opacity:.45;cursor:default}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:rgba(16,58,66,.92);color:#fff;font-size:14px;padding:10px 16px;border-radius:14px;z-index:90;max-width:90%;text-align:center}
@@ -110,7 +121,7 @@ body.busy .busymark{display:block}
   <div class="rin">
     <h2>🐟 あそびかた</h2>
     <div class="rcard">👆 指を池に入れて、<b>そーっと</b>近づいて、<b>はなすとすくえる</b><br>
-        🌱 <b>初級</b>はすくうだけ。<b>中級・上級</b>は🐸と🀄が出てきて、池に入る数が<b>1.5倍・2倍</b><br>
+        🌱 <b>練習</b>はラビなしで、ゆっくり・牌なし。<b>🔥 本番</b>は🐸と🀄が出てきて、すくった数が池に入るよ<br>
         💨 速く動かすと、にげる＆ポイが破れやすい。入れっぱなしでも弱る<br>
         🐸 <b>カエル</b>がじゃまするよ！ポイに乗られたり、すくうと破れる<br>
         🗺️ どのコースにも<b>6つのステージ</b>。🐸カエルおじゃま・🐟金魚まぎれ・🌊ながれる池・🌙夜の池・🪵にょっきり棒<br>
@@ -122,10 +133,11 @@ body.busy .busymark{display:block}
         ⏰ 時計を背負った子をすくうと<b>＋5秒</b>（1回で＋30秒まで）<br>
         📱 ポイは<b>指の少し上</b>に出るよ。池の下のほうの子は、指を池の外（下）までずらすとすくえる</div>
     <h2>🗺️ コースとステージ</h2>
-    <div class="rcard"><b>コース</b>：初級（すくうだけ・そのまま）／中級（牌と役・小さい子・1.5倍）／上級（いつもカエル・もぐる子・2倍）<br>
-    <b>ステージ</b>：①ふつうの池 ②カエルおじゃま ③金魚まぎれ（すくうと−1。中級・上級は、足のある子にそっくりな黄色の金魚も出て −2・−3）④ながれる池（ポイも流される。中級：流れが逆に／上級：うずまき）⑤夜の池（ポイのまわりだけ明るい）⑥にょっきり棒（泡が出たら、木の棒が出てポイを破る）<br>
+    <div class="rcard"><b>コース</b>：🌱 練習（池には入らない・ステージは全部ためせる）／🔥 本番（牌と役・いつもカエル・もぐる子・池に入る）<br>
+    <b>ステージ</b>：①ふつうの池 ②カエルおじゃま ③金魚まぎれ（すくうと−1。本番は、足のある子にそっくりな黄色の金魚も出て −3）④ながれる池（ポイも流される。本番は流れが逆になる・うずまきも）⑤夜の池（ポイのまわりだけ明るい。本番はもっと暗い）⑥にょっきり棒（泡が出たら、木の棒が出てポイを破る。本番は太い棒・にせの泡・動く棒・いきなり・2本いっぺん）<br>
     <b>役のボーナス（ひき）</b>：ポン＋3／チー＋2／アガリ＋10／役牌（白發中）＋3／三暗刻・一気通貫＋8／混一色＋6／清一色＋12／小三元＋8／対々和＋8／四暗刻・大三元（役満）＋30<br>
-    ・池に入る数 ＝（すくった数＋ボーナス）× コース（初級1・中級1.5・上級2）× お店に来た日2。池が100ぴきになるたびに、カエルになってがま口にラビが入るよ<br>
+    ・池に入る数（本番）＝（すくった数＋ボーナス）× 1.5 × お店に来た日2。池が<b>500ぴき</b>になるたびに、カエルになってがま口に<b>1ラビ</b>入るよ<br>
+    ・🥤 <b>今月のすくいメーター</b>：その月に池に入った数（来店日は2倍）が <b>3万で200円・6万で300円・10万で500円</b>のドリンク券！ 券は1か月使えるよ。お店でスタッフに見せてね<br>
     ・ステージは、1回で<b>20ぴき</b>以上すくうと、次のステージがあくよ（コースごと）<br>
     ・ポイは指の少し上に出るよ。池の下のほうの子は、指を池の外（下）までずらすとすくえるよ<br>
     <span style="font-size:11.5px">⚠️ ラビについて：ラビは、ドラパンの中だけで使えるアミューズメントコインです。換金・転売はできません。ゲームのしくみを不正に使ったときは、ラビの取り消しや利用停止をすることがあります。</span></div>
@@ -140,8 +152,12 @@ body.busy .busymark{display:block}
   <div class="gama"><span id="gamaL">👛 がま口</span><span class="v" id="gamaV"></span></div>
   <div class="pondbar"><div class="r"><b>🌿 おたまじゃくし池</b><span id="pondN"></span></div><div class="bar"><i id="pondBar" style="width:0%"></i></div>
     <div class="r" style="font-size:12px"><span id="pondRate"></span><span id="todayV"></span></div></div>
+  <div class="meter"><div class="r"><b>🥤 今月のすくいメーター</b><span id="meterN"></span></div>
+    <div class="mbar"><i id="meterBar"></i><span id="meterMarks"></span></div>
+    <div class="r" style="font-size:12px"><span id="meterNext"></span><span>来店日は2倍🏪</span></div></div>
+  <div id="tickets"></div>
   <div class="hud">
-    <div><small>コース</small><b id="lv" style="font-size:16px">初級 1</b></div>
+    <div><small>コース</small><b id="lv" style="font-size:15px">本番 1</b></div>
     <div><small>のこり</small><b id="time">30</b><div class="tbar"><i id="tbar" style="width:100%"></i></div></div>
     <div><small>ポイ</small><div class="pois" id="pois"></div></div>
     <div><small>すくった</small><b id="got">0</b><small id="quota"></small></div>
@@ -167,7 +183,7 @@ body.busy .busymark{display:block}
   </div>
   <div style="text-align:center;margin-top:8px"><button class="btn2r" id="openRules2" type="button">📖 あそびかた・ルール</button></div>
   <div class="testbox" id="testbox" hidden><div class="tt">🧪 ためしボタン（お試しモードの人だけに出るよ）</div>
-    <button data-t="tvisit" id="tVisit">お店に来た日にする</button><button data-t="topen">ステージをぜんぶあける</button><button data-t="tpond">池を95ひきにする</button><button data-t="treset">お試しの記録をぜんぶ消す</button>
+    <button data-t="tvisit" id="tVisit">お店に来た日にする</button><button data-t="topen">ステージをぜんぶあける</button><button data-t="tmeter">メーターを＋1万</button><button data-t="tpond">池をあと5ひきでカエルにする</button><button data-t="treset">お試しの記録をぜんぶ消す</button>
   </div>
   </div>
 </div>
@@ -185,21 +201,21 @@ function isTerm(t){ return isHonor(t) || num(t) === 1 || num(t) === 9; }
 function imgTag(t){ return '<img src="' + TILES[t] + '" alt="' + TN[t] + '">'; }
 
 // ----- レベル -----
-// ★コース：初級・中級・上級（mult：池に入る数が何倍になるか）
+// ★コース：0＝練習（もと初級）・1＝中級（★1127b 使わない）・2＝本番（もと上級）。mult：池に入る数が何倍になるか
 var LV = [
-  { name: "初級", sp: .80, flee: .48, drain: .75, frogs: 0, small: 0,   dive: 0,   pop: 20, tiles: 0,   mult: 1,   aim: 0,   wait: [2, 3],   desc: "ゆっくり・牌なし。すくうだけ" },
-  { name: "中級", sp: 1.0, flee: .36, drain: 1.0, frogs: 0, small: .15, dive: 0,   pop: 18, tiles: .75, mult: 1.5, aim: .35, wait: [1.6, 3], desc: "牌と役あり・小さい子・池へ1.5倍" },
-  { name: "上級", sp: 1.3, flee: .28, drain: 1.3, frogs: 1, small: .25, dive: .25, pop: 16, tiles: .8,  mult: 2,   aim: .55, wait: [1, 2.2], desc: "いつもカエル・もぐる子・池へ2倍" }
+  { name: "練習", sp: .80, flee: .48, drain: .75, frogs: 0, small: 0,   dive: 0,   pop: 20, tiles: 0,   mult: 1,   aim: 0,   wait: [2, 3],   desc: "池には入らないよ。ゆっくり・牌なしで、6つのステージを ぜんぶ ためせる" },
+  { name: "中級", sp: 1.0, flee: .36, drain: 1.0, frogs: 0, small: .15, dive: 0,   pop: 18, tiles: .75, mult: 1.2, aim: .35, wait: [1.6, 3], desc: "牌と役あり・小さい子・池へ1.2倍" },
+  { name: "本番", sp: 1.3, flee: .28, drain: 1.3, frogs: 1, small: .25, dive: .25, pop: 16, tiles: .8,  mult: 1.5, aim: .55, wait: [1, 2.2], desc: "池に入る・メーターが進む！ 牌と役・いつもカエル・もぐる子（ステージは順番にあく）" }
 ];
-var level = 0, P = LV[0];
+var level = 2, P = LV[2];   // ★1127b コースは「練習（0）」と「本番（2）」だけ。中級（1）は使わない
 // ★ステージ：どのコースにも6つ。仕掛けの強さはコースで変わる
 var STG = [
   { name: "ふつうの池",   icon: "🌿", desc: "まずはここから。そーっとすくおう" },
   { name: "カエルおじゃま", icon: "🐸", desc: "カエルがたくさん！ポイに乗られないように" },
-  { name: "金魚まぎれ",   icon: "🐟", desc: "おたまじゃくしにそっくりな金魚がいるよ。しっぽが2つに分かれていたら金魚！すくうと1ぴき へっちゃう（中級・上級は黄色の金魚も。−2・−3）" },
-  { name: "ながれる池",   icon: "🌊", desc: "水がながれて、ポイも流される（中級：流れが逆になる／上級：うずまきも）" },
-  { name: "夜の池",       icon: "🌙", desc: "まっくら！ポイのまわりだけ明るいよ（上級ほど暗い）" },
-  { name: "にょっきり棒", icon: "🪵", desc: "ぷくぷく泡が出たら注意！木の棒がにょっきり出てポイを破るよ（中級：太い棒・にせの泡・動く棒／上級：いきなり・2本いっぺん）" }
+  { name: "金魚まぎれ",   icon: "🐟", desc: "おたまじゃくしにそっくりな金魚がいるよ。しっぽが2つに分かれていたら金魚！すくうと1ぴき へっちゃう（本番は黄色の金魚も。−3）" },
+  { name: "ながれる池",   icon: "🌊", desc: "水がながれて、ポイも流される（本番は流れが逆になる・うずまきも）" },
+  { name: "夜の池",       icon: "🌙", desc: "まっくら！ポイのまわりだけ明るいよ（本番はもっと暗い）" },
+  { name: "にょっきり棒", icon: "🪵", desc: "ぷくぷく泡が出たら注意！木の棒がにょっきり出てポイを破るよ（本番は太い棒・にせの泡・動く棒・いきなり・2本いっぺん）" }
 ];
 var stg = 0, G = {};   // G：いまのステージの仕掛け
 var bowls = [null, { hand: [], melds: [] }, { hand: [], melds: [] }];   // おわんは、コースごとに次の回へ持ちこす
@@ -762,9 +778,9 @@ function hudTime(){
 
 // ----- はじめ・おわり -----
 function lvButtons(){
-  var h = ""; for (var i = 0; i < LV.length; i++) h += '<button class="' + (i === level ? "on" : "") + '" data-l="' + i + '">' + LV[i].name + '</button>';
+  var h = ""; [0, 2].forEach(function(i){ h += '<button class="' + (i === level ? "on" : "") + '" data-l="' + i + '">' + (i === 0 ? "🌱 " : "🔥 ") + LV[i].name + '</button>'; });
   document.getElementById("lvls").innerHTML = h; document.getElementById("ldesc").textContent = LV[level].desc;
-  var op = (V && V.open && V.open[level]) || 1;
+  var op = level === 0 ? STG.length : (V && V.open && V.open[level]) || 1;   // 練習は、いつも全部あいている
   if (stg >= op) stg = op - 1;
   document.getElementById("stgs").innerHTML = STG.map(function(g, i){ var lk = i >= op; return '<button class="' + (i === stg ? "on" : "") + (lk ? " lock" : "") + '" data-s="' + i + '"' + (lk ? ' data-lock="1"' : '') + '><span>' + (lk ? "🔒" : g.icon) + '</span>' + (i + 1) + ' ' + g.name + '</button>'; }).join("");
   document.getElementById("sdesc").textContent = STG[stg].desc;
@@ -778,7 +794,7 @@ function begin(){
   if (starting) return; starting = true;
   tone(660, .1, "triangle", .1);   // 音は、タップしたときにならす（スマホの決まり）
   roundId = "";
-  startP = api("start", { c: level, s: stg }).then(function(j){ apply(j); roundId = j.did && j.did.id; return true; }, function(e){ toast(e.message); return false; });
+  startP = level === 0 ? null : api("start", { c: level, s: stg }).then(function(j){ apply(j); roundId = j.did && j.did.id; return true; }, function(e){ toast(e.message); return false; });
   document.getElementById("intro").hidden = true; document.getElementById("result").hidden = true;
   reset(); lockScroll(true);
   counting = true; var cd = document.getElementById("cd");
@@ -834,8 +850,9 @@ function finish(){
   var mb = 0; agariLog.forEach(function(a){ mb += a.yb; });
   lastRes = { got: got, meld: bonus - mb, ag: agariLog.slice(), mult: P.mult, total: Math.round((got + bonus) * P.mult), srv: null };
   var box = document.getElementById("result");
-  box.innerHTML = '<div class="big">おしまい！</div><p>🌿 池に入れているよ…</p>'; box.hidden = false;
   lockScroll(false);
+  if (level === 0){ showPractice(); return; }
+  box.innerHTML = '<div class="big">おしまい！</div><p>🌿 池に入れているよ…</p>'; box.hidden = false;
   var bw = P.tiles ? { hand: hand.slice(), melds: melds.map(function(m){ return { k: m.k, t: m.t.slice() }; }) } : null, g0 = got, b0 = bonus;
   var send = function(){ return (startP || Promise.resolve(false)).then(function(ok){
     if (!ok || !roundId) throw new Error("はじめの通信がうまくいかなかったので、この回は池に入らなかったよ💦");
@@ -847,6 +864,21 @@ function finish(){
   finishSend = function(){ box.innerHTML = '<div class="big">おしまい！</div><p>🌿 池に入れているよ…</p>'; send().then(function(j){ apply(j); lastRes.srv = j.did || {}; showResult(); }).catch(function(e){ toast(e.message); }); };
 }
 var finishSend = function(){};
+// ★1127b 練習の結果（池には入らない）
+function showPractice(){
+  var r = lastRes, box = document.getElementById("result");
+  var would = Math.round((r.got + r.meld) * LV[2].mult);
+  box.innerHTML = '<div class="big">練習 おしまい！</div>' +
+    '<div class="res"><div><span>すくった子</span><b>' + r.got + 'ひき</b></div></div>' +
+    '<div style="font-size:13px;color:#4B6B6F;line-height:1.7">🌱 練習なので、池には入らないよ<br>本番でも、がんばって遊んでね🔥</div>' +
+    '<button class="btn" id="again">もう一回 練習</button>' +
+    '<button class="btn" id="toreal" style="margin-left:6px">🔥 本番で遊ぶ</button>' +
+    '<button class="btn" id="tolv" style="background:#fff;color:#1A8BA3;box-shadow:0 0 0 2px #1A8BA3;margin-top:8px;font-size:14px;padding:8px 18px">コース・ステージをえらぶ</button>';
+  box.hidden = false;
+  document.getElementById("again").addEventListener("click", begin);
+  document.getElementById("toreal").addEventListener("click", function(){ level = 2; remember(); box.hidden = true; lvButtons(); reset(); document.getElementById("intro").hidden = false; });
+  document.getElementById("tolv").addEventListener("click", toIntro);
+}
 function toIntro(){ document.getElementById("result").hidden = true; lvButtons(); reset(); document.getElementById("intro").hidden = false; }
 function showResult(){
   var r = lastRes, d = r.srv || {}, sum = d.put || 0, box = document.getElementById("result");
@@ -859,7 +891,8 @@ function showResult(){
     (visit ? '<div><span>🏪 お店に来た日</span><b>×2</b></div>' : '') +
     '<div class="t"><span>池に入った</span><span>' + sum + 'ひき</span></div></div>' +
     (d.cut ? '<div style="font-size:12px;color:#B00">（1回で入れられる数をこえたので、切ったよ）</div>' : '') +
-    (d.frogs ? '<div class="frogbig">🐸</div><div style="font-weight:800;color:#3B6D11">池が100ぴき！ カエル' + d.frogs + 'ひき → ' + (V.trial ? 'お試しラビ' : 'がま口') + 'に ' + d.rabi + 'ラビ👛</div>' : '<div style="font-size:13px;color:#1C5D8C">池は ' + V.pond + ' / ' + V.need + 'ひき。あと ' + (V.need - V.pond) + 'ひきでカエルに！</div>') +
+    (d.frogs ? '<div class="frogbig">🐸</div><div style="font-weight:800;color:#3B6D11">池が' + V.need + 'ぴき！ カエル' + d.frogs + 'ひき → ' + (V.trial ? 'お試しラビ' : 'がま口') + 'に ' + d.rabi + 'ラビ👛</div>' : '<div style="font-size:13px;color:#1C5D8C">池は ' + V.pond + ' / ' + V.need + 'ひき。あと ' + (V.need - V.pond) + 'ひきでカエルに！</div>') +
+    ((d.tickets || []).length ? d.tickets.map(function(t){ return '<div class="up" style="color:#B05A00;font-size:17px">🥤 ' + t.yen + '円のドリンク券ゲット！<br><small>' + esc(t.until) + 'まで・お店で見せてね</small></div>'; }).join("") : '') +
     (d.unlocked ? '<div class="up">🔓 ステージ' + d.unlocked + '「' + STG[d.unlocked - 1].name + '」があいたよ！</div>' : '') +
     (P.tiles && (hand.length || melds.length) ? '<div style="font-size:12.5px;color:#8A5A00">🥣 おわんの牌は、次の回に持ちこすよ</div>' : '') +
 
@@ -906,16 +939,37 @@ function apply(j){
   document.getElementById("gamaV").textContent = (V.gama === undefined || V.gama === null ? "…" : Number(V.gama).toLocaleString()) + " ラビ";
   document.getElementById("pondN").textContent = V.pond + " / " + V.need + " ひき";
   document.getElementById("pondBar").style.width = Math.min(100, V.pond / V.need * 100) + "%";
-  document.getElementById("pondRate").textContent = "100ぴきで " + V.rate + "ラビ" + (V.visited ? "　🏪 きょうは来店で2倍！" : "");
+  document.getElementById("pondRate").textContent = V.need + "ぴきで " + V.rate + "ラビ" + (V.visited ? "　🏪 きょうは来店で2倍！" : "");
   document.getElementById("todayV").textContent = "きょう " + V.today.plays + "回・" + V.today.got + "ひき";
+  if (V.tickets === undefined && old && old.tickets) V.tickets = old.tickets;
+  showMeter();
   document.getElementById("testbox").hidden = !V.trial;
   document.getElementById("tVisit").textContent = V.visited ? "✅ いま：お店に来た日（押すともどる）" : "お店に来た日にする";
 }
+// ★1127a 今月のすくいメーターとドリンク券
+function showMeter(){
+  var me = V.meter; if (!me) return;
+  var T = me.tiers, top = T[T.length - 1].n, nx = null;
+  T.forEach(function(t){ if (!nx && me.n < t.n) nx = t; });
+  document.getElementById("meterN").textContent = Number(me.n).toLocaleString() + " ひき";
+  document.getElementById("meterBar").style.width = Math.min(100, me.n / top * 100) + "%";
+  document.getElementById("meterMarks").innerHTML = T.map(function(t){ return '<span class="mk' + (me.n >= t.n ? " ok" : "") + '" style="left:' + (t.n / top * 100) + '%"><b>' + (t.n / 10000) + '万 ' + t.yen + '円' + (me.n >= t.n ? "✓" : "") + '</b></span>'; }).join("");
+  document.getElementById("meterNext").textContent = nx ? "あと " + Number(nx.n - me.n).toLocaleString() + "ひきで " + nx.yen + "円のドリンク券！" : "今月のドリンク券は ぜんぶゲット🎉";
+  var tl = V.tickets || [];
+  document.getElementById("tickets").innerHTML = tl.map(function(t){
+    return '<div class="tk' + (t.used ? " used" : "") + '"><div><b>🥤 ' + esc(t.what) + '</b><br><span>' + (t.used ? "使用済み（" + esc(t.used.slice(5, 16)) + "）" : esc(t.until) + " まで・お店でスタッフに見せてね") + '</span></div>' +
+      (t.used ? "" : '<button type="button" data-no="' + t.no + '">使用済み<br><small>スタッフが押す</small></button>') + '</div>'; }).join("");
+}
+document.getElementById("tickets").addEventListener("click", function(e){
+  var b = e.target.closest("button"); if (!b || playing) return;
+  if (!b.dataset.ok){ b.dataset.ok = 1; b.innerHTML = "本当に？<br><small>もう一回</small>"; b.style.background = "#E8901A"; b.style.color = "#fff"; return; }
+  api("tuse", { no: +b.dataset.no }).then(function(j){ apply(j); toast("使用済みにしたよ🥤"); }).catch(function(er){ toast(er.message); });
+});
 function toast(t){ var d = document.createElement("div"); d.className = "toast"; d.textContent = t; document.body.appendChild(d); setTimeout(function(){ d.remove(); }, 3200); }
 function relogin(){ try { liff.logout(); } catch (e) {} liff.login({ redirectUri: location.href }); }
 function gate(html){ document.getElementById("app").hidden = true; var g = document.getElementById("gate"); g.hidden = false; g.innerHTML = html; }
 function remember(){ try { localStorage.setItem("sukui-pick", JSON.stringify({ c: level, s: stg })); } catch (e) {} }
-function recall(){ try { var x = JSON.parse(localStorage.getItem("sukui-pick") || "null"); if (x && x.c >= 0 && x.c < 3){ level = x.c; stg = Math.max(0, Math.min(5, x.s | 0)); } } catch (e) {} }
+function recall(){ try { var x = JSON.parse(localStorage.getItem("sukui-pick") || "null"); if (x && x.c >= 0 && x.c < 3){ level = x.c === 0 ? 0 : 2; stg = Math.max(0, Math.min(5, x.s | 0)); } } catch (e) {} }
 document.getElementById("testbox").addEventListener("click", function(e){
   var b = e.target.closest("button"); if (!b || playing) return;
   if (b.dataset.t === "treset" && !b.dataset.ok){ b.dataset.ok = 1; b.textContent = "本当に消す？もう一回タップ"; return; }
