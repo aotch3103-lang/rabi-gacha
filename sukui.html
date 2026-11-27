@@ -12,6 +12,7 @@
    PICTURE: 池そのものが主役。泳ぐおたまじゃくし・じゃまするカエル・ポイ
    COLOUR and TYPE: ドラパンのピンク #1A8BA3 と池の水色、M PLUS Rounded 1c
    LAYOUT: 上にレベル・時間・ポイ・すくった数、まん中に池、下におわん（手牌と面子）
+   ★【新1128a】ランキング（🏆・本番ですくった数・毎月）・わたしの記録に「ポイ活で貯めたラビ」（係【新1128a】といっしょに入れてね）
    ★【新1127e】ママおたまは、どの池にもランダム（8回に1回・7秒・すくうと＋20・夜の池だけ光る）・わたしの記録に「ママをすくった回数」
    ★【新1127d】21ステージ（🦞ザリガニ・🧲じしゃく）・ラッキー池は曜日・夜の池に光るママおたま
    ★【新1127c】19ステージ・今日のラッキー池・夜の池×2・×1.5なし・ドリンク券とメーターなし・わたしの記録（係【新1127c】といっしょに入れてね）
@@ -117,8 +118,14 @@ body{touch-action:manipulation}
 .stgs button.lk.today{box-shadow:0 0 0 3px #8CE07A,0 0 12px rgba(140,224,122,.8)}
 .luckyv{font-size:12.5px;color:#2F7A2B;font-weight:800;margin:2px 0}.luckyv small{display:block;font-weight:500;color:#4B6B6F}
 .mystat{border:2px solid #8FCBF0;background:#fff;color:#1C5D8C;border-radius:999px;font:inherit;font-weight:800;font-size:12px;padding:3px 10px;min-height:30px;cursor:pointer}
+.rtabs{display:flex;gap:6px;margin:10px 0 8px}.rtabs button{flex:1;border:2px solid #8FCBF0;background:#fff;color:#1C5D8C;border-radius:999px;font:inherit;font-weight:800;font-size:13px;min-height:38px;cursor:pointer}.rtabs button.on{background:#2E8FC4;border-color:#2E8FC4;color:#fff}
+.rme{background:#FFF8E1;border:2px solid #E8C64A;border-radius:12px;padding:8px 10px;font-size:14px;color:#7A5A00;text-align:center;margin-bottom:8px}.rme b{font-size:22px;color:#B05A00}
+.rtb{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;font-size:14px}
+.rtb td{padding:8px 6px;border-top:1px solid #E3EFEF}.rtb td.rk{width:44px;text-align:center;font-size:18px;font-weight:800;color:#1C5D8C}.rtb td.v{text-align:right;font-weight:800;color:#1A8BA3;white-space:nowrap}.rtb td.v small{font-weight:500;margin-left:2px;color:#4B6B6F}
+.rtb tr.top1 td{background:#FFF6D5}.rtb tr.top2 td{background:#F3F6FA}.rtb tr.top3 td{background:#FBEFE6}.rtb tr.me td{background:#FFE8F0;font-weight:800}.rtb td.nm small{color:#C2345E}
 .stbig{text-align:center;background:#fff;border:2px solid #9FD8D0;border-radius:16px;padding:10px;margin:10px 0}
 .stbig small{display:block;color:#4B6B6F;font-size:13px}.stbig b{font-size:40px;color:#1A8BA3;line-height:1.1}.stbig span{font-size:14px;color:#4B6B6F}
+.strabi{background:#FFF8E1!important;border-color:#E8C64A!important;color:#7A5A00!important}.strabi small{font-weight:600;font-size:12px}
 .stmama{background:#FFF0F6;border:2px solid #FF9CC0;border-radius:12px;padding:6px 10px;font-weight:800;color:#C2345E;font-size:14px;margin-bottom:8px;text-align:center}.stmama b{font-size:22px;margin:0 2px}
 .sttop{background:#FFF8E1;border:2px solid #E8C64A;border-radius:12px;padding:6px 10px;font-weight:800;color:#7A5A00;font-size:13.5px;margin-bottom:8px}
 .sttb{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;font-size:12.5px}
@@ -173,6 +180,10 @@ body.busy .busymark{display:block}
   </div>
 </div>
 
+<div class="rules" id="rankp" hidden>
+  <div class="rbar"><b>🏆 ポイ活おたま ランキング</b><button class="rclose" id="closeRank" type="button">✕ とじる</button></div>
+  <div class="rin" id="rankIn"></div>
+</div>
 <div class="rules" id="statp" hidden>
   <div class="rbar"><b>📊 わたしの記録（本番）</b><button class="rclose" id="closeStat" type="button">✕ とじる</button></div>
   <div class="rin" id="statIn"></div>
@@ -184,7 +195,7 @@ body.busy .busymark{display:block}
   <div class="gama"><span id="gamaL">👛 がま口</span><span class="v" id="gamaV"></span></div>
   <div class="pondbar"><div class="r"><b>🌿 おたまじゃくし池</b><span id="pondN"></span></div><div class="bar"><i id="pondBar" style="width:0%"></i></div>
     <div class="r" style="font-size:12px"><span id="pondRate"></span><span id="todayV"></span></div>
-    <div class="r" style="font-size:12px"><span id="lifeV"></span><button type="button" class="mystat" id="openStat">📊 わたしの記録</button></div></div>
+    <div class="r" style="font-size:12px"><span id="lifeV"></span><span><button type="button" class="mystat" id="openRank">🏆 ランキング</button> <button type="button" class="mystat" id="openStat">📊 わたしの記録</button></span></div></div>
   <div class="hud">
     <div><small>コース</small><b id="lv" style="font-size:15px">本番 1</b></div>
     <div><small>のこり</small><b id="time">30</b><div class="tbar"><i id="tbar" style="width:100%"></i></div></div>
@@ -1180,6 +1191,31 @@ sizeButtons();
 // ★1127c わたしの記録
 var bestBefore = {};
 function bestNow(g){ return level === 2 && V && V.stat && V.stat.st && V.stat.st[stg] && V.stat.st[stg].n > 1 && g > (bestBefore[stg] || 0) && g === V.stat.st[stg].best; }
+// ★1128 今月のランキング（本番で すくった数。来店日や夜の池の×2は入れない）
+var rankTab = 0;
+function rankHtml(R){
+  if (!R) return '<div class="sttop">🐰 よみこみ中…</div>';
+  var T = rankTab ? R.prev : R.now, me = R.me || {};
+  var tabs = '<div class="rtabs"><button type="button" class="' + (rankTab ? '' : 'on') + '" data-tab="0">' + esc(R.now.month) + '（今月）</button><button type="button" class="' + (rankTab ? 'on' : '') + '" data-tab="1">' + esc(R.prev.month) + '（先月）</button></div>';
+  var md = ["🥇", "🥈", "🥉"];
+  var rows = (T.list || []).map(function(x, i){ return '<tr class="' + (x.me ? 'me' : '') + (i < 3 ? ' top' + (i + 1) : '') + '"><td class="rk">' + (md[i] || (i + 1)) + '</td><td class="nm">' + esc(x.name) + (x.me ? ' <small>（あなた）</small>' : '') + '</td><td class="v">' + Number(x.v).toLocaleString() + '<small>ひき</small></td></tr>'; }).join("");
+  var mine = !rankTab && me.rank ? '<div class="rme">あなたは <b>' + me.rank + '位</b>（' + Number(me.v).toLocaleString() + 'ひき）' + (me.rank > 1 && me.gap ? '<br><small>' + (me.rank - 1) + '位まで あと ' + Number(me.gap).toLocaleString() + 'ひき！</small>' : '') + '</div>' : (!rankTab ? '<div class="rme">今月はまだ本番で遊んでいないよ。遊ぶとランキングにのるよ🐸</div>' : '');
+  return tabs + (rankTab ? '' : mine) +
+    (rows ? '<table class="rtb">' + rows + '</table>' : '<div class="sttop">まだだれも のっていないよ</div>') +
+    '<div style="font-size:12px;color:#4B6B6F;margin-top:8px">※ 本番で すくった数でくらべるよ（来店日や夜の池の2倍は入らない）。毎月1日にリセット。' + (R.trial ? '<br>🧪 いまは、お試しの人だけのランキングだよ' : '') + (R.at ? '<br>' + esc(R.at) + ' 時点' : '') + '</div>' +
+    '<button class="btn" type="button" id="closeRank2" style="display:block;margin:14px auto 0">ゲームにもどる</button>';
+}
+var lastRank = null;
+function drawRank(){ var el = document.getElementById("rankIn"); el.innerHTML = rankHtml(lastRank);
+  Array.prototype.forEach.call(el.querySelectorAll(".rtabs button"), function(b){ b.addEventListener("click", function(){ rankTab = +b.dataset.tab; drawRank(); }); });
+  var c2 = document.getElementById("closeRank2"); if (c2) c2.addEventListener("click", function(){ openRank(false); }); }
+function openRank(on){
+  var el = document.getElementById("rankp"); el.hidden = !on; if (!on) return; el.scrollTop = 0; rankTab = 0;
+  drawRank();
+  api("rank").then(function(j){ lastRank = j.rank; drawRank(); }, function(e){ toast(e.message); });
+}
+document.getElementById("openRank").addEventListener("click", function(){ openRank(true); });
+document.getElementById("closeRank").addEventListener("click", function(){ openRank(false); });
 function openStat(on){
   var el = document.getElementById("statp"); el.hidden = !on; if (!on) return; el.scrollTop = 0;
   var st = (V && V.stat) || { n: 0, got: 0, st: {} }, top = -1, topAv = 0;
@@ -1188,6 +1224,7 @@ function openStat(on){
     return '<tr class="' + (i === top ? "top" : "") + (x.n ? "" : " none") + '"><td>' + g.icon + ' ' + (i + 1) + ' ' + g.name + (i === top ? ' 🏅' : '') + '</td><td>' + x.n + '</td><td>' + x.got.toLocaleString() + '</td><td>' + (x.n ? (x.got / x.n).toFixed(1) : '−') + '</td><td>' + (x.best || '−') + '</td></tr>'; }).join("");
   document.getElementById("statIn").innerHTML =
     '<div class="stbig"><small>これまでに すくったおたま</small><b>' + Number(st.got).toLocaleString() + '</b><span>ひき（' + st.n + '回）</span></div>' +
+    '<div class="stmama strabi">👛 ポイ活で貯めたラビ <b>' + Math.floor((V && V.rabiTotal) || 0).toLocaleString() + '</b>ラビ<small>（🐸カエル ' + ((V && V.frogs) || 0).toLocaleString() + 'ひき）</small></div>' +   // ★1128
     '<div class="stmama">💕 ママをすくった回数 <b>' + (st.mama || 0) + '</b>回</div>' +
     (top >= 0 ? '<div class="sttop">🏅 いちばん得意なのは「' + STG[top].icon + ' ' + STG[top].name + '」！ 1回 平均 ' + topAv.toFixed(1) + 'ひき</div>' : '<div class="sttop">同じステージを3回遊ぶと、得意なステージに🏅がつくよ</div>') +
     '<table class="sttb"><thead><tr><th>ステージ</th><th>回</th><th>合計</th><th>平均</th><th>ベスト</th></tr></thead><tbody>' + rows + '</tbody></table>' +

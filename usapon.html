@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800&display=swap" rel="stylesheet">
 <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 <style>
-/* ★1127g うさポン 本番（お試しの人だけ・USAPON_OPEN を on で公開）。係【新1127g】といっしょに入れてね */
+/* ★1128a うさポン 本番（お試しの人だけ・USAPON_OPEN を on で公開）。🏆ランキングつき。係【新1128a】といっしょに入れてね */
 *{box-sizing:border-box}
 body{margin:0;background:#FCF8F5;color:#29221E;font-family:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN",sans-serif;font-weight:500;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;word-break:auto-phrase}
 .wrap{max-width:440px;margin:0 auto;padding:0 10px 30px}
@@ -261,6 +261,12 @@ header .s{font-size:12px}
 .say{overflow:hidden;padding:0 6px}
 .bar span{white-space:nowrap}
 .bar{font-size:14px}
+/* ★1128 ランキング */
+.rtabs{display:flex;gap:6px;margin:10px 0 8px}.rtabs button{flex:1;border:2px solid #CA7B47;background:#fff;color:#613F29;border-radius:999px;font:inherit;font-weight:800;font-size:13px;min-height:38px;cursor:pointer}.rtabs button.on{background:#9A5F37;border-color:#9A5F37;color:#fff}
+.rme{background:#FFF8E1;border:2px solid #E8C64A;border-radius:12px;padding:8px 10px;font-size:14px;color:#7A5A00;text-align:center;margin-bottom:8px}.rme b{font-size:22px;color:#B05A00}
+.rtb{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;font-size:14px}
+.rtb td{padding:8px 6px;border-top:1px solid #F0E4DA}.rtb td.rk{width:44px;text-align:center;font-size:18px;font-weight:800;color:#613F29}.rtb td.v{text-align:right;font-weight:800;color:#9A5F37;white-space:nowrap}.rtb td.v small{font-weight:500;margin-left:2px;color:#6B5040}
+.rtb tr.top1 td{background:#FFF6D5}.rtb tr.top2 td{background:#F3F4F6}.rtb tr.top3 td{background:#FBEFE6}.rtb tr.me td{background:#FCE9DC;font-weight:800}.rtb td.nm small{color:#B05A00}
 
 .gate{text-align:center;padding:26px 16px;font-size:14px;line-height:1.8;background:#fff;border:2px solid #E8D2C4;border-radius:16px;margin:10px 0}
 .busymark{display:none;position:fixed;top:10px;right:10px;background:rgba(154,95,55,.9);color:#fff;font-size:12px;font-weight:800;padding:5px 11px;border-radius:999px;z-index:300}
@@ -771,7 +777,7 @@ var Pon = (function(){
     var dy = today(), ch = chalStage();
     h += '<div class="daybox"><div>🎯 今日のチャレンジ：<b>' + (ch + 1) + ' ' + STAGES[ch].name + '</b>　' + (dy.chal ? '✅ クリアずみ' : 'クリアで ＋' + CHAL_REWARD + 'ラビ') + '</div>' +
       '<div>🔁 2回目からのクリア：⭐の数×1ラビ（ボス2倍）　今日 あと <b>' + Math.max(0, REPEAT_CAP - dy.rep) + '</b>ラビ</div></div>';
-    h += '<div style="text-align:center;margin:-2px 0 6px"><button class="btn2" onclick="Pon.rec()">📊 ステージの記録</button></div>';
+    h += '<div style="text-align:center;margin:-2px 0 6px"><button class="btn2" onclick="Pon.rank(true)">🏆 ランキング</button> <button class="btn2" onclick="Pon.rec()">📊 ステージの記録</button></div>';
     h += '<div class="slist">';
     STAGES.forEach(function(st, i){
       var open = i <= maxOpen, sv = d.stars[i] || 0;
@@ -821,6 +827,38 @@ var Pon = (function(){
         '🔨 <b>道具</b>：トンカチ（1マスこわす）／🔀シャッフル（まぜる）／✋いれかえ（そろわなくても入れかえ）。1つ目はタダ・2つ目から' + TOOL_PRICE + 'ラビ<br>' +
         '📊 ステージの記録で、クリア回数や⭐の数が見られるよ') +
       '<div style="margin-top:10px;font-size:11.5px;color:#7A5068">' + (LIVE ? '⚠️ ラビは、ドラパンの中だけで使えるアミューズメントコインです。換金・転売はできません。ゲームのしくみを不正に使ったときは、ラビの取り消しや利用停止をすることがあります。' : '⚠️ これは見本です。お試しラビは、このスマホの中だけで動きます。') + '</div>';
+  }
+  // ★1128 今月のランキング（ステージごとの今月のベスト点を、ぜんぶ足した数）
+  var rankTab = 0, lastRank = null;
+  function demoRank(){
+    var w = W0(), meV = 0, R0 = w.rec || {}; Object.keys(R0).forEach(function(k){ meV += R0[k].best || 0; });
+    var L = [["めぐ", 98400], ["ヨンソン", 71200], ["カニカニ", 40650], ["ふるちゃん", 18200], ["ワタビィ", 9800]].map(function(o){ return { name: o[0], v: o[1] }; });
+    if (meV) L.push({ name: "ママ", v: meV, me: true });
+    L.sort(function(a, b){ return b.v - a.v; });
+    var rk = L.findIndex(function(x){ return x.me; }) + 1, d = new Date();
+    return { trial: true, at: (d.getMonth() + 1) + "/" + d.getDate() + " " + d.getHours() + ":" + String(d.getMinutes()).padStart(2, "0"),
+      me: rk ? { rank: rk, v: meV, gap: rk > 1 ? L[rk - 2].v - meV + 1 : 0 } : {},
+      now: { month: (d.getMonth() + 1) + "月", list: L.slice(0, 10) }, prev: { month: (d.getMonth() || 12) + "月", list: [{ name: "ヨンソン", v: 88100 }, { name: "めぐ", v: 80300 }, { name: "ママ", v: 52700 }] } };
+  }
+  function rankHtml(R){
+    if (!R) return '<div class="sttop">🐰 よみこみ中…</div>';
+    var T = rankTab ? R.prev : R.now, me = R.me || {}, md = ["🥇", "🥈", "🥉"];
+    var esc0 = function(t){ return String(t).replace(/[&<>"']/g, function(c){ return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
+    var tabs = '<div class="rtabs"><button class="' + (rankTab ? '' : 'on') + '" onclick="Pon.rankTab(0)">' + esc0(R.now.month) + '（今月）</button><button class="' + (rankTab ? 'on' : '') + '" onclick="Pon.rankTab(1)">' + esc0(R.prev.month) + '（先月）</button></div>';
+    var rows = (T.list || []).map(function(x, i){ return '<tr class="' + (x.me ? 'me' : '') + (i < 3 ? ' top' + (i + 1) : '') + '"><td class="rk">' + (md[i] || (i + 1)) + '</td><td class="nm">' + esc0(x.name) + (x.me ? ' <small>（あなた）</small>' : '') + '</td><td class="v">' + Number(x.v).toLocaleString() + '<small>点</small></td></tr>'; }).join("");
+    var mine = rankTab ? '' : me.rank ? '<div class="rme">あなたは <b>' + me.rank + '位</b>（' + Number(me.v).toLocaleString() + '点）' + (me.rank > 1 && me.gap ? '<br><small>' + (me.rank - 1) + '位まで あと ' + Number(me.gap).toLocaleString() + '点！</small>' : '') + '</div>' : '<div class="rme">今月はまだクリアしていないよ。クリアするとランキングにのるよ🐸</div>';
+    return tabs + mine + (rows ? '<table class="rtb">' + rows + '</table>' : '<div class="sttop">まだだれも のっていないよ</div>') +
+      '<div style="font-size:12px;color:#6B5040;margin-top:8px">※ ステージごとの「今月のベスト点」を、ぜんぶ足した数でくらべるよ。同じステージを何回遊んでも、いちばんいい点だけが入るよ。毎月1日にリセット。' + (R.trial ? '<br>🧪 いまは、お試しの人だけのランキングだよ' : '') + (R.at ? '<br>' + esc0(R.at) + ' 時点' : '') + '</div>';
+  }
+  function drawRank(){ var el = $("rankIn"); if (el) el.innerHTML = rankHtml(lastRank); }
+  function rank(on){
+    var el = $("rankP");
+    if (!on){ if (el) el.remove(); return; }
+    if (el) el.remove(); rankTab = 0; lastRank = LIVE ? null : demoRank();
+    el = document.createElement("div"); el.className = "rulesp"; el.id = "rankP";
+    el.innerHTML = '<div class="rbar"><b>🏆 うさポン ランキング</b><button class="rclose" onclick="Pon.rank(false)">✕ とじる</button></div><div class="rin"><div id="rankIn"></div><button class="btn" onclick="Pon.rank(false)" style="display:block;margin:14px auto 0">ゲームにもどる</button></div>';
+    document.body.appendChild(el); drawRank();
+    if (LIVE) UponLive.call("rank").then(function(j){ lastRank = j.rank; drawRank(); }, function(e){ toastU(e.message); });
   }
   function rules(on){
     var el = $("rulesP");
@@ -1308,7 +1346,7 @@ var Pon = (function(){
   function giveup(again){ var s0 = stage; if (LIVE) UponLive.end(false, score).catch(function(){}); if (again) pre(s0); else start(); }
   function toggleMute(){ mute = !mute; store("usagi-mute", mute); start(); }
 
-  return { start: start, play: play, pre: pre, go: go, quit: quit, mute: toggleMute, muteIn: muteIn, tool: useTool, cont: cont, tg: tg, rec: rec, giveup: giveup, rules: rules, help: help, confirmToggle: confirmToggle,
+  return { start: start, play: play, pre: pre, go: go, quit: quit, mute: toggleMute, muteIn: muteIn, tool: useTool, cont: cont, tg: tg, rec: rec, giveup: giveup, rules: rules, rank: rank, rankTab: function(n){ rankTab = n; drawRank(); }, help: help, confirmToggle: confirmToggle,
     _dbg: function(){ return { B: B, I: I, runs: runs, trySwap: trySwap, left: left, S: S, score: function(){ return score; }, moves: function(){ return moves; }, setMoves: function(m){ moves = m; }, ended: function(){ return ended; }, comboInfo: comboInfo, simKill: simKill, countLeft: countLeft, fixedAt: fixedAt, drawGoal: drawGoal, starOf: starOf, STAGES: STAGES }; } };
 })();
 
