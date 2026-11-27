@@ -1179,7 +1179,15 @@ var Pon = (function(){
     var free = kind === "cont" ? contN < FREE_CONT : toolN < FREE_TOOL, price = kind === "cont" ? CONT_PRICE : TOOL_PRICE;
     if (!LIVE) return Promise.resolve(free || pay(price, what));
     if (!free && W0().rabi < price){ toastU("がま口のラビが足りないよ🐸（" + price + "ラビ）"); return Promise.resolve(false); }
-    return UponLive.buy(kind).then(function(j){ if (j && j.did && j.did.price) paidThis += j.did.price; showWallet(); return true; }, function(e){ toastU(e.message); return false; });
+    // ★1128 待たずにすぐ使える：手もとの数をさきに減らして、係へのお知らせはうしろで送る
+    var v = LV(); if (!free){ v.gama = (v.gama || 0) - price; paidThis += price; } showWallet();
+    var myRound = UponLive.startP;
+    UponLive.buy(kind).then(function(){ showWallet(); }, function(e){
+      toastU(e.message);
+      if (!free){ v.gama += price; paidThis -= price; showWallet(); }
+      if (kind === "cont" && !ended && UponLive.startP === myRound){ moves = 0; drawGoal(); lose("moves"); }   // 係が「だめ」と言ったときだけ、この回はおしまい
+    });
+    return Promise.resolve(true);
   }
   // 道具を使うとき：1つ目はタダ・2つ目から5ラビ。払えなかったら false
   async function toolUsed(what){ var wasBusy = busy; busy = true; var ok = await buy("tool", what); busy = wasBusy; if (!ok) return false; toolN++; toolNote(); return true; }
